@@ -1,0 +1,187 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# WASTE COLLECTION SHEDULE
+waste_collection_schedule:
+  sources:
+    - name: awido_de
+      args:
+        customer: fulda-stadt
+        city: Fulda
+        street: Künzeller Straße
+        housenumber: 66-133
+      customize:
+        - type: Restmüll grün 4-wöchentlich
+          alias: Restmüll
+        - type: Restmüll 14-täglich
+          show: False
+        - type: Restmüll rot 4-wöchentlich
+          show: False
+sensor:
+  # ------- Garbage Collection -------
+  # next collection
+  - platform: waste_collection_schedule
+    name: "waste_collection_next_collection"
+    value_template: '{{value.types|join(", ")}}{% if value.daysTo == 0 %} Heute{% elif value.daysTo == 1 %} Morgen{% else %} in {{value.daysTo}} tagen{% endif %}'
+  # next collection simple
+  - platform: waste_collection_schedule
+    name: waste_collection_next_type
+    value_template: "{{ value.types[0] }}"
+  # abfall_heute_aktiv
+  - platform: waste_collection_schedule
+    name: "abfall_heute_aktiv"
+    value_template: "{% if value.daysTo == 0 %} on {% else %} off {% endif %}"
+  # abfall_morgen_aktiv
+  - platform: waste_collection_schedule
+    name: "abfall_morgen_aktiv"
+    value_template: "{% if value.daysTo == 1 %} on {% else %} off {% endif %}"
+
+  - platform: waste_collection_schedule
+    name: waste_collection_notify
+    details_format: "upcoming"
+    value_template: "{{value.daysTo}}"
+
+  - platform: waste_collection_schedule
+    name: waste_collection_notify_type
+    details_format: "upcoming"
+    value_template: "{{value.types}}"
+
+  - platform: waste_collection_schedule
+    name: waste_collection_waste
+    details_format: upcoming
+    value_template: "{{value.daysTo}}"
+    types:
+      - Restmüll
+
+  - platform: waste_collection_schedule
+    name: waste_collection_paper
+    details_format: upcoming
+    value_template: "{{value.daysTo}}"
+    types:
+      - Papier-Tonne
+
+  - platform: waste_collection_schedule
+    name: waste_collection_bio
+    details_format: upcoming
+    value_template: "{{value.daysTo}}"
+    types:
+      - Bio-Tonne
+
+  - platform: waste_collection_schedule
+    name: waste_collection_plastic
+    details_format: upcoming
+    value_template: "{{value.daysTo}}"
+    types:
+      - Gelbe Tonne
+
+  - platform: waste_collection_schedule
+    name: waste_collection_bulky_waste
+    details_format: upcoming
+    value_template: "{{value.daysTo}}"
+    types:
+      - Sperrmüll
+
+template:
+  - sensor:
+      - default_entity_id: sensor.waste_collection_type
+        state:
+          '{{ states(''sensor.waste_collection_notify_type'') | replace("[", "",1)
+          | replace("]", "") | replace("''", "") }}'
+        name: waste_collection_type
+
+  - sensor:
+      - name: "Waste Collection Condition"
+        state: >
+          {% set state = states('sensor.waste_collection_notify')|float(0) %}{% if state <= 1 %}on{% else %}off{% endif %}
+
+input_boolean:
+  # -----------------------------------------------------------------------
+  # BUTTON ABFALL BNACHRICHTIGUNG
+  toggle_button_notify_garbage:
+    name: Notify Garbage
+    icon: mdi:delete
+
+automation:
+  # -----------------------------------------------------------------------
+  # ABFALL BNACHRICHTIGUNG
+  - id: "16130806910090784"
+    alias: "Abfall Benachrichtigung"
+    description: ""
+    trigger:
+      - trigger: time
+        at: "20:00:00"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sensor.waste_collection_notify
+          state: "1"
+        - condition: state
+          entity_id: input_boolean.toggle_button_notify_garbage
+          state: "on"
+    actions:
+      - action: notify.mobile_app_wowa_iphone
+        data:
+          title: Abfall Benachrichtigung
+          message: >-
+            {{ states('sensor.waste_collection_notify_type') | replace('[', '')| replace(']', '')
+            | replace('\'', '') }} rausstellen
+    mode: single
+
+  # -----------------------------------------------------------------------
+  # CALENDER SYNC
+  - id: "130806910043564"
+    alias: AWIDO Termine sync – 100 Tage, ohne Duplikate, ganztägig
+    description: Kopiert AWIDO-Termine von awido_online nach awido, ohne Duplikate
+    trigger:
+      - trigger: time
+        at: "01:00:00"
+    actions:
+      # 1) Termine aus dem QUELL-Kalender (awido_online) holen
+      - action: calendar.get_events
+        target:
+          entity_id: calendar.awido_online
+        data:
+          duration:
+            days: 100 # <<< HIER TAGE EINTRAGEN
+        response_variable: quelle
+      # 2) Termine aus dem ZIEL-Kalender (awido) holen
+      - action: calendar.get_events
+        target:
+          entity_id: calendar.awido
+        data:
+          duration:
+            days: 100 # <<< HIER TAGE EINTRAGEN
+        response_variable: ziel
+      # 3) Variablen setzen
+      - variables:
+          source_events: "{{ quelle['calendar.awido_online']['events'] }}"
+          target_events: "{{ ziel['calendar.awido']['events'] }}"
+      # 4) Jeden Quell-Termin prüfen und ggf. als ganztägigen Termin anlegen
+      - repeat:
+          for_each: "{{ source_events }}"
+          sequence:
+            - variables:
+                exists: >
+                  {% set src_date = as_datetime(repeat.item.start).date() %}
+                  {% set src_summary = repeat.item.summary %}
+                  {% set ns = namespace(found=false) %}
+                  {% for ev in target_events %}
+                    {% set tgt_date = as_datetime(ev.start).date() %}
+                    {% if ev.summary == src_summary and tgt_date == src_date %}
+                      {% set ns.found = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {{ ns.found }}
+            - if:
+                - condition: template
+                  value_template: "{{ not exists }}"
+              then:
+                - action: calendar.create_event
+                  target:
+                    entity_id: calendar.awido
+                  data:
+                    summary: "{{ repeat.item.summary }}"
+                    description: "{{ repeat.item.description | default('', true) }}"
+                    location: "{{ repeat.item.location | default('', true) }}"
+                    start_date: "{{ as_datetime(repeat.item.start).date() }}"
+                    end_date: "{{ (as_datetime(repeat.item.start) + timedelta(days=1)).date() }}"
+    mode: single

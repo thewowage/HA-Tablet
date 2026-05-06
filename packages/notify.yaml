@@ -1,0 +1,6 @@
+notify:
+  - name: all_parent_devices
+    platform: group
+    services:
+      - service: mobile_app_wowa_iphone
+      - service: mobile_app_rita_iphone

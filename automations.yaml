@@ -1,0 +1,189 @@
+- id: '1737981880348'
+  alias: Heizung - Fenster - Wohnzimmer
+  description: ''
+  use_blueprint:
+    path: panhans/advanced_heating_control.yaml
+    input:
+      input_trvs:
+      - climate.wohnzimmer
+      input_temperature_sensor: sensor.wohnzimmer_temperatur
+      input_windows:
+      - binary_sensor.hue_secure_contact_sensor_1_offnung
+      - binary_sensor.hue_secure_contact_sensor_2_offnung
+      input_windows_reaction_time_open:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      input_windows_reaction_time_close:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      input_window_legacy_restore: false
+      input_mode_winter: input_boolean.heizsaison
+- id: '1737982506936'
+  alias: Heizung - Fenster - Kinderzimmer
+  description: ''
+  use_blueprint:
+    path: panhans/advanced_heating_control.yaml
+    input:
+      input_trvs:
+      - climate.kinderzimmer
+      input_temperature_sensor: sensor.multisensor_kinderzimmer_temperatur
+      input_windows:
+      - binary_sensor.fenster_kinderzimmer_offnung
+      input_windows_reaction_time_open:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      input_windows_reaction_time_close:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      input_window_legacy_restore: false
+      input_mode_winter: input_boolean.heizsaison
+- id: '1738068160611'
+  alias: Update Benachrichtigung
+  description: ''
+  use_blueprint:
+    path: mdegat01/update_notifications.yaml
+    input:
+      mobile_app_device: cf5ce63e7db97fd06d15fc47cd80d9bc
+      update_entities:
+      - update.home_assistant_core_update
+      - update.home_assistant_operating_system_update
+      - update.home_assistant_supervisor_update
+      - update.hacs_update
+      run_config_check: true
+      only_after: '13:00:00'
+      only_before: '22:00:00'
+      send_to_ha: true
+      mobile_app_device_2: cf5ce63e7db97fd06d15fc47cd80d9bc
+- id: '1738149564542'
+  alias: Batterie-Warnung mit Ausschlüssen
+  description: Prüft täglich alle Batterie-Sensoren außer bestimmte ausgeschlossene
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  condition: []
+  action:
+  - variables:
+      excluded_entities:
+      - sensor.alissa_iphone_battery_level
+      - sensor.rita_iphone_battery_level
+      - sensor.rita_iphone_watch_battery_level
+      - sensor.wowa_iphone_battery_level
+      - sensor.wowa_iphone_watch_battery
+      - binary_sensor.va1406739968_batterie
+      - binary_sensor.va2883396096_batterie
+      - sensor.battery_min
+      - sensor.devices_with_low_battery
+      threshold: 15
+      low_batteries: "{% set low = namespace(devices=[]) %} {% for entity in states.sensor
+        %}\n  {% if 'battery' in entity.entity_id and entity.entity_id not in excluded_entities
+        %}\n    {% if entity.state not in ['unknown', 'unavailable'] %}\n      {%
+        if entity.state | int(default=100) < threshold %}\n        {% set name = entity.name
+        %}\n        {% set level = entity.state %}\n        {% set dev = name ~ \"
+        (\" ~ level ~ \"%)\" %}\n        {% set low.devices = low.devices + [dev]
+        %}\n      {% endif %}\n    {% endif %}\n  {% endif %}\n{% endfor %} {{ low.devices
+        }}"
+  - choose:
+    - conditions: '{{ low_batteries | length > 0 }}'
+      sequence:
+      - service: notify.mobile_app_wowa_iphone
+        data:
+          title: Batterie-Warnung
+          message: 'Folgende Geräte haben einen niedrigen Batteriestand: {{ low_batteries
+            | join(", ") }}'
+  mode: single
+- id: '1777541886385'
+  alias: Weihnachtenzeit Aktivierung
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.christmas_time
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.christmas_time
+        state: 'on'
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.christmas_automation
+      - action: automation.turn_on
+        target:
+          entity_id: automation.weihnachtsbeleuchtung
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.christmas_time
+        state: 'off'
+      sequence:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.christmas_automation
+      - action: automation.turn_off
+        target:
+          entity_id: automation.weihnachtsbeleuchtung
+  mode: single
+- id: '1777541933138'
+  alias: Weihnachtsbeleuchtung Steuerung (AN & AUS & Sofort AUS)
+  description: Kombinierte Automation für Weihnachtsbeleuchtung
+  triggers:
+  - trigger: time
+    at: 06:30:00
+    id: on_time_morning
+  - trigger: time
+    at: 08:00:00
+    id: off_time_morning
+  - trigger: time
+    at: '16:30:00'
+    id: on_time_afternoon
+  - trigger: time
+    at: '23:00:00'
+    id: off_time_afternoon
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: on_time_morning
+      - condition: state
+        entity_id: input_boolean.christmas_automation
+        state: 'on'
+      sequence:
+      - action: light.turn_on
+        target:
+          entity_id: light.little_xmas_tree
+    - conditions:
+      - condition: trigger
+        id: off_time_morning
+      - condition: state
+        entity_id: input_boolean.christmas_automation
+        state: 'on'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.little_xmas_tree
+    - conditions:
+      - condition: trigger
+        id: on_time_afternoon
+      - condition: state
+        entity_id: input_boolean.christmas_automation
+        state: 'on'
+      sequence:
+      - action: light.turn_on
+        target:
+          entity_id: light.little_xmas_tree
+    - conditions:
+      - condition: trigger
+        id: off_time_afternoon
+      - condition: state
+        entity_id: input_boolean.christmas_automation
+        state: 'on'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.little_xmas_tree
+  mode: single
