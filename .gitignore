@@ -36,6 +36,9 @@ node_modules/
 # Secrets and credentials
 secrets.yaml
 
+# UI-Files
+ui-hacasa.yaml
+
 # HACS
 custom_components/
 
