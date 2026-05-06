@@ -39,6 +39,9 @@ secrets.yaml
 # UI-Files
 ui-hacasa.yaml
 
+# Themes
+themes/HaCasa
+
 # HACS
 custom_components/
 
