@@ -5,6 +5,9 @@
 .cloud/
 tts/
 
+# GIT
+.gitignore
+
 # Databases
 *.db
 *.db-shm
