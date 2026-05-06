@@ -46,9 +46,11 @@ custom_components/
 .storage
 .cloud
 .google.token
+.vscode
 ui_lovelace_hacasa
 pyscript
 image
 blueprints
 custom_icons
 www
+esphome
