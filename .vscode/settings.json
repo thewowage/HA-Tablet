@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.yaml": "home-assistant"
-    },
-    "vscode-home-assistant.longLivedAccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI3NWIyY2E3ZTI3NmY0YTVlYWE3ZDE3MzIzOTYxMzAxNiIsImlhdCI6MTczODI2MTAwMCwiZXhwIjoyMDUzNjIxMDAwfQ.8dElKgCudqg2abdoFKC0q1vrQ5Ok14LAnqXEdEQXiFo",
-    "vscode-home-assistant.hostUrl": "http://10.75.1.21:8123/"
-}
