@@ -1,7 +1,0 @@
-neon_dashboard:
-  card-background-color: "rgba(25,25,35,0.7)"
-  primary-color: "#7b5cff"
-  accent-color: "#00e5ff"
-  border-radius: 18px
-  ha-card-border-radius: "18px"
-  ha-card-box-shadow: "0 8px 30px rgba(0,0,0,0.6)"
