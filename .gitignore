@@ -3,7 +3,7 @@
 .ha_run.lock
 .storage/
 .cloud/
-.cache/
+.cache
 tts/
 
 # Databases
