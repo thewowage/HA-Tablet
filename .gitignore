@@ -38,3 +38,11 @@ secrets.yaml
 
 # HACS
 custom_components/
+
+# Folders
+ui_lovelace_hacasa/
+pyscript/
+image/
+blueprints/
+custom_icons/
+www/
