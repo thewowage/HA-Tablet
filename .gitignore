@@ -40,9 +40,12 @@ secrets.yaml
 custom_components/
 
 # Folders
-ui_lovelace_hacasa/
-pyscript/
-image/
-blueprints/
-custom_icons/
-www/
+.storage
+.cloud
+.google.token
+ui_lovelace_hacasa
+pyscript
+image
+blueprints
+custom_icons
+www
