@@ -1,0 +1,104 @@
+header_card:
+  entity: null
+  show_state: false
+  show_name: true
+  show_icon: false
+  show_label: false
+  styles:
+    card:
+      - background: transparent
+      - height: 48px
+      - margin: 38px 0px -16px 0px
+      - padding: 0px 0px 0px 0px
+      - border: 0px
+    name:
+      - font-size: 24px
+      - padding-left: 0px
+      - font-weight: 300
+      - text-transform: uppercase
+      - justify-self: start
+      - color: var(--secondary-text-color)
+
+header_card_no_margin:
+  entity: null
+  show_state: false
+  show_name: true
+  show_icon: false
+  show_label: false
+  styles:
+    card:
+      - background: transparent
+      - height: 48px
+      - margin: 0px 0px -16px 0px
+      - padding: 0px 0px 0px 0px
+      - border: 0px
+    name:
+      - font-size: 24px
+      - padding-left: 0px
+      - font-weight: 300
+      - text-transform: uppercase
+      - justify-self: start
+      - color: var(--secondary-text-color)
+
+header_card_center:
+  entity: null
+  show_state: false
+  show_name: true
+  show_icon: false
+  show_label: false
+  styles:
+    card:
+      - background: transparent
+      - height: 48px
+      - margin: 44px 0px -16px 0px
+      - padding: 0px 0px 0px 0px
+      - border: 0px
+    name:
+      - font-size: 24px
+      - padding-left: 0px
+      - font-weight: 300
+      - text-transform: uppercase
+      - justify-self: center
+      - color: var(--secondary-text-color)
+
+header_card_small:
+  entity: null
+  show_state: false
+  show_name: true
+  show_icon: false
+  show_label: false
+  styles:
+    card:
+      - background: transparent
+      - height: 20px
+      - margin: 0px 0px -16px 0px
+      - padding: 0px 0px 0px 0px
+      - border: 0px
+    name:
+      - font-size: 18px
+      - padding-left: 0px
+      - font-weight: 300
+      - text-transform: uppercase
+      - justify-self: start
+      - color: var(--secondary-text-color)
+
+header_card_small_center:
+  entity: null
+  show_state: false
+  show_name: true
+  show_icon: false
+  show_label: false
+  styles:
+    card:
+      - background: transparent
+      - height: 20px
+      - margin: 0px 0px -16px 0px
+      - padding: 0px 0px 0px 0px
+      - border: 0px
+    name:
+      - font-size: 18px
+      - padding-left: 0px
+      - font-weight: 300
+      - text-transform: uppercase
+      - justify-self: center
+      - color: var(--secondary-text-color)

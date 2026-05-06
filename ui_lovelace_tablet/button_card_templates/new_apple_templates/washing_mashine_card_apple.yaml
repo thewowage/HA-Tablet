@@ -1,0 +1,336 @@
+washing_mashine_card_apple:
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+
+  variables:
+    card_glow_color: "120,180,255"
+    done_color: "120,255,180"
+    warning_color: "255,209,102"
+    card_glass_bg: "var(--card-glass-bg)"
+
+  tap_action:
+    action: more-info
+
+  hold_action:
+    action: more-info
+
+  icon: |
+    [[[
+      const state = states["input_select.washing_machine_state"]?.state;
+      if (state === "arbeitet") return "mdi:washing-machine";
+      if (state === "fertig") return "mdi:check-circle-outline";
+      return "mdi:washing-machine-off";
+    ]]]
+
+  label: |
+    [[[
+      const state = states["input_select.washing_machine_state"]?.state;
+      if (state === "arbeitet") return "Wäscht";
+      if (state === "fertig") return "Fertig";
+      return "Aus";
+    ]]]
+
+  custom_fields:
+    glass_reflection: |
+      [[[
+        return `<div class="glass-reflection"></div>`;
+      ]]]
+
+    soft_light: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+        let color = variables.card_glow_color || "120,180,255";
+        if (state === "fertig") color = variables.done_color || "120,255,180";
+        if (state === "aus") color = "255,255,255";
+        return `<div class="soft-light" style="--dynamic-color:${color};"></div>`;
+      ]]]
+
+    rem: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+        const remaining = states["sensor.waschmaschine_timer"]?.attributes?.remaining;
+
+        if (state !== "arbeitet") return "";
+
+        return `<div class="remaining">Restlaufzeit · ${remaining || "-"}</div>`;
+      ]]]
+
+    bar: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+        const remainingPerc = Number(states["sensor.waschmaschine_timer"]?.attributes?.remaining_perc ?? 100);
+        const progress = Math.max(0, Math.min(100, 100 - remainingPerc));
+
+        if (state === "aus") return "";
+
+        let color = variables.card_glow_color || "120,180,255";
+        if (state === "fertig") color = variables.done_color || "120,255,180";
+        else if (progress < 25) color = "236,99,55";
+        else if (progress < 60) color = variables.warning_color || "255,209,102";
+
+        return `
+          <div class="progress-wrap">
+            <div class="progress-fill" style="width:${progress}%; background:rgba(${color},0.95);"></div>
+          </div>
+        `;
+      ]]]
+
+    switch: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+
+        if (state === "arbeitet") {
+          return `<ha-icon icon="mdi:timer-sand" class="status-icon working"></ha-icon>`;
+        }
+
+        if (state === "fertig") {
+          return `<ha-icon icon="mdi:check-circle" class="status-icon done"></ha-icon>`;
+        }
+
+        return `<ha-icon icon="mdi:power" class="status-icon off"></ha-icon>`;
+      ]]]
+
+  styles:
+    card:
+      - height: 110px
+      - padding: 16px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - transform-style: preserve-3d
+      - backdrop-filter: blur(28px) saturate(160%)
+      - -webkit-backdrop-filter: blur(28px) saturate(160%)
+      - border: none
+      - --ha-card-border-width: 0
+      - background: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+            const glass = variables.card_glass_bg || "var(--card-glass-bg)";
+
+            let color = variables.card_glow_color || "120,180,255";
+            if (state === "fertig") color = variables.done_color || "120,255,180";
+
+            if (state === "aus") {
+              return `
+                linear-gradient(
+                  145deg,
+                  rgba(255,255,255,0.10),
+                  rgba(255,255,255,0.02)
+                ),
+                ${glass}
+              `;
+            }
+
+            return `
+              radial-gradient(
+                circle at 8% 8%,
+                rgba(${color},0.55) 0%,
+                rgba(${color},0.26) 22%,
+                rgba(${color},0.10) 42%,
+                rgba(${color},0.04) 58%,
+                transparent 74%
+              ),
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.14),
+                rgba(255,255,255,0.03)
+              ),
+              ${glass}
+            `;
+          ]]]
+
+    grid:
+      - grid-template-areas: |
+          "n switch"
+          "l switch"
+          "rem rem"
+          "bar bar"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr min-content
+      - row-gap: 5px
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - font-size: var(--card-glass-font-size-primary)
+      - font-weight: var(--card-glass-font-weight-primary)
+      - color: var(--card-text-color)
+      - z-index: 4
+
+    label:
+      - justify-self: start
+      - align-self: start
+      - text-align: left
+      - font-size: var(--card-glass-font-size-secondary)
+      - font-weight: var(--card-glass-font-weight-secondary)
+      - color: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+
+            if (state === "fertig") return "rgba(120,255,180,0.95)";
+            if (state === "arbeitet") return "rgba(120,180,255,0.95)";
+            return "var(--card-subtext-color)";
+          ]]]
+      - z-index: 4
+
+    icon:
+      - position: absolute
+      - right: -22px
+      - top: -30px
+      - width: 130px
+      - height: 130px
+      - opacity: 0.12
+      - color: rgba(255,255,255,0.95)
+      - transform: rotate(-18deg)
+      - animation: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+
+            if (state === "arbeitet") return "washingSpin 2.2s linear infinite";
+            if (state === "fertig") return "washingPulse 1.6s ease-in-out infinite";
+            return "none";
+          ]]]
+      - z-index: 3
+
+    img_cell:
+      - position: absolute
+      - right: 0
+      - top: 0
+      - width: 0
+      - height: 0
+      - overflow: visible
+      - z-index: 3
+
+    custom_fields:
+      glass_reflection:
+        - position: absolute
+        - inset: 0
+        - z-index: 1
+        - pointer-events: none
+
+      soft_light:
+        - position: absolute
+        - inset: 0
+        - z-index: 2
+        - pointer-events: none
+
+      switch:
+        - justify-self: end
+        - align-self: start
+        - width: 38px
+        - height: 38px
+        - z-index: 5
+
+      rem:
+        - justify-self: start
+        - align-self: end
+        - z-index: 5
+
+      bar:
+        - justify-self: start
+        - width: 100%
+        - z-index: 5
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+
+    ha-card:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.28) 0%,
+          rgba(255,255,255,0.08) 28%,
+          transparent 58%
+        );
+    }
+
+    .soft-light {
+      position: absolute;
+      inset: -35%;
+      border-radius: 999px;
+      background:
+        radial-gradient(
+          circle,
+          rgba(var(--dynamic-color), 0.22) 0%,
+          rgba(var(--dynamic-color), 0.10) 34%,
+          transparent 65%
+        );
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      padding: 4px;
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      box-shadow: none;
+    }
+
+    .status-icon.working {
+      color: rgba(120,180,255,1);
+    }
+
+    .status-icon.done {
+      color: rgba(120,255,180,1);
+      filter: drop-shadow(0 0 8px rgba(120,255,180,0.45));
+    }
+
+    .remaining {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--card-subtext-color);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    @keyframes washingSpin {
+      from { transform: rotate(-18deg); }
+      to { transform: rotate(342deg); }
+    }
+
+    @keyframes washingPulse {
+      0%, 100% {
+        opacity: 0.12;
+        transform: rotate(-18deg) scale(1);
+      }
+      50% {
+        opacity: 0.20;
+        transform: rotate(-18deg) scale(1.06);
+      }
+    }

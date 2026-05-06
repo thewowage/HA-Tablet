@@ -1,0 +1,76 @@
+  hc_button_sensor_card_wge:
+    #template: hc_base_card
+    show_name: true
+    show_icon: false
+    show_state: false
+    show_label: true
+    show_last_changed: false
+    variables:
+      tap_action:
+      off_icon:
+      on_icon:
+      dubble_tap_action:
+      update_state:
+      hc_card_color: var(--primary-color)
+    label: "[[[ return variables.state ]]]"
+    state:
+      - value: "on"
+        icon: "[[[ return variables.on_icon ]]]"
+        styles:
+          card:
+            - background: "[[[ return variables.hc_card_color ]]]"
+          name:
+            - color: white
+          label:
+            - color: white
+      - value: "off"
+        icon: "[[[ return variables.off_icon ]]]"
+      - value: "unavailable"
+        styles:
+          name:
+            - text-decoration: line-through
+          card:
+            - opacity: 0.6
+            - pointer-events: none
+        label: Unknown
+    styles:
+      grid:
+        - grid-template-areas: |
+            'n'
+            'l'
+        - grid-template-rows: min-content
+        - grid-template-columns: 1fr
+      card:
+        - padding: 10px 8px 8px 8px
+        - height: 50px
+      name:
+        - text-align: left
+        - font-size: 12px
+        - font-weight: 500
+        - justify-self: center
+        - align-self: end
+        - overflow: visible
+        - color: |
+            [[[
+              if (variables.update_state && states[variables.update_state].state == "on") return "var(--color-red)";
+              else return "var(--text-color)";
+            ]]]
+      label:
+        - text-align: left
+        - color: var(--subtext-color)
+        - font-weight: 500
+        - font-size: 10px
+        - justify-self: center
+        - overflow: visible
+    tap_action:
+      action: call-service
+      service: input_boolean.toggle
+      data:
+        entity_id: "[[[ return variables.tap_action ]]]"
+    hold_action:
+      action: toggle
+      haptic: medium
+    double_tap_action:
+      action: call-service
+      service: "[[[ return variables.dubble_tap_action ]]]"
+      haptic: success

@@ -1,0 +1,585 @@
+theme: Backend-selected
+title: Räume
+path: raeume
+icon: ""
+badges: []
+type: custom:grid-layout
+layout:
+  grid-template-columns: 24px 1fr 1fr 1fr 1fr 24px
+  grid-template-rows: auto
+  grid-gap: 16px
+  grid-template-areas: |
+    ". wohnzimmer_h   wohnzimmer_h          wohnzimmer_h      wohnzimmer_h    ."
+    ". wz_licht_1     wz_licht_2            wz_switch_1       wz_switch_2     ."
+    ". wz_climate     wz_climate            wz_fan            wz_fan          ."
+    ". wz_media       wz_media              wz_schimmel       wz_feuchtigkeit ."
+
+    ". schlafzimmer_h schlafzimmer_h        schlafzimmer_h    schlafzimmer_h  ."
+    ". sz_licht_1     sz_licht_1            sz_switch_1       sz_switch_2     ."
+    ". sz_temperatur  sz_feuchtigkeit       sz_fan            sz_fan          ."
+    ". sz_schimmel    sz_media              sz_media          sz_media        ."
+
+    ". kinderzimmer_h kinderzimmer_h        kinderzimmer_h    kinderzimmer_h  ."
+    ". kz_licht_1     kz_licht_2            kz_licht_3        kz_switch_1     ."
+    ". kz_media       kz_media              .                 .               ."
+    ". kz_switch_2    kz_switch_3           kz_switch_4       kz_switch_usb   ."
+    ". kz_climate     kz_climate            kz_schimmel       kz_feuchtigkeit ."
+
+    ". kueche_h         kueche_h            kueche_h          kueche_h        ."
+    ". ku_licht_1       ku_licht_2          ku_switch_1       ku_switch_1     ."
+    ". ku_temperatur    ku_feuchtigkeit     ku_schimmel       ku_schimmel     ."
+
+    ". flur_h           flur_h              bz_h              bz_h            ."
+    ". flur_licht_1     flur_lux            bz_licht_1        bz_schimmel     ."
+    ". flur_temperatur  flur_motion         bz_switch_1       bz_switch_2     ."
+    ". flur_lock        flur_door           bz_temperatur     bz_feuchtigkeit ."
+
+    ". dach_nebenr_h    dach_nebenr_h       keller_h          keller_h        ."
+    ". dach_licht       nebenr_licht        keller_licht      keller_switch   ."
+    ". dach_temperatur  dach_feuchtigkeit   keller_waschm     keller_waschm   ."
+    ". bottom           bottom              bottom            bottom          ."
+
+cards:
+  ################################################################################################
+  ## WOHNZIMMER
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: wohnzimmer_h
+    name: Wohnzimmer
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_wohnzimmer
+    name: Deckenlicht
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: wz_licht_1
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.ambiente
+    name: Ambiente
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: wz_licht_2
+
+  - type: "custom:button-card"
+    entity: switch.shellyazplug_5432046783f0_switch_0
+    template: switch_card
+    name: Computertisch
+    icon: fapro:plug
+    variables:
+      power_entity: sensor.shellyazplug_5432046783f0_switch_0_power
+    view_layout:
+      grid-area: wz_switch_1
+
+  - type: "custom:button-card"
+    template: switch_card
+    entity: switch.shellyplusplugs_e465b8b49ef4_switch_0
+    name: Sofa
+    icon: fapro:plug
+    view_layout:
+      grid-area: wz_switch_2
+
+  - type: custom:button-card
+    template: mediaplayer_tv_card_wge
+    entity: media_player.apple_tv_wohnzimmer
+    view_layout:
+      grid-area: wz_media
+
+  - type: custom:button-card
+    template: climate_card
+    name: Wohnzimmer
+    entity: climate.wohnzimmer
+    variables:
+      graph_color: var(--label-badge-blue)
+      graph_entity: sensor.multisensor_wohnzimmer_temperatur
+    view_layout:
+      grid-area: wz_climate
+
+  - type: custom:button-card
+    template: philips_air_purifier_card_wge
+    entity: fan.wohnzimmer
+    view_layout:
+      grid-area: wz_fan
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Schimmel
+    icon: fapro:humidity
+    variables:
+      label_icon: percent
+    entity: sensor.schimmel_indikator_wohnzimmer
+    view_layout:
+      grid-area: wz_schimmel
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    variables:
+      label_icon: percent
+    entity: sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+    view_layout:
+      grid-area: wz_feuchtigkeit
+
+    ################################################################################################
+    ## SCHLAFZIMMER
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: schlafzimmer_h
+    name: Schlafzimmer
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_schlafzimmer
+    name: Deckenlicht
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: sz_licht_1
+
+  - type: "custom:button-card"
+    entity: switch.gosund_sp112_bedroom
+    template: switch_card
+    name: Bett
+    icon: fapro:plug
+    view_layout:
+      grid-area: sz_switch_1
+
+  - type: "custom:button-card"
+    template: switch_card
+    entity: switch.gosund_sp112_bedroom_usb
+    name: Bett USB
+    icon: fapro:plug
+    view_layout:
+      grid-area: sz_switch_2
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.multisensor_schlafzimmer_temperatur
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: sz_temperatur
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.multisensor_schlafzimmer_luftfeuchtigkeit
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: sz_feuchtigkeit
+
+  - type: custom:button-card
+    template: air_cleaner_card_wge
+    name: Luftreiniger
+    entity: fan.luftreiniger_wohnzimmer
+    view_layout:
+      grid-area: sz_fan
+
+  - type: custom:button-card
+    template: mediaplayer_tv_card_wge
+    entity: media_player.apple_tv_wohnzimmer
+    view_layout:
+      grid-area: sz_media
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Schimmel
+    icon: fapro:humidity
+    entity: sensor.schimmel_indikator_schlafzimmer
+    view_layout:
+      grid-area: sz_schimmel
+
+  ################################################################################################
+  ## KINDERZIMMER
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: kinderzimmer_h
+    name: Kinderzimmer
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_kinderzimmer
+    name: Deckenlicht
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: kz_licht_1
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.ambiente_rgb
+    name: Ambiente Weiß
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: kz_licht_2
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.ambiente_rgb_2
+    name: Ambiente RGB
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: kz_licht_3
+
+  - type: "custom:button-card"
+    entity: switch.shellyazplug_5432046783f8_switch_0
+    template: switch_card
+    name: Multimedia
+    icon: fapro:plug
+    view_layout:
+      grid-area: kz_switch_1
+
+  - type: custom:button-card
+    template: mediaplayer_tv_card_wge
+    entity: media_player.apple_tv_alissa
+    view_layout:
+      grid-area: kz_media
+
+  - type: "custom:button-card"
+    entity: switch.steckdosenleiste_kinderzimmer_stecker1
+    template: switch_card
+    name: Tisch 1
+    icon: fapro:plug
+    view_layout:
+      grid-area: kz_switch_2
+
+  - type: "custom:button-card"
+    entity: switch.steckdosenleiste_kinderzimmer_stecker2
+    template: switch_card
+    name: Tisch 2
+    icon: fapro:plug
+    view_layout:
+      grid-area: kz_switch_3
+
+  - type: "custom:button-card"
+    entity: switch.steckdosenleiste_kinderzimmer_stecker3
+    template: switch_card
+    name: Tisch 3
+    icon: fapro:plug
+    view_layout:
+      grid-area: kz_switch_4
+
+  - type: "custom:button-card"
+    entity: switch.steckdosenleiste_kinderzimmer_usb
+    template: switch_card
+    name: Tisch USB
+    icon: fapro:plug
+    view_layout:
+      grid-area: kz_switch_usb
+
+  - type: custom:button-card
+    template: climate_card
+    name: Kinderzimmer
+    entity: climate.kinderzimmer
+    variables:
+      graph_color: var(--label-badge-blue)
+      graph_entity: sensor.multisensor_kinderzimmer_temperatur
+    view_layout:
+      grid-area: kz_climate
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: kz_feuchtigkeit
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Schimmel
+    icon: fapro:humidity
+    entity: sensor.schimmel_indikator_kinderzimmer
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: kz_schimmel
+
+  ################################################################################################
+  ## KÜCHE
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: kueche_h
+    name: Küche
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_kuche
+    name: Deckenlicht
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: ku_licht_1
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.spots_kuche
+    name: Spots
+    view_layout:
+      grid-area: ku_licht_2
+
+  - type: "custom:button-card"
+    entity: switch.shellyazplug_543204663e38_switch_0
+    template: switch_card
+    name: Kaffeemashine
+    icon: fapro:plug
+    variables:
+      power_entity: sensor.shellyazplug_543204663e38_switch_0_power
+    view_layout:
+      grid-area: ku_switch_1
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.multisensor_kuche_temperatur
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: ku_temperatur
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.multisensor_kuche_luftfeuchtigkeit
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: ku_feuchtigkeit
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Schimmel
+    icon: fapro:humidity
+    entity: sensor.schimmel_indikator_kuche
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: ku_schimmel
+
+  ################################################################################################
+  ## FLUR
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: flur_h
+    name: Flur
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_flur
+    name: Deckenlicht
+    variables:
+      enable_slider: True
+    view_layout:
+      grid-area: flur_licht_1
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Lichtstärke
+    icon: fapro:sun
+    entity: sensor.hue_bewegungssensor_flur_beleuchtungsstarke
+    variables:
+      label_icon: lux
+    view_layout:
+      grid-area: flur_lux
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.hue_bewegungssensor_flur_temperatur
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: flur_temperatur
+
+  - type: custom:button-card
+    entity: lock.wohnungstur
+    name: Wohnungstür
+    template: button_template
+    variables:
+      sensor_type: lock
+    view_layout:
+      grid-area: flur_motion
+
+  - type: custom:button-card
+    entity: binary_sensor.hue_bewegungssensor_flur_bewegung
+    name: Bewegungssensor
+    template: button_template
+    variables:
+      sensor_type: motion
+    view_layout:
+      grid-area: flur_lock
+
+  - type: custom:button-card
+    entity: binary_sensor.eingangstur_offnung
+    name: Wohnungstür
+    template: button_template
+    variables:
+      sensor_type: door
+    view_layout:
+      grid-area: flur_door
+
+  ################################################################################################
+  ## BADEZIMMER
+
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: bz_h
+    name: Badezimmer
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.spots_badezimmer
+    name: Spots
+    view_layout:
+      grid-area: bz_licht_1
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Schimmel
+    icon: fapro:humidity
+    entity: sensor.schimmel_indikator_badezimmer
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: bz_schimmel
+
+  - type: "custom:button-card"
+    entity: switch.gosund_sp112_nursery
+    template: switch_card
+    name: Steckdose
+    icon: fapro:plug
+    view_layout:
+      grid-area: bz_switch_1
+
+  - type: "custom:button-card"
+    entity: switch.gosund_sp112_nursery_usb
+    template: switch_card
+    name: USB
+    icon: fapro:plug
+    view_layout:
+      grid-area: bz_switch_2
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.multisensor_badezimmer_temperatur
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: bz_temperatur
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: bz_feuchtigkeit
+
+  ################################################################################################
+  ## Dach/Nebenraum
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: dach_nebenr_h
+    name: Dachboden / Nebenraum
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_dachboden
+    name: Dachboden
+    view_layout:
+      grid-area: dach_licht
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_nebenraum
+    name: Nenebraum
+    view_layout:
+      grid-area: nebenr_licht
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: dach_feuchtigkeit
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.hue_bewegungssensor_flur_temperatur
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: dach_temperatur
+
+  ################################################################################################
+  ## Keller
+
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: keller_h
+    name: Keller
+
+  - type: custom:button-card
+    template: light_card
+    entity: light.deckenlicht_keller
+    name: Deckenlicht
+    view_layout:
+      grid-area: keller_licht
+
+  - type: "custom:button-card"
+    entity: switch.shellyplug_s_b49a1d
+    template: switch_card
+    name: 3D-Drucker
+    icon: fapro:plug
+    variables:
+      power_entity: sensor.shellyplug_s_b49a1d_power
+    view_layout:
+      grid-area: keller_switch
+
+  - type: custom:button-card
+    template: washing_mashine_card
+    entity: switch.socket_washing_machine
+    name: Waschmaschine
+    view_layout:
+      grid-area: keller_waschm
+
+  - type: "custom:button-card" # adding some space between card and navbar
+    color_type: blank-card
+    styles:
+      card:
+        - height: 20px
+    view_layout:
+      grid-area: bottom

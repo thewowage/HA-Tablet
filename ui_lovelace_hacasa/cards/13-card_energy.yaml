@@ -1,0 +1,76 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Energie Dashboard
+    icon: mdi:lightning-bolt-outline
+    hash: "#energy_card"
+    button_type: name
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: hc_glance_card
+        variables:
+          entity1: sensor.energy_consumption_daily
+          entity1_name: Tag
+          entity1_icon: fapro:bolt
+          entity1_icon_color: var(--color-yellow)
+          entity2: sensor.energy_consumption_weekly
+          entity2_name: Woche
+          entity2_icon: fapro:bolt
+          entity2_icon_color: var(--color-yellow)
+          entity3: sensor.energy_consumption_monthly
+          entity3_name: Monat
+          entity3_icon: fapro:bolt
+          entity3_icon_color: var(--color-yellow)
+
+      - type: custom:button-card
+        template: hc_sensor_card_long
+        entity: sensor.energy_consumption_yearly
+        label: '[[[ return states["sensor.calendar_year"].state]]]'
+        name: Jahresverbrauch
+        icon: fapro:flame-fill
+
+      - type: custom:button-card
+        template: hc_title_card_small
+        name: Wöchentlicher Verbrauch
+        label: '[[[ return states["sensor.energy_consumption_weekly_title"].state + " kWh"]]]'
+
+      - type: custom:button-card
+        template: hc_graph_card_wge
+        entity: sensor.energy_consumption_daily
+        name: Stromverbrauch
+        variables:
+          color: var(--color-blue)
+          graph_style: bar
+          hours_to_show: 168
+          aggregate_func: max
+          group_by: date
+
+      - type: custom:button-card
+        template: hc_title_card_small
+        name: Momentaner Verbrauch
+        label: '[[[ return states["sensor.energy_consumption_current_title"].state + " W"]]]'
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:button-card
+            template: hc_graph_card
+            name: Geräte
+            icon: fapro:devices
+            entity: sensor.shelly_current_consumption
+            variables:
+              graph_color: "var(--color-blue)"
+              show_graph_fill: true
+
+          - type: custom:button-card
+            template: hc_graph_card
+            name: Lichter
+            icon: fapro:lamp
+            entity: sensor.light_current_consumption
+            variables:
+              graph_color: "var(--color-red)"
+              show_graph_fill: true

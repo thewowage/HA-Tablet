@@ -1,0 +1,46 @@
+input_select:
+  hall_light_mode:
+    name: Hall Light Mode
+    options:
+      - "Off"
+      - "Automatic"
+      - "Manual"
+      - "Bright"
+      - "Night Light"
+    icon: mdi:format-list-bulleted
+
+  scene_selector:
+    name: Scene Selector
+    options:
+      - Movie
+      - Arbeit
+      - Weg
+      - Nacht
+      - Film
+    icon: mdi:lightbulb-on-outline
+
+  heizsaison:
+    name: Heizsaison
+    options:
+      - "an"
+      - "aus"
+    icon: mdi:weather-cloudy-alert
+
+  preset_mode:
+    name: Anwesenheit
+    options:
+      - "anwesend"
+      - "abwesend"
+    icon: mdi:home-thermometer-outline
+
+  dashboard_auswahl:
+    name: Dashboard Auswahl
+    options:
+      - home
+      - wohnzimmer
+      - schlafzimmer
+      - kinderzimmer
+      - kueche
+      - flur_bad
+      - dach_keller
+    initial: home

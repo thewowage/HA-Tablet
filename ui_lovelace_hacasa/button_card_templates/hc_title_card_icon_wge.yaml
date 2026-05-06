@@ -1,0 +1,146 @@
+  hc_title_card_icon_wge:
+    show_label: false
+    variables:
+      entity1:
+      entity1_name:
+      entity1_icon:
+      entity2:
+      entity2_name:
+      entity3:
+      entity3_name:
+    styles:
+      grid:
+        - grid-template-areas: |
+            "n btn1 btn2 btn3 btn4"
+        - grid-template-rows: min-content
+        - grid-template-columns: 1fr min-content min-content min-content min-content
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-weight: 800
+        - font-size: 25px
+        - padding-top: 5px
+      card:
+        - background: none
+        - animation: slide-in 1s ease-out, opacity 1s ease-in
+        - box-shadow: none
+        - "--mdc-ripple-color": transparent
+    custom_fields:
+      btn1:
+        card:
+          type: custom:button-card
+          entity: "[[[ return variables.entity1 ]]]"
+          name: "[[[ return variables.entity1_name ]]]"
+          icon: "[[[ return variables.entity1_icon ]]]"
+          show_icon: |
+            [[[
+              if (variables.entity1_icon) return true;
+              else return false;
+            ]]]
+          show_name: |
+            [[[
+              if (variables.entity1_name) return true;
+              else return false;
+            ]]]
+          styles: &card_styles
+            grid:
+              - grid-template-areas: "'n i'"
+              - grid-template-columns: min-content
+            card:
+              - padding-left: 8px
+              - background: none
+              - border-radius: 0
+              - box-shadow: none
+            name:
+              - font-weight: 600
+              - font-size: 12px
+              - opacity: 0.6
+            icon:
+              - width: 60%
+              - color: var(--icon-color)
+            img_cell:
+              - width: 35px
+              - height: 35px
+              - background: var(--ha-card-background)
+              - border-radius: 50%
+              - box-shadow: var(--ha-card-box-shadow)
+              - overflow: visible
+          state:
+            - value: "on"
+              styles: &state_style
+                #card:
+                #  - background: var(--primary-color)
+                #  - border-radius: 5px
+                icon:
+                  - color: var(--primary-color)
+                name:
+                  - color: var(--color-white)
+      btn2:
+        card:
+          type: custom:button-card
+          entity: "[[[ return variables.entity2 ]]]"
+          name: "[[[ return variables.entity2_name ]]]"
+          icon: "[[[ return variables.entity2_icon ]]]"
+          show_icon: |
+            [[[
+              if (variables.entity2_icon) return true;
+              else return false;
+            ]]]
+          show_name: |
+            [[[
+              if (variables.entity2_name) return true;
+              else return false;
+            ]]]
+          styles: *card_styles
+          state:
+            - value: "on"
+              styles: *state_style
+      btn3:
+        card:
+          type: custom:button-card
+          entity: "[[[ return variables.entity3 ]]]"
+          name: "[[[ return variables.entity3_name ]]]"
+          icon: "[[[ return variables.entity3_icon ]]]"
+          show_icon: |
+            [[[
+              if (variables.entity3_icon) return true;
+              else return false;
+            ]]]
+          show_name: |
+            [[[
+              if (variables.entity3_name) return true;
+              else return false;
+            ]]]
+          styles: *card_styles
+          state:
+            - value: "on"
+              styles: *state_style
+      btn4:
+        card:
+          type: custom:button-card
+          entity: "[[[ return variables.entity4 ]]]"
+          name: "[[[ return variables.entity4_name ]]]"
+          icon: "[[[ return variables.entity4_icon ]]]"
+          show_icon: |
+            [[[
+              if (variables.entity3_icon) return true;
+              else return false;
+            ]]]
+          show_name: |
+            [[[
+              if (variables.entity4_name) return true;
+              else return false;
+            ]]]
+          styles: *card_styles
+          state:
+            - value: "on"
+              styles: *state_style
+    extra_styles: |
+      @keyframes slide-in {
+        0% {transform: translateX(-2%);}
+        100% {transform: translateX(0%);}
+      }
+      @keyframes opacity {
+        0% {opacity:0;}
+        100% {opacity:1;}
+      }

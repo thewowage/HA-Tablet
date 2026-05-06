@@ -1,0 +1,279 @@
+# type: custom:button-card
+# template: button_template_apple
+# entity: binary_sensor.fenster_wohnzimmer
+# name: Fenster
+# variables:
+#   sensor_type: window
+#   card_glow_color: "120,180,255"
+
+button_template_apple:
+  variables:
+    sensor_type:
+    card_glow_color: "120,180,255"
+    card_glass_bg: "var(--card-glass-bg)"
+
+  show_label: true
+  show_icon: true
+
+  tap_action:
+    action: more-info
+    haptic: success
+
+  hold_action:
+    action: more-info
+
+  icon: |
+    [[[
+      const type = variables.sensor_type;
+      const s = entity.state;
+
+      if (s === "unavailable") return "mdi:alert-box-outline";
+      if (type === "window") return s === "on" ? "mdi:window-open" : "mdi:window-closed";
+      if (type === "door") return s === "on" ? "mdi:door-open" : "mdi:door-closed";
+      if (type === "motion") return s === "on" ? "mdi:motion-sensor" : "mdi:motion-sensor-off";
+      if (type === "lock") return s === "locked" ? "mdi:lock-outline" : "mdi:lock-open-outline";
+
+      return entity.attributes.icon || "mdi:circle";
+    ]]]
+
+  label: |
+    [[[
+      const type = variables.sensor_type;
+      const s = entity.state;
+
+      if (s === "unavailable") return "Unknown";
+      if (type === "window") return s === "on" ? "offen" : "zu";
+      if (type === "door") return s === "on" ? "offen" : "zu";
+      if (type === "motion") return s === "on" ? "Bewegung" : "ruhig";
+      if (type === "lock") return s === "locked" ? "verschlossen" : "aufgeschlossen";
+
+      return s;
+    ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          ". i"
+          "n n"
+          "l l"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr
+
+    card:
+      - height: 110px
+      - padding: 16px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - transform-style: preserve-3d
+      - backdrop-filter: blur(28px) saturate(160%)
+      - -webkit-backdrop-filter: blur(28px) saturate(160%)
+      - border: none
+      - --ha-card-border-width: 0
+      - transition: background 0.6s ease, box-shadow 0.6s ease, filter 0.6s ease
+      - background: >
+          [[[
+            const type = variables.sensor_type;
+            const s = entity.state;
+            const glow = variables.card_glow_color || "120,180,255";
+            const glass = variables.card_glass_bg || "var(--card-glass-bg)";
+
+            const active =
+              (type === "window" && s === "on") ||
+              (type === "door" && s === "on") ||
+              (type === "motion" && s === "on") ||
+              (type === "lock" && s === "locked");
+
+            if (!active) {
+              return `
+                linear-gradient(
+                  145deg,
+                  rgba(255,255,255,0.10),
+                  rgba(255,255,255,0.02)
+                ),
+                ${glass}
+              `;
+            }
+
+            return `
+              radial-gradient(
+                circle at 8% 8%,
+                rgba(${glow},0.55) 0%,
+                rgba(${glow},0.26) 22%,
+                rgba(${glow},0.10) 42%,
+                rgba(${glow},0.04) 58%,
+                transparent 74%
+              ),
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.14),
+                rgba(255,255,255,0.03)
+              ),
+              ${glass}
+            `;
+          ]]]
+      #- box-shadow: >
+      #    [[[
+      #      const type = variables.sensor_type;
+      #      const s = entity.state;
+      #      const glow = variables.card_glow_color || "120,180,255";
+
+      #      const active =
+      #        (type === "window" && s === "on") ||
+      #        (type === "door" && s === "on") ||
+      #        (type === "motion" && s === "on") ||
+      #        (type === "lock" && s === "locked");
+
+      #      return active
+      #        ? `0 8px 24px rgba(${glow},0.25), inset 0 1px 0 rgba(255,255,255,0.10)`
+      #        : "0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.06)";
+      #    ]]]
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - font-size: var(--card-glass-font-size-primary)
+      - font-weight: var(--card-glass-font-weight-primary)
+      - color: var(--card-text-color)
+      - z-index: 3
+
+    label:
+      - justify-self: start
+      - align-self: center
+      - text-align: left
+      - font-size: var(--card-glass-font-size-secondary)
+      - font-weight: var(--card-glass-font-weight-secondary)
+      - color: var(--card-subtext-color)
+      - z-index: 3
+
+    icon:
+      - width: 22px
+      - color: >
+          [[[
+            const type = variables.sensor_type;
+            const s = entity.state;
+            const glow = variables.card_glow_color || "120,180,255";
+
+            const active =
+              (type === "window" && s === "on") ||
+              (type === "door" && s === "on") ||
+              (type === "motion" && s === "on") ||
+              (type === "lock" && s === "locked");
+
+            return active
+              ? `rgba(${glow},1)`
+              : "var(--card-subtext-color)";
+          ]]]
+      - transition: color 0.6s ease
+      - z-index: 3
+
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - width: 28px
+      - height: 28px
+      - border-radius: 50%
+      - background: transparent
+      - z-index: 3
+
+    custom_fields:
+      glass_reflection:
+        - position: absolute
+        - inset: 0
+        - z-index: 1
+        - pointer-events: none
+
+      soft_light:
+        - position: absolute
+        - inset: 0
+        - z-index: 2
+        - pointer-events: none
+
+  custom_fields:
+    glass_reflection: |
+      [[[
+        return `<div class="glass-reflection"></div>`;
+      ]]]
+
+    soft_light: |
+      [[[
+        const glow = variables.card_glow_color || "120,180,255";
+        return `<div class="soft-light" style="--dynamic-color:${glow};"></div>`;
+      ]]]
+
+  state:
+    - value: "unavailable"
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+        icon:
+          - color: rgba(255,255,255,0.35)
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      background-color: transparent !important;
+      transition:
+        background 0.6s ease,
+        filter 0.6s ease,
+        transform 0.22s cubic-bezier(.2,.8,.2,1);
+      perspective: 900px;
+    }
+
+    ha-card:hover {
+      transform: none !important;
+      border-radius: 22px !important;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--card-glass-reflection-start, rgba(255,255,255,0.28)) 0%,
+          var(--card-glass-reflection-mid, rgba(255,255,255,0.08)) 28%,
+          transparent 58%
+        );
+    }
+
+    .soft-light {
+      position: absolute;
+      inset: -35%;
+      border-radius: 999px;
+      background:
+        radial-gradient(
+          circle,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-strong, 0.22)) 0%,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-soft, 0.10)) 34%,
+          transparent 65%
+        );
+      opacity: 0;
+      transform: translate(-18%, -10%);
+      pointer-events: none;
+    }
+
+    ha-card:hover .soft-light {
+      opacity: 1;
+      animation: softLightMove 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes softLightMove {
+      0% {
+        transform: translate(-22%, -12%) scale(1);
+      }
+
+      100% {
+        transform: translate(12%, 10%) scale(1.18);
+      }
+    }

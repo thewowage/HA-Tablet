@@ -1,0 +1,147 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Home Sesurity
+    icon: fapro:shield
+    hash: "#home_security_card"
+    button_type: name
+    close_action:
+      action: perform-action
+      perform_action: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.home_security_card_security
+          - input_boolean.home_security_card_cameras
+
+  #- type: custom:button-card
+  #  template: hc_title_card_icon_wge
+  #  name: ''
+  #  variables:
+  #    entity3: input_boolean.home_security_card_security
+  #    entity3_icon: mdi:lock
+  #    entity4: input_boolean.home_security_card_cameras
+  #    entity4_icon: mdi:camera
+
+  - type: custom:button-card
+    template: hc_title_card
+    name: ""
+    variables:
+      entity2: input_boolean.home_security_card_security
+      entity2_name: Sicherheit
+      entity3: input_boolean.home_security_card_cameras
+      entity3_name: Kameras
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: custom:button-card
+        template: hc_glance_card
+        variables:
+          entity1: binary_sensor.eingangstur_offnung
+          entity1_name: Wohnungstür
+          entity1_icon: "fapro:door-closed-fill"
+          entity2: binary_sensor.turen_abstellkammer
+          entity2_name: Küche
+          entity2_icon: "fapro:door-closed"
+
+  - type: conditional
+    condition: or
+    conditions:
+      - condition: state
+        entity: input_boolean.home_security_card_security
+        state: "off"
+      - condition: state
+        entity: input_boolean.home_security_card_cameras
+        state: "off"
+    card:
+      type: vertical-stack
+      cards:
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.hue_bewegungssensor_flur_bewegung
+              name: Flur
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.bewegungsmelder_treppenhaus_bewegung
+              name: Treppenhaus
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.livingroom_windows
+              name: Wohnzimmer
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.fenster_schlafzimmer_offnung
+              name: Schlafzimmer
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.fenster_kinderzimmer_offnung
+              name: Kinderzimmer
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.fenster_kuche_offnung
+              name: Küche
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.fenster_abstellkammer_offnung
+              name: Abstellkammer
+
+            - type: custom:button-card
+              template: hc_sensor_card
+              entity: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
+              name: Küche
+
+  - type: conditional
+    condition: or
+    conditions:
+      - condition: state
+        entity: input_boolean.home_security_card_security
+        state: "on"
+      - condition: state
+        entity: input_boolean.home_security_card_cameras
+        state: "off"
+    card:
+      type: vertical-stack
+      cards:
+        - type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: hc_security_card
+              entity: alarm_control_panel.home_alarm
+              variables:
+                hc_security_code: !secret code_alarm_panel
+
+            - type: custom:button-card
+              template:
+                - hc_custom_lock_card_wge
+              entity: lock.wohnungstur
+              name: Front Door
+
+  - type: conditional
+    condition: or
+    conditions:
+      - condition: state
+        entity: input_boolean.home_security_card_security
+        state: "off"
+      - condition: state
+        entity: input_boolean.home_security_card_cameras
+        state: "on"
+    card:
+      type: vertical-stack
+      cards:
+        #- type: custom:button-card
+        #  template:
+        #    - hc_camera_card_wge
+        #  entity: camera.g4_instant_high_resolution_channel
+        #  #name: Front Door

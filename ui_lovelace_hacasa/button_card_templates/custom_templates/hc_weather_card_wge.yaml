@@ -1,0 +1,229 @@
+hc_weather_card_wge:
+  show_state: false
+  show_icon: false
+  variables:
+    hc_enable_forecast: true
+  styles:
+    grid:
+      - grid-template-areas: >
+          [[[
+            if (variables.hc_enable_forecast) {
+              return '"weather_info n" "weather_states weather_states"';
+            }
+            return 'weather_info n';
+          ]]]
+      - row-gap: 3rem
+    card:
+      - background: var(--weather-card-color)
+      - padding: 15px
+    name:
+      - font-size: 2.5rem
+      - color: var(--color-white)
+      - align-self: start
+      - margin-right: 20px
+      - padding-top: 0.5rem
+    custom_fields:
+      weather_info:
+        - justify-self: start
+        - align-self: start
+        - margin-top: "-20px"
+  custom_fields:
+    weather_info:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        show_state: false
+        show_icon: false
+        show_label: true
+        label: '[[[ return states[entity.entity_id].attributes.precipitation + " mm"]]]'
+        name: "[[[ return states[entity.entity_id].attributes.wind_desc]]]"
+        styles:
+          grid:
+            - grid-template-areas: "'icon n''icon l'"
+          card:
+            - background: none
+            - padding: 0
+            - height: 60px
+            - border-radius: 0
+            - overflow: visible
+            - box-shadow: none
+          name:
+            - justify-self: start
+            - align-self: end
+            - color: var(--color-white)
+            - font-family: montserrat
+            - font-weight: 600
+            - font-size: 1.1rem
+          label:
+            - justify-self: start
+            - color: var(--color-dark-gray)
+            - font-family: montserrat
+            - font-weight: 500
+            - font-size: 1rem
+          custom_fields:
+            icon:
+              - width: 7rem
+              - height: 7rem
+        custom_fields:
+          icon: |
+            [[[
+                var weather = states[entity.entity_id].attributes.condition;
+                return '<img src = "/local/weather_icons/animated/' + weather + '.svg" />'
+            ]]]
+    weather_states:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        show_name: false
+        show_icon: false
+        styles:
+          grid:
+            - grid-template-areas: '"item1 item2 item3 item4 item5"'
+            - grid-template-columns: 1fr 1fr 1fr 1fr 1fr
+          card:
+            - background: none
+            - box-shadow: none
+            - padding: 0
+        custom_fields:
+          item1:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature1 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_today'].state ]]]"
+              #name: |
+              #  [[[
+              #    return states[entity.entity_id].attributes.cond_dayy_1;
+              #  ]]]
+              show_label: true
+              show_icon: false
+              styles: &item_styles
+                grid:
+                  - grid-template-areas: '"l l" "icon icon" "n n"'
+                  - grid-template-rows: min-content
+                card:
+                  - background: none
+                  - padding: 0
+                  - box-shadow: none
+                name:
+                  - font-weight: 400
+                  - opacity: 0.8
+                  - font-size: 1rem
+                  - color: var(--color-white)
+                label:
+                  - font-size: 1rem
+                  - font-weight: 600
+                  - color: var(--color-white)
+                custom_fields:
+                  icon:
+                    - width: 50px
+                    - justify-self: center
+                  rain:
+                    - color: white
+                    - font-size: 1rem
+              custom_fields:
+                icon: |
+                  [[[
+                  var weather =
+                  states[entity.entity_id].attributes.condition1;
+                  return '<img src = "/local/weather_icons/animated/' +
+                  weather + '.svg" />';
+                  ]]]
+
+          item2:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature2 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todayp1'].state ]]]"
+              #name: |
+              #  [[[
+              #    return states[entity.entity_id].attributes.cond_dayy_2;
+              #  ]]]
+              show_label: true
+              show_icon: false
+              custom_fields:
+                icon: |
+                  [[[
+                  var weather =
+                  states[entity.entity_id].attributes.condition2;
+                  return '<img src = "/local/weather_icons/animated/' +
+                  weather + '.svg" />';
+                  ]]]
+              styles: *item_styles
+
+          item3:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature3 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todayp2'].state ]]]"
+              #name: |
+              #  [[[
+              #    return states[entity.entity_id].attributes.cond_dayy_3;
+              #  ]]]
+              show_label: true
+              show_icon: false
+              custom_fields:
+                icon: |
+                  [[[
+                  var weather =
+                  states[entity.entity_id].attributes.condition3;
+                  return '<img src = "/local/weather_icons/animated/' +
+                  weather + '.svg" />';
+                  ]]]
+              styles: *item_styles
+
+          item4:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature4 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todayp3'].state ]]]"
+              #name: |
+              #  [[[
+              #    return states[entity.entity_id].attributes.cond_dayy_4;
+              #  ]]]
+              show_label: true
+              show_icon: false
+              custom_fields:
+                icon: |
+                  [[[
+                  var weather =
+                  states[entity.entity_id].attributes.condition4;
+                  return '<img src = "/local/weather_icons/animated/' +
+                  weather + '.svg" />';
+                  ]]]
+              styles: *item_styles
+
+          item5:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature5 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todayp4'].state ]]]"
+              show_label: true
+              show_icon: false
+              custom_fields:
+                icon: |
+                  [[[
+                  var weather =
+                  states[entity.entity_id].attributes.condition5;
+                  return '<img src = "/local/weather_icons/animated/' +
+                  weather + '.svg" />';
+                  ]]]
+              styles: *item_styles

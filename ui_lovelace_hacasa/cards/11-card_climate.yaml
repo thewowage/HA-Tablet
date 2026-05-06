@@ -1,0 +1,185 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Klima
+    icon: mdi:thermostat
+    hash: "#climate_card"
+    button_type: name
+    close_action:
+      action: perform-action
+      perform_action: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.climate_card_radiator
+          - input_boolean.climate_card_air_purifier
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: custom:button-card
+        template: hc_device_card_wge
+        icon: fapro:sun-fill
+        entity: input_boolean.heizsaison
+        name: Heizsaison
+        show_label: true
+        label: "[[[ return states[entity.entity_id].state == 'on' ? 'Winter' : 'Sommer'; ]]]"
+        state:
+          - value: "on"
+            icon: fapro:sun
+
+      - type: custom:button-card
+        template: hc_title_card
+        name: Raumklima
+        label: "[[[ return 'Durchschnitt: '  + states['sensor.average_home_temperature'].state + ' °C' + '  und  ' + states['sensor.average_home_humidity'].state + ' %' ]]]"
+        variables:
+          entity2: input_boolean.climate_card_radiator
+          entity2_name: Thermostate
+          entity3: input_boolean.climate_card_air_purifier
+          entity3_name: Luftreiniger
+
+      #- type: custom:button-card
+      #  template: hc_title_card
+      #  name: Räume
+      #  label: "[[[ return 'Durchschnitt: '  + states['sensor.average_home_temperature'].state + ' °C' + '  und  ' + states['sensor.average_home_humidity'].state + ' %' ]]]"
+
+      - type: conditional
+        condition: or
+        conditions:
+          - condition: state
+            entity: input_boolean.climate_card_radiator
+            state: "off"
+          - condition: state
+            entity: input_boolean.climate_card_air_purifier
+            state: "off"
+        card:
+          type: vertical-stack
+          cards:
+            - type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_wohnzimmer_temperatur
+                  name: Temperatur
+                  label: Wohnzimmer
+                  variables:
+                    color: var(--color-orange)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+                  name: Luftfeuchtigkeit
+                  label: Wohnzimmer
+                  variables:
+                    color: var(--color-blue)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_kinderzimmer_temperatur
+                  name: Temperatur
+                  label: Kinderzimmer
+                  variables:
+                    color: var(--color-orange)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+                  name: Luftfeuchtigkeit
+                  label: Kinderzimmer
+                  variables:
+                    color: var(--color-blue)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_kuche_temperatur
+                  name: Temperatur
+                  label: Küche
+                  variables:
+                    color: var(--color-orange)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_kuche_luftfeuchtigkeit
+                  name: Luftfeuchtigkeit
+                  label: Küche
+                  variables:
+                    color: var(--color-blue)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_badezimmer_temperatur
+                  name: Temperatur
+                  label: Badezimmer
+                  variables:
+                    color: var(--color-orange)
+                    label_on: true
+
+                - type: custom:button-card
+                  template: hc_graph_card_label_wge
+                  entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
+                  name: Luftfeuchtigkeit
+                  label: Badezimmer
+                  variables:
+                    color: var(--color-blue)
+                    label_on: true
+
+      - type: conditional
+        condition: or
+        conditions:
+          - condition: state
+            entity: input_boolean.climate_card_radiator
+            state: "on"
+          - condition: state
+            entity: input_boolean.climate_card_air_purifier
+            state: "off"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: hc_climate_card
+              entity: climate.wohnzimmer
+              variables:
+                show_window_state: true
+                show_mode_state: true
+                graph_entity: sensor.multisensor_wohnzimmer_temperatur
+                window_open_boolean: sensor.living_room_window_template
+
+            - type: custom:button-card
+              template: hc_climate_card
+              entity: climate.kinderzimmer
+              variables:
+                show_window_state: true
+                show_mode_state: true
+                graph_entity: sensor.multisensor_kinderzimmer_temperatur
+                window_open_boolean: sensor.nursery_window_template
+
+      - type: conditional
+        condition: or
+        conditions:
+          - condition: state
+            entity: input_boolean.climate_card_radiator
+            state: "off"
+          - condition: state
+            entity: input_boolean.climate_card_air_purifier
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: hc_philips_air_purifier_card_wge
+              entity: fan.wohnzimmer
+              name: Wohnzimmer
+
+            - type: custom:button-card
+              template: hc_air_cleaner_card_wge
+              entity: fan.luftreiniger_wohnzimmer
+              name: Schlafzimmer

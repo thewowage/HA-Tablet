@@ -1,0 +1,231 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Geräte
+    icon: fapro:plug
+    hash: "#devices_card"
+    button_type: name
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:sofa-outline
+        heading: Wohnzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#living-room"
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:restriction-card
+            restrictions:
+              pin:
+                code: 0403
+            card:
+              type: "custom:button-card"
+              entity: switch.shellyazplug_5432046783f0_switch_0
+              template: hc_switch_card
+              name: Computertisch
+              icon: fapro:plug
+              variables:
+                power_entity: sensor.shellyazplug_5432046783f0_switch_0_power
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.shellyplusplugs_e465b8b49ef4_switch_0
+            name: Sofa
+            icon: fapro:plug
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:bed-king
+        heading: Schlafzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#bedroom"
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.gosund_sp112_bedroom
+            name: Bett Steckdose
+            icon: fapro:plug
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.gosund_sp112_bedroom_usb
+            name: Bett USB
+            icon: fapro:plug
+
+  - square: false
+    type: grid
+    cards:
+      - type: heading
+        icon: mdi:bed-queen
+        heading: Kinderzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#nursery"
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.steckdosenleiste_kinderzimmer_stecker1
+            name: Tisch Kind.
+            icon: fapro:plug
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.steckdosenleiste_kinderzimmer_stecker2
+            name: Tisch Kind.
+            icon: fapro:plug
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.steckdosenleiste_kinderzimmer_stecker3
+            name: Tisch Kind.
+            icon: fapro:plug
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.steckdosenleiste_kinderzimmer_usb
+            name: Tisch Kind. USB
+            icon: fapro:plug
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.shellyazplug_5432046783f8_switch_0
+            name: Multimedia Kind.
+            icon: fapro:plug
+            variables:
+              power_entity: sensor.shellyazplug_5432046783f8_switch_0_power
+
+    columns: 1
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:silverware-variant
+        heading: Küche
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#kitchen"
+
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.shellyazplug_543204663e38_switch_0
+            name: Kaffeemashine
+            icon: fapro:plug
+            variables:
+              power_entity: sensor.shellyazplug_543204663e38_switch_0_power
+
+          - type: custom:restriction-card
+            restrictions:
+              pin:
+                code: 0403
+            card:
+              type: "custom:button-card"
+              entity: switch.shellyplusplugs_e465b8451910_switch_0
+              template: hc_switch_card
+              name: Kühlschrank
+              icon: fapro:plug
+              variables:
+                power_entity: sensor.shellyplusplugs_e465b8451910_switch_0_power
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:paper-roll-outline
+        heading: Badezimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#bathroom"
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.gosund_sp112_nursery
+            name: Steckdose Bad
+            icon: fapro:plug
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.gosund_sp112_nursery_usb
+            name: Steckdose Bad USB
+            icon: fapro:plug
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:stairs-down
+        heading: Keller
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#cellar"
+      - square: false
+        columns: 3
+        type: grid
+        cards:
+          - type: custom:restriction-card
+            restrictions:
+              pin:
+                code: 0403
+            card:
+              type: custom:button-card
+              template: hc_switch_card
+              entity: switch.socket_washing_machine
+              name: Waschmashine
+              variables:
+                power_entity: sensor.socket_washing_machine_derzeitiger_verbrauch
+
+          - type: custom:button-card
+            template: hc_switch_card
+            entity: switch.shellyplug_s_b49a1d
+            name: 3D-Drucker
+            icon: fapro:plug
+            variables:
+              power_entity: sensor.shellyplug_s_b49a1d_power
+
+          - type: custom:restriction-card
+            restrictions:
+              pin:
+                code: 0403
+            card:
+              type: custom:button-card
+              template: hc_switch_card
+              entity: switch.shellyplugsg3_8cbfeaa147dc
+              name: Kühlschrank
+              icon: fapro:plug
+              variables:
+                power_entity: sensor.shellyplugsg3_8cbfeaa147dc_power

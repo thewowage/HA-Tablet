@@ -1,0 +1,33 @@
+  hc_title_card_small:
+    show_label: true
+    styles:
+      grid:
+        - grid-template-areas: |
+            "n"
+            "l"
+      name:
+        - justify-self: start
+        - align-self: start
+        - font-weight: 400
+        - font-family: montserrat
+        - font-size: 1.3rem
+      label:
+        - justify-self: start
+        - font-family: montserrat
+        - opacity: 0.8
+        - font-size: 1rem
+        - font-weight: 400
+      card:
+        - padding: 15px 15px 15px 15px
+        - background: none
+        - animation: slide-in 1s ease-out, opacity 1s ease-in
+        - box-shadow: none
+    extra_styles: |
+      @keyframes slide-in {
+        0% {transform: translateX(-2%);}
+        100% {transform: translateX(0%);}
+      }
+      @keyframes opacity {
+        0% {opacity:0;}
+        100% {opacity:1;}
+      }

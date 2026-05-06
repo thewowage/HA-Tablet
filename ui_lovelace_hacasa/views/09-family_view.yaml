@@ -1,0 +1,213 @@
+title: family
+icon: mdi:person
+path: "family"
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: custom_card_header_left_back
+        name: Family
+        variables:
+          nav_path: "home"
+
+      - type: conditional
+        conditions:
+          - condition: user
+            users:
+              - 93b63ea3789847298e4689605129c943
+        card:
+          type: custom:stack-in-card
+          card_mod:
+            style: |
+              ha-card {
+                background: url('https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=230&center=lonlat:{{ state_attr('device_tracker.wowa_iphone', 'longitude') }},{{ state_attr('device_tracker.wowa_iphone', 'latitude') }}&zoom=14.0&marker=lonlat:{{ state_attr('device_tracker.wowa_iphone', 'longitude') }},{{ state_attr('device_tracker.wowa_iphone', 'latitude') }};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=e5d436d44cf746078490fd8656a55d8e');
+                background-size: cover;
+                background-blend-mode: overlay;
+                background-color: rgba(var(--rgb-card-background-color), 0.5);
+              }
+          cards:
+            - type: custom:mushroom-template-card
+              entity: person.wowa
+              primary: Wowa
+              secondary: >-
+                {{ iif(states(entity) == 'not_home', 'away', states(entity)) | title }} |
+                {{ states('sensor.wowa_iphone_geocoded_location') }}
+              picture: "{{ state_attr(entity, 'entity_picture') }}"
+              badge_icon: >-
+                {% set zone = iif(states(entity) == 'not_home', 'away', states(entity)) %}
+                {%- if 'home' in zone.lower() -%}
+                  mdi:home
+                {%- elif zone == 'home' -%}
+                  mdi:office-building
+                {%- else -%}
+                  mdi:home-export-outline
+                {%- endif -%}
+              badge_color: >-
+                {% set zone = iif(states(entity) == 'not_home', 'away', states(entity))
+                %}  {%- if 'home' in zone.lower() -%}
+                  green
+                {%- elif zone == 'MY_WORK' -%}
+                  blue
+                {%- else -%}
+                  red
+                {%- endif -%}
+              fill_container: true
+              multiline_secondary: false
+              layout: horizontal
+              tap_action:
+                action: more-info
+              card_mod:
+                style: |
+                  :host {
+                    height: 70px;
+                    --mush-icon-size: 60px;
+                    --secondary-text-color: var(--primary-text-color);
+                  }
+            - type: custom:mushroom-chips-card
+              chips:
+                - type: entity
+                  entity: sensor.wowa_iphone_steps
+                - type: entity
+                  entity: sensor.iphone_wg_batterie
+              card_mod:
+                style: |
+                  ha-card {
+                    --chip-box-shadow: 0px 0px 0px 0px;
+                    --chip-background: none;
+                  }
+
+      - type: custom:button-card
+        name: ----
+        template:
+          - custom_card_section_separator
+
+      - type: custom:stack-in-card
+        card_mod:
+          style: |
+            ha-card {
+              background: url('https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=230&center=lonlat:{{ state_attr('device_tracker.iphone_rg_2', 'longitude') }},{{ state_attr('device_tracker.iphone_rg_2', 'latitude') }}&zoom=14.0&marker=lonlat:{{ state_attr('device_tracker.iphone_rg_2', 'longitude') }},{{ state_attr('device_tracker.iphone_rg_2', 'latitude') }};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=e5d436d44cf746078490fd8656a55d8e');
+              background-size: cover;
+              background-blend-mode: overlay;
+              background-color: rgba(var(--rgb-card-background-color), 0.5);
+            }
+        cards:
+          - type: custom:mushroom-template-card
+            entity: person.rita
+            primary: Rita
+            secondary: >-
+              {{ iif(states(entity) == 'not_home', 'away', states(entity)) | title }} |
+              {{ states('sensor.rita_iphone_geocoded_location') }}
+            picture: "{{ state_attr(entity, 'entity_picture') }}"
+            badge_icon: >-
+              {% set zone = iif(states(entity) == 'not_home', 'away', states(entity)) %}
+              {%- if 'home' in zone.lower() -%}
+                mdi:home
+              {%- elif zone == 'home' -%}
+                mdi:office-building
+              {%- else -%}
+                mdi:home-export-outline
+              {%- endif -%}
+            badge_color: >-
+              {% set zone = iif(states(entity) == 'not_home', 'away', states(entity))
+              %}  {%- if 'home' in zone.lower() -%}
+                green
+              {%- elif zone == 'MY_WORK' -%}
+                blue
+              {%- else -%}
+                red
+              {%- endif -%}
+            fill_container: true
+            multiline_secondary: false
+            layout: horizontal
+            tap_action:
+              action: more-info
+            card_mod:
+              style: |
+                :host {
+                  height: 70px;
+                  --mush-icon-size: 60px;
+                  --secondary-text-color: var(--primary-text-color);
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: sensor.rita_iphone_steps
+              - type: entity
+                entity: sensor.iphone_rg_batterie
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-box-shadow: 0px 0px 0px 0px;
+                  --chip-background: none;
+                }
+
+      - type: custom:button-card
+        name: ----
+        template:
+          - custom_card_section_separator
+
+      - type: custom:stack-in-card
+        card_mod:
+          style: |
+            ha-card {
+              background: url('https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=230&center=lonlat:{{ state_attr('device_tracker.iphone_ag_2', 'longitude') }},{{ state_attr('device_tracker.iphone_ag_2', 'latitude') }}&zoom=14.0&marker=lonlat:{{ state_attr('device_tracker.iphone_ag_2', 'longitude') }},{{ state_attr('device_tracker.iphone_ag_2', 'latitude') }};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=e5d436d44cf746078490fd8656a55d8e');
+              background-size: cover;
+              background-blend-mode: overlay;
+              background-color: rgba(var(--rgb-card-background-color), 0.5);
+            }
+        cards:
+          - type: custom:mushroom-template-card
+            entity: person.alissa
+            primary: Alissa
+            secondary: >-
+              {{ iif(states(entity) == 'not_home', 'away', states(entity)) | title }} |
+              {{ states('sensor.alissa_iphone_geocoded_location') }}
+            picture: "{{ state_attr(entity, 'entity_picture') }}"
+            badge_icon: >-
+              {% set zone = iif(states(entity) == 'not_home', 'away', states(entity)) %}
+              {%- if 'home' in zone.lower() -%}
+                mdi:home
+              {%- elif zone == 'home' -%}
+                mdi:office-building
+              {%- else -%}
+                mdi:home-export-outline
+              {%- endif -%}
+            badge_color: >-
+              {% set zone = iif(states(entity) == 'not_home', 'away', states(entity))
+              %}  {%- if 'home' in zone.lower() -%}
+                green
+              {%- elif zone == 'MY_WORK' -%}
+                blue
+              {%- else -%}
+                red
+              {%- endif -%}
+            fill_container: true
+            multiline_secondary: false
+            layout: horizontal
+            tap_action:
+              action: more-info
+            card_mod:
+              style: |
+                :host {
+                  height: 70px;
+                  --mush-icon-size: 60px;
+                  --secondary-text-color: var(--primary-text-color);
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: sensor.alissa_iphone_steps
+              - type: entity
+                entity: sensor.iphone_ag_batterie
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-box-shadow: 0px 0px 0px 0px;
+                  --chip-background: none;
+                }
+
+  - type: "custom:button-card" # adding some space between card and navbar
+    color_type: blank-card
+    styles:
+      card:
+        - height: 150px

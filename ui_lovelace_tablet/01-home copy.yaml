@@ -1,0 +1,328 @@
+theme: Backend-selected
+title: Home
+path: home
+badges: []
+type: custom:grid-layout
+layout:
+  grid-template-columns: 24px 1fr 1fr 1fr 1fr 24px
+  grid-template-rows: auto
+  grid-gap: 16px
+  grid-template-areas: |
+    ". home_h chips chips chips . "
+    ". h_licht_1 h_licht_2 h_licht_3 h_licht_4 ."
+    ". h_temp_hum_out_label h_temp_hum_out_label h_slider_label h_slider_label ."
+    ". h_temp_out h_hum_out h_slider h_slider ."
+    ". h_temp_hum_in_label h_temp_hum_in_label h_slider h_slider ."
+    ". h_temp_in h_hum_in h_slider h_slider ."
+    ". h_alarm  h_alarm h_slider h_slider ."
+    ". h_script_1 h_script_2 h_script_3 h_script_4 ."
+    ". h_pop1 h_pop1 h_pop2 h_pop2 ."
+    ". h_pop3 h_pop3 h_pop4 h_pop4 ."
+
+cards:
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: home_h
+    name: Home
+
+  - !include /config/ui_lovelace_tablet/cards/chips_card.yaml
+
+  - type: custom:button-card
+    template: room_input_card
+    entity: input_boolean.wohnzimmer_auswahl
+    name: Wohnzimmer
+    view_layout:
+      grid-area: h_licht_1
+
+  - type: custom:button-card
+    template: room_input_card
+    entity: input_boolean.wohnzimmer_auswahl
+    name: Schlafzimmer
+    view_layout:
+      grid-area: h_licht_2
+
+  - type: custom:button-card
+    template: room_input_card
+    entity: input_boolean.wohnzimmer_auswahl
+    name: Kinderzimmer
+    view_layout:
+      grid-area: h_licht_3
+
+  - type: custom:button-card
+    template: room_input_card
+    entity: input_boolean.wohnzimmer_auswahl
+    name: Küche
+    view_layout:
+      grid-area: h_licht_4
+
+  #- type: custom:button-card
+  #  template: light_card
+  #  entity: light.deckenlicht_wohnzimmer
+  #  name: Wohnzimmer
+  #  variables:
+  #    enable_slider: True
+  #  view_layout:
+  #    grid-area: h_licht_1
+
+  #- type: custom:button-card
+  #  template: light_card
+  #  entity: light.deckenlicht_flur
+  #  name: Flur
+  #  variables:
+  #    enable_slider: True
+  #  view_layout:
+  #    grid-area: h_licht_2
+
+  #- type: custom:button-card
+  #  template: light_card
+  #  entity: light.deckenlicht_kuche
+  #  name: Küche
+  #  variables:
+  #    enable_slider: True
+  #  view_layout:
+  #    grid-area: h_licht_3
+
+  #- type: custom:button-card
+  #  template: light_card
+  #  entity: light.other_lights
+  #  name: Dach/Keller
+  #  view_layout:
+  #    grid-area: h_licht_4
+
+  #- type: custom:mushroom-number-card
+  #  entity: input_number.variable_global_helligkeit
+  #  icon: fapro:sun
+  #  icon_color: teal
+  #  view_layout:
+  #    grid-area: h_bright
+  #  name: Gl. Helligkeit
+  #  card_mod:
+  #    style:
+  #      mushroom-card .actions mushroom-light-brightness-control$: |
+  #        mushroom-slider {
+  #          --main-color: var(--accent-color) !important;
+  #        }
+
+  - type: custom:button-card
+    template: header_card_small
+    name: Außen
+    view_layout:
+      grid-area: h_temp_hum_out_label
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.outside_temperature_weather
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: h_temp_out
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.outside_humidity_weather
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: h_hum_out
+
+  - type: custom:button-card
+    template: header_card_small
+    name: Durchschnitt Innen
+    view_layout:
+      grid-area: h_temp_hum_in_label
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Temperatur
+    icon: fapro:thermometer
+    entity: sensor.average_home_temperature
+    variables:
+      label_icon: celsius
+    view_layout:
+      grid-area: h_temp_in
+
+  - type: custom:button-card
+    template: sensor_graph_card
+    name: Luftfeuchtigkeit
+    icon: fapro:humidity
+    entity: sensor.average_home_humidity
+    variables:
+      label_icon: percent
+    view_layout:
+      grid-area: h_hum_in
+
+  - type: custom:button-card
+    template: header_card_small
+    name: |
+      [[[            
+        if (states["input_select.dashboard_state_switch_card_helfer"].state === "Flora")
+          return 'Flora'
+        else if (states["input_select.dashboard_state_switch_card_helfer"].state === "Verbrauch")
+          return 'Stromverbrauch'
+        else 
+          return "Mango"
+      ]]]
+    view_layout:
+      grid-area: h_slider_label
+
+  - type: custom:mod-card
+    view_layout:
+      grid-area: h_slider
+    card_mod:
+      style: |
+        ha-card {
+          background: var(--ha-card-background);
+          border-top: 1px solid var(--background-color);
+          height: 100%;
+        }
+    card:
+      type: custom:state-switch
+      entity: input_select.dashboard_state_switch_card_helfer
+      states:
+        Flora:
+          type: custom:button-card
+          template: home_card_flora
+        Verbrauch:
+          type: custom:button-card
+          template: home_card_consumption
+
+  - type: custom:button-card
+    entity: alarm_control_panel.home_alarm
+    template: alarm_card
+    name: Security System
+    tap_action:
+      action: none
+    hold_action:
+      action: more-info
+    view_layout:
+      grid-area: h_alarm
+
+  - type: custom:button-card
+    entity: input_select.haus_anwesenheit
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.haus_anwesenheit
+        option: Abwesend
+    view_layout:
+      grid-area: h_script_1
+    icon: fapro:door
+    layout: icon_name
+    show_state: false
+    name: Haus verlassen
+    show_name: true
+    show_label: false
+    styles:
+      icon:
+        - width: 32px
+        - height: 32px
+        - color: var(--primary-text-color)
+        - padding: 12px
+        - margin-left: 12px
+      name:
+        - font-size: 14px
+        - padding-left: 0px
+        - font-weight: bold
+        - justify-self: start
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-template-columns: 64px 1fr
+
+  - type: custom:button-card
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.haus_anwesenheit
+        option: Wachhund
+    view_layout:
+      grid-area: h_script_2
+    icon: fapro:freddy
+    layout: icon_name
+    show_state: false
+    name: freddy Mode
+    show_name: true
+    show_label: false
+    styles:
+      icon:
+        - width: 32px
+        - height: 32px
+        - color: var(--primary-text-color)
+        - padding: 12px
+        - margin-left: 12px
+      name:
+        - font-size: 14px
+        - padding-left: 0px
+        - font-weight: bold
+        - justify-self: start
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-template-columns: 64px 1fr
+
+  - type: custom:button-card
+    entity: input_select.haus_modi
+    tap_action:
+      action: call-service
+      service: input_select.select_option
+      service_data:
+        entity_id: input_select.haus_modi
+        option: Nacht
+    icon: fapro:stars
+    view_layout:
+      grid-area: h_script_3
+    layout: icon_name
+    show_state: false
+    name: Gute Nacht
+    show_name: true
+    show_label: false
+    styles:
+      icon:
+        - width: 32px
+        - height: 32px
+        - color: var(--primary-text-color)
+        - padding: 12px
+        - margin-left: 12px
+      name:
+        - font-size: 14px
+        - padding-left: 0px
+        - font-weight: bold
+        - justify-self: start
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-template-columns: 64px 1fr
+
+  - type: custom:button-card
+    tap_action:
+      action: call-service
+      service: input_boolean.toggle
+      service_data:
+        entity_id: input_boolean.guten_morgen_mode_aktiviert
+    view_layout:
+      grid-area: h_script_4
+    icon: fapro:sun
+    layout: icon_name
+    show_state: false
+    name: Guten Morgen
+    show_name: true
+    show_label: false
+    styles:
+      icon:
+        - width: 32px
+        - height: 32px
+        - color: var(--primary-text-color)
+        - padding: 12px
+        - margin-left: 12px
+      name:
+        - font-size: 14px
+        - padding-left: 0px
+        - font-weight: bold
+        - justify-self: start
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-template-columns: 64px 1fr

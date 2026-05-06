@@ -1,0 +1,141 @@
+hc_sensor_card_big_wge:
+  #template: setup
+  variables:
+    state: |
+      [[[ 
+        var st = states[entity.entity_id].state;
+        var uni = ' ';
+        return `
+        ${st}<span style="font-size:
+      0.5em;opacity:0.7">${uni}</span>
+        `
+      ]]]
+  label: |
+    [[[  return variables.state ]]]
+  show_label: true
+  styles:
+    card:
+      - padding: 20px 20px 12px 14px
+      - height: 140px
+      - background: var(--ha-card-background)
+    grid:
+      - grid-template-areas: '"i" "l" "n"'
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - background: var(--opacity-contrast-100)
+      - padding: 7px
+      - border-radius: 50%
+      - margin: "-16px -16px 0 0"
+      - width: 30px
+      - height: 30px
+    icon:
+      - width: 24px
+      - height: 24px
+      - color: |
+          [[[
+            if (variables.update_state && states[variables.update_state].state == "on") return "var(--color-red)";
+            else return "var(--color-blue)";
+          ]]]
+    label:
+      - text-align: left
+      - justify-self: start
+      - font-size: 0,7em
+      - font-weight: 300
+      - color: var(--contrast20)
+      - margin-top: 10px
+    name:
+      - justify-self: start
+      - font-size: 11px
+      - color: var(--contrast20)
+      - opacity: "0.7"
+
+hc_sensor_card_big_person_wge:
+  #template: setup
+  show_entity_picture: true
+  variables:
+  label: |
+    [[[  return variables.state ]]]
+  show_label: true
+  styles:
+    card:
+      - padding: 12px
+      - height: 140px
+      - background: var(--ha-card-background)
+    grid:
+      - grid-template-areas: |
+          "i n" 
+          "l l"
+      - grid-template-columns: min-content 1fr
+      - grid-template-rows: min-content min-content
+      - column-gap: 10px
+    entity_picture:
+      - height: 100%
+      - width: 100%
+    img_cell:
+      - justify-self: start
+      - align-self: start
+      - background: none
+      - padding: 7px
+      - margin: "-2px 0 0 -10px"
+      - height: 55px
+      - width: 55px
+      - border-radius: 50%
+    label:
+      - text-align: left
+      - justify-self: start
+      - font-size: 0,7em
+      - font-weight: 300
+      - color: var(--subtext-color)
+      - margin-top: 10px
+    name:
+      - justify-self: start
+      - align-self: center
+      - font-size: 20px
+      - font-weight: 600
+
+custom_card_sensor_medium:
+  template: setup
+  variables:
+    state: |
+      [[[ 
+        var st = states[entity.entity_id].state;
+        var uni = ' %';
+        return `
+        ${parseFloat(st).toFixed(0)}<span style="font-size:
+      0.5em;opacity:0.7">${uni}</span>
+        `
+      ]]]
+  show_label: true
+  label: "[[[ return variables.state ]]]"
+  styles:
+    grid:
+      - grid-template-columns: 62px 1fr
+      - grid-template-areas: '"i l" "i n"'
+    icon:
+      - width: 24px
+      - color: var(--contrast20)
+    img_cell:
+      - justify-self: start
+      - width: 45px
+      - height: 45px
+      - background: var(--contrast1)
+      - border-radius: 50%
+      - margin-left: 7px
+    label:
+      - justify-self: start
+      - font-size: 20px
+      - padding-top: 4px
+      - font-weight: 500
+      - color: var(--contrast20)
+    card:
+      - height: 66px
+      - border-radius: 24px
+      - padding: 4px 20px 4px 4px
+      - background: var(--contrast2)
+    name:
+      - justify-self: start
+      - font-size: 11px
+      - color: var(--contrast20)
+      - opacity: 0.7
+      - padding-bottom: 7px

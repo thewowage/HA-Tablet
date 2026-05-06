@@ -1,0 +1,108 @@
+hc_switch_template_wge:
+  #template: hc_base_card
+  variables:
+    icon_on: fapro:toggle-on
+    icon_off: fapro:toggle-off
+    hc_card_color: "var(--color-yellow)"
+  icon: "[[[ return entity.attributes.icon ]]]"
+  show_label: false
+  show_state: true
+  tap_action:
+    action: toggle
+    haptic: success
+  hold_action:
+    action: more-info
+  state:
+    - value: "on"
+      styles:
+        card:
+          - background: "[[[ return variables.hc_card_color ]]]"
+        name:
+          - color: white
+        state:
+          - color: white
+        label:
+          - color: white
+    - value: "unavailable"
+      styles:
+        name:
+          - text-decoration: line-through
+        card:
+          - opacity: 0.6
+          - pointer-events: none
+      label: Unknown
+  custom_fields:
+    icon2:
+      card:
+        type: custom:button-card
+        icon: |
+          [[[
+            if (entity.state == "on"){
+              return "mdi:toggle-switch";
+            } else {
+              return "mdi:toggle-switch-off-outline";
+            }
+          ]]]
+        styles:
+          card:
+            #- background-color: var(--contrast1)
+            - width: 35px
+            - height: 35px
+          icon:
+            - width: 60%
+            - color: var(--icon-color)
+          img_cell:
+            - border-radius: 50%
+            - width: 28px
+            - height: 28px
+            #- align-self: start
+            #- margin-bottom: 10px
+            #- justify-self: end
+  styles:
+    grid:
+      - grid-template-areas: '"i s icon2" "n n n"'
+      - grid-template-columns: 20px 1fr 1fr
+      - grid-template-rows: 1fr min-content
+    icon:
+      - width: 20px
+      - margin-top: 7px
+      - color: |
+          [[[
+            if (entity.state == "on") return "var(--icon-color)";
+            else return "var(--primary-color)";
+          ]]]
+    img_cell:
+      - justify-content: flex-start
+      - box-shadow: var(--ha-card-box-shadow)
+    name:
+      - justify-self: start
+      - font-size: var(--font-size-secondary)
+      - font-weight: var(--font-weight-secondary)
+      - margin-bottom: 3px
+      - color: var(--primary-text-color)
+      - opacity: 0.7
+    card:
+      - height: 75px
+      - box-shadow: none
+      - border-radius: 24px
+      - padding: 12px 0 12px 14px
+      - z-index: 1
+    state:
+      - justify-self: start
+      - font-size: var(--font-size-primary)
+      - font-weight: var(--font-weight-primary)
+      - margin-top: 11px
+      - padding-left: 3px
+      - color: var(--subtext-color)
+    custom_fields:
+      icon2:
+        - margin-top: "-13px"
+        - justify-self: end
+        - align-self: center
+        - width: 30px
+        - padding-right: 10px
+        - color: |
+            [[[
+              if (entity.state == "on") return "var(--icon-color)";
+              else return "var(--primary-color)";
+            ]]]

@@ -1,0 +1,88 @@
+welcome_view_media_double:
+  show_name: false
+  show_icon: false
+  styles:
+    card:
+      - max-width: |
+          [[[
+            return states['input_boolean.guten_morgen_mode_aktiviert'].state === 'on'
+              ? '400px'
+              : '350px';
+          ]]]
+      - margin: 0
+      - padding: 0
+      - box-shadow: none
+      - background: null
+      - border-radius: 12px
+      - "--overlap": 16px
+    grid:
+      - grid-template-columns: 60px 1fr
+      - grid-template-areas: '"left right"'
+      - column-gap: 8px
+    custom_fields:
+      left:
+        - padding: 0
+        - z-index: 1
+      right:
+        - padding: 0
+        - margin-left: "-35px"
+        - z-index: 2
+  custom_fields:
+    left:
+      card:
+        type: custom:mini-media-player
+        entity: media_player.apple_tv_wohnzimmer
+        card_mod:
+          style: |
+            ha-card {
+              box-shadow: none !important;
+              background: transparent;
+              border: 0px;
+              transition: none;
+              border-radius: 4px;
+              max-width: 350px !important;
+            }
+            .mmp__bg {
+              background: var(--welcome-card-background) !important;
+            }
+        hide:
+          volume: true
+          source: true
+          power: true
+          controls: true
+          progress: true
+    right:
+      card:
+        type: custom:mini-media-player
+        entity: media_player.apple_tv_alissa
+        mini-media-player-background-opacity: 0
+        card_mod:
+          style: >
+            ha-card {
+              box-shadow: none !important;
+              background: transparent !important;
+              border: 0px;
+              transition: none;
+              border-radius: 4px;
+                max-width: 316px !important;
+            }
+            .mmp__bg {
+              background: transparent !important;
+            }
+            .mmp-player, .mmp-player__core, .entity_info,
+            .entity__info {
+              justify-content: flex-start !important;
+              text-align: left !important;
+              align-items: flex-start !important;
+            }
+            .entity__info {
+              width: 100% !important;
+            }
+            .entity__artwork {
+            border: 2px solid #FFF !important;
+            }
+        hide:
+          volume: true
+          source: true
+          power: true
+          progress: true

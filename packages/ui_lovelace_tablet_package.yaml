@@ -1,0 +1,537 @@
+input_boolean:
+  trigger_bewegung_im_flur_erkannt:
+    name: Bewegung Flur
+    initial: false
+
+  debug_mode:
+    name: Debug Modus
+
+  bewegungsmelder:
+    name: Bewegungsmelder
+
+  tur_fensterkontakte:
+    name: Tür- und Fensterkontakte
+
+  cinema_mode:
+    name: Cinema Mode
+    initial: false
+
+  cinema_mode_aktiviert:
+    name: Cinema Mode aktiviert
+    initial: false
+
+  night_mode:
+    name: Night Mode
+
+  night_mode_aktiviert:
+    name: Night Mode aktiviert
+
+  guten_morgen_mode:
+    name: Guten Morgen Mode
+    initial: false
+
+  guten_morgen_mode_aktiviert:
+    name: Guten Morgen Mode aktiviert
+    initial: false
+
+  urlaubsmodus:
+    name: Urlaubsmodus
+    initial: false
+
+  gaestemodus:
+    name: Gästemodus
+    initial: false
+
+  wochenendmodus:
+    name: Wochenende
+    initial: false
+
+  stromsparmodus:
+    name: Stromsparmodus
+    initial: false
+
+  media_player_auswahl_helfer:
+    name: Media Player Auswahl Helfer
+    initial: false
+
+input_select:
+  haus_anwesenheit:
+    name: Haus Anwesenheit
+    options:
+      - "Anwesend"
+      - "Abwesend"
+      - "Wachhund"
+
+  media_player_auswahl_helfer:
+    name: Media Player Auswahl Helfer
+    options:
+      - "Wohnzimmer"
+      - "Kinderzimmer"
+      - "Küche"
+      - "Schlafzimmer"
+
+  dashboard_state_switch_card_helfer:
+    name: Switch Card Helfer
+    options:
+      - Verbrauch
+      - Flora
+
+  haus_modi:
+    name: Haus Modus
+    options:
+      - Tag
+      - Nacht
+
+  cinema_mode:
+    name: Cinema Modus
+    options:
+      - Movie
+
+input_number:
+  variable_global_helligkeit:
+    name: "Helligkeit Global"
+    min: 0
+    max: 100
+    step: 1
+    unit_of_measurement: "%"
+
+automation:
+  - id: "1613080691432004"
+    alias: Bewegungsmelder startet Timer und Boolean
+    trigger:
+      - trigger: state
+        entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+        to: "on"
+    actions:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.trigger_bewegung_im_flur_erkannt
+      - action: timer.start
+        target:
+          entity_id: timer.timer_guten_morgen_mode_phase_2
+
+  - id: "1613080691632004"
+    alias: Timer abgelaufen schaltet Boolean aus
+    trigger:
+      - trigger: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.timer_guten_morgen_mode_phase_2
+    actions:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.trigger_bewegung_im_flur_erkannt
+
+  # -----------------------------------------------------------------------
+  # MOVIE SZENE
+  - id: "163284591104439"
+    alias: "Film Szene"
+    triggers:
+      - trigger: state
+        entity_id: input_boolean.cinema_mode
+        to: "on"
+    actions:
+      - action: light.turn_on
+        data:
+          rgb_color:
+            - 0
+            - 255
+            - 255
+          brightness_pct: 100
+        target:
+          entity_id: light.ambiente
+      - action: light.turn_off
+        entity_id:
+          - light.deckenlicht_wohnzimmer
+      - action: input_select.set_options
+        data:
+          entity_id: input_boolean.cinema_mode
+          options: Movie
+      - action: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.cinema_mode_aktiviert
+      #- action: scene.turn_on
+      #  target:
+      #    entity_id: scene.movie_scene
+    mode: single
+
+  - id: "1632845941104439"
+    alias: "Film Szene AUS"
+    trigger:
+      - trigger: state
+        entity_id:
+          - input_boolean.cinema_mode
+          - input_boolean.cinema_mode_aktiviert
+        to: "off"
+    action:
+      - action: light.turn_off
+        target:
+          entity_id: light.ambiente
+      #- action: light.turn_on
+      #  target:
+      #    entity_id: light.deckenlicht_wohnzimmer
+      - action: input_select.set_options
+        data:
+          entity_id: input_select.cinema_mode
+          options: ["Movie"]
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.cinema_mode_aktiviert
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.cinema_mode
+    mode: single
+
+  # -----------------------------------------------------------------------
+  # MORNING MODE SZENE
+  - id: "16328459156104439"
+    alias: "Guten Morgen Szene"
+    triggers:
+      - trigger: state
+        entity_id: input_boolean.guten_morgen_mode
+        to: "on"
+    actions:
+      - action: light.turn_on
+        #data:
+        #  rgb_color:
+        #    - 0
+        #    - 255
+        #    - 255
+        #  brightness_pct: 100
+        target:
+          entity_id: light.deckenlicht_flur
+      - action: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.cinema_mode
+      - action: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.cinema_mode_aktiviert
+      - action: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.guten_morgen_mode_aktiviert
+      #- action: scene.turn_on
+      #  target:
+      #    entity_id: scene.movie_scene
+    mode: single
+
+  - id: "16332456104439"
+    alias: "Lüften empfohlen – Innenluft deutlich schlechter"
+    trigger:
+      - trigger: state
+        entity_id:
+          - sensor.wohnzimmer_pm2_5
+          - sensor.fulda_petersberger_str_germany_luftqualitatsindex
+    condition:
+      - condition: template
+        value_template: >
+          {% set innen = states('sensor.wohnzimmer_pm2_5') | float(0) %}
+          {% set aussen = states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') | float(0) %}
+          {{ innen - aussen > 5 }}
+      - condition: time
+        after: "07:00:00"
+        before: "22:00:00"
+    actions:
+      - action: notify.mobile_app_wowa_iphone # <--- DEIN Notify-Dienst
+        data:
+          title: "Lüften empfohlen"
+          message: >
+            Innenluft ist deutlich schlechter als draußen.
+            Innen: {{ states('sensor.wohnzimmer_pm2_5') }},
+            Außen: {{ states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') }}.
+      # Optional: Popup auf bestimmtem Gerät öffnen
+      #- action: script.popup_luftvergleich_innen_aussen
+      #  data:
+      #    browser_id: tablet_wohnzimmer # <--- DEINE browser_mod-ID
+    mode: single
+
+timer:
+  timer_guten_morgen_mode_phase_2:
+    duration: "00:05:00"
+
+  # +----------------------------------------------------------------------------+
+  # | MORNING Briefing                                                           |
+  # +----------------------------------------------------------------------------+
+
+script:
+  tts_morning_briefing:
+    alias: "TTS Morning Briefing"
+    sequence:
+      - action: tts.google_translate_say
+        target:
+          entity_id: media_player.wohnzimmer
+        data:
+          message: "{{ states('sensor.tts_morning_briefing') }}"
+      # Optional: kurz warten, damit nichts abgeschnitten wird
+      - delay: "00:00:02"
+    mode: single
+
+  media_player_auswahl_input_select_wechseln:
+    alias: "Media Player: Auswahl Input Select wechseln"
+    fields:
+      mplayer:
+        description: "Option, die gesetzt werden soll"
+        example: "Wohnzimmer"
+    sequence:
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.media_player_auswahl_helfer
+        data:
+          option: "{{ mplayer }}"
+
+  media_player_auswahl_menue_anzeigen:
+    alias: "Media Player: Auswahl Menü anzeigen"
+    sequence:
+      - data: {}
+        target:
+          entity_id: input_boolean.media_player_auswahl_helfer
+        action: input_boolean.toggle
+    mode: single
+    icon: mdi:arrow-down-drop-circle-outline
+
+  dashboard_state_switch_card_durchwechseln:
+    alias: "Karte wechseln (Flora ↔ Verbrauch)"
+    sequence:
+      - variables:
+          aktuelle_option: "{{ states('input_select.dashboard_state_switch_card_helfer') }}"
+      - choose:
+          - conditions: "{{ aktuelle_option == 'Flora' }}"
+            sequence:
+              - action: input_select.select_option
+                target:
+                  entity_id: input_select.dashboard_state_switch_card_helfer
+                data:
+                  option: "Verbrauch"
+
+          - conditions: "{{ aktuelle_option == 'Verbrauch' }}"
+            sequence:
+              - action: input_select.select_option
+                target:
+                  entity_id: input_select.dashboard_state_switch_card_helfer
+                data:
+                  option: "Flora"
+
+        default:
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.dashboard_state_switch_card_helfer
+            data:
+              option: "Verbrauch"
+
+  popup_luftqualitaet_erdgeschoss:
+    alias: "Popup Luftqualität Erdgeschoss"
+    mode: single
+    fields:
+      browser_id:
+        description: "Browser ID von browser_mod"
+        example: "tablet_wohnzimmer"
+    sequence:
+      - action: browser_mod.popup
+        data:
+          browser_id: "{{ browser_id }}"
+          title: "Luftqualität Erdgeschoss"
+          size: normal
+          timeout: 0 # 0 = bleibt offen, bis du es schließt
+          dismissable: true
+          content:
+            type: vertical-stack
+            cards:
+              - type: entities
+                title: "Luftwerte Erdgeschoss"
+                entities:
+                  - entity: sensor.schimmel_indikator_wohnzimmer # <--- anpassen
+                    name: Luftqualität
+                  - entity: sensor.multisensor_wohnzimmer_temperatur # <--- anpassen
+                    name: Temperatur
+                  - entity: sensor.multisensor_wohnzimmer_luftfeuchtigkeit # <--- anpassen
+                    name: Luftfeuchte
+
+  popup_luftvergleich_innen_aussen:
+    alias: "Popup Luftvergleich Innen/Außen"
+    mode: single
+    fields:
+      browser_id:
+        description: "Browser ID von browser_mod"
+        example: "tablet_wohnzimmer"
+    sequence:
+      - action: browser_mod.popup
+        data:
+          browser_id: "{{ browser_id }}"
+          title: "Luftqualität Innen / Außen"
+          size: normal
+          timeout: 0
+          dismissable: true
+          content:
+            type: vertical-stack
+            cards:
+              - type: entities
+                title: Aktuelle Werte
+                entities:
+                  - entity: sensor.wohnzimmer_pm2_5
+                    name: Innen (PM2.5)
+                  - entity: sensor.fulda_petersberger_str_germany_luftqualitatsindex
+                    name: Außen (AQI)
+                  - entity: sensor.luftdiff_innen_aussen
+                    name: Differenz (Innen - Außen)
+                  - entity: sensor.luftdiff_status
+                    name: Status
+              # Ampelkarte – Mushroom Template Card (falls installiert)
+              - type: custom:mushroom-template-card
+                primary: >
+                  {% set diff = states('sensor.luftdiff_innen_aussen') | float(0) %}
+                  {% if diff > 5 %}
+                    Lüften empfohlen
+                  {% elif diff <= 0 %}
+                    Nicht lüften
+                  {% else %}
+                    Lüften nur bedingt sinnvoll
+                  {% endif %}
+                secondary: >
+                  Innen: {{ states('sensor.wohnzimmer_pm2_5') }} ·
+                  Außen: {{ states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') }}
+                icon: mdi:traffic-light
+                icon_color: >
+                  {% set diff = states('sensor.luftdiff_innen_aussen') | float(0) %}
+                  {% if diff > 5 %}
+                    red      {# Innen deutlich schlechter -> rot #}
+                  {% elif diff > 0 %}
+                    yellow   {# Innen etwas schlechter -> gelb #}
+                  {% else %}
+                    green    {# Außen schlechter/gleich -> grün (nicht lüften) #}
+                  {% endif %}
+
+template:
+  - sensor:
+      - name: "TTS Morning Briefing"
+        unique_id: tts_morning_briefing
+        state: >-
+          {% set datum = now().strftime('%A, %d.%m.%Y') %}
+          {% set temp = states('sensor.outdoor_temperature') %}
+          {% set wetter = states('weather.home') %}
+          {% set b_count = states('sensor.geburtstage_heute_anzahl')|int(0) %}
+          {% set b_names = states('sensor.geburtstage_heute') %}
+
+          Guten Morgen. Heute ist {{ datum }}.
+          {% if wetter != 'unknown' %}
+          Das aktuelle Wetter ist {{ wetter }} bei {{ temp }} Grad.
+          {% endif %}
+
+          {% if b_count > 0 %}
+          Heute haben {{ b_count }} Personen Geburtstag: {{ b_names }}.
+          {% else %}
+          Heute hat niemand in deinem Geburtstagskalender Geburtstag.
+          {% endif %}
+          Ich wünsche dir einen erfolgreichen Tag.
+
+  - sensor:
+      - name: "Luftdiff Innen Außen"
+        unique_id: sensor_luftdiff_innen_aussen
+        unit_of_measurement: "Index"
+        state: >
+          {% set innen = states('sensor.wohnzimmer_pm2_5') | float(0) %}
+          {% set aussen = states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') | float(0) %}
+          {{ innen - aussen }}
+      - name: "Luftdiff Status"
+        unique_id: sensor_luftdiff_status
+        icon: >
+          {% set diff = states('sensor.luftdiff_innen_aussen') | float(0) %}
+          {% if diff <= 0 %}
+            mdi:check-circle
+          {% elif diff < 5 %}
+            mdi:alert-circle
+          {% else %}
+            mdi:alert
+          {% endif %}
+        state: >
+          {% set diff = states('sensor.luftdiff_innen_aussen') | float(0) %}
+          {% if diff <= 0 %}
+            gut          {# Außen gleich/ besser -> OK #}
+          {% elif diff < 5 %}
+            ok           {# kleiner Unterschied #}
+          {% else %}
+            schlecht     {# Innen deutlich schlechter #}
+          {% endif %}
+
+  - sensor:
+      - name: "Luftfeuchtigkeit Wohnzimmer zu hoch"
+        unique_id: luftfeuchtigkeit_wohnzimmer_zu_hoch
+        state: >
+          {% set hum = states('sensor.multisensor_wohnzimmer_luftfeuchtigkeit') | float(0) %}
+          {% if hum > 60 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  - sensor:
+      - name: "Luftfeuchtigkeit Schlafzimmer zu hoch"
+        unique_id: luftfeuchtigkeit_schlafzimmer_zu_hoch
+        state: >
+          {% set hum = states('sensor.multisensor_schlafzimmer_luftfeuchtigkeit') | float(0) %}
+          {% if hum > 60 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  - sensor:
+      - name: "Luftfeuchtigkeit Kinderzimmer zu hoch"
+        unique_id: luftfeuchtigkeit_kinderzimmer_zu_hoch
+        state: >
+          {% set hum = states('sensor.multisensor_kinderzimmer_luftfeuchtigkeit') | float(0) %}
+          {% if hum > 60 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  - sensor:
+      - name: "Luftfeuchtigkeit Kuche zu hoch"
+        unique_id: luftfeuchtigkeit_kuche_zu_hoch
+        state: >
+          {% set hum = states('sensor.multisensor_kuche_luftfeuchtigkeit') | float(0) %}
+          {% if hum > 60 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  - sensor:
+      - name: "Luftfeuchtigkeit Badezimmer zu hoch"
+        unique_id: luftfeuchtigkeit_badezimmer_zu_hoch
+        state: >
+          {% set hum = states('sensor.multisensor_badezimmer_luftfeuchtigkeit') | float(0) %}
+          {% if hum > 60 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+
+  - binary_sensor:
+      - name: "Luftdiff Niedrig WZ"
+        unique_id: binary_sensor_luftdiff_niedrig_wz
+        device_class: problem
+        state: >
+          {% set innen = states('sensor.wohnzimmer_pm2_5') | float(0) %}
+          {% set aussen = states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') | float(0) %}
+          {# TRUE, wenn die Differenz gering ist (<5) #}
+          {{ (innen - aussen) | abs < 5 }}
+
+  - binary_sensor:
+      - name: "Luftdiff Mittel WZ"
+        unique_id: binary_sensor_luftdiff_mittel_wz
+        device_class: problem
+        state: >
+          {% set innen = states('sensor.wohnzimmer_pm2_5') | float(0) %}
+          {% set aussen = states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') | float(0) %}
+          {# TRUE, wenn die Differenz gering ist (<5) #}
+          {{ (innen - aussen) | abs < 10 }}
+
+  - binary_sensor:
+      - name: "Luftdiff Hoch WZ"
+        unique_id: binary_sensor_luftdiff_hoch_wz
+        device_class: problem
+        state: >
+          {% set innen = states('sensor.wohnzimmer_pm2_5') | float(0) %}
+          {% set aussen = states('sensor.fulda_petersberger_str_germany_luftqualitatsindex') | float(0) %}
+          {# TRUE, wenn die Differenz gering ist (<5) #}
+          {{ (innen - aussen) | abs < 20 }}

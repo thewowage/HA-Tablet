@@ -1,0 +1,72 @@
+scene_card:
+  show_icon: true
+  size: 32px
+  show_state: true
+  show_name: true
+  #tap_action:
+  #  action: call-service
+  #  service: input_boolean.toggle
+  #  service_data:
+  #    entity_id: input_boolean.cinema_mode
+  #hold_action:
+  #  action: more-info
+  styles:
+    grid:
+      - grid-template-rows: min-content min-content min-content
+      - grid-template-columns: 1fr
+      - grid-template-areas: '"i s" "n n" "desc desc" '
+    card:
+      - background-color: var(--ha-card-background)
+      - border-radius: 10px
+      - padding: 20px 15px
+      - margin-top: 0px
+    icon:
+      - margin-top: 0px
+      - margin-left: 0px
+      - text-align: left
+      - margin-bottom: 16px
+      - color: var(--primary-text-color)
+      - opacity: 1
+    name:
+      - text-align: left
+      - font-weight: bold
+      - font-size: 14px
+      - place-self: start
+      - margin-bottom: 8px
+      - color: var(--primary-text-color)
+    custom_fields:
+      desc:
+        - font-size: 14px
+        - line-height: 17px
+        - font-weight: regular
+        - opacity: 1
+        - text-align: left
+        - width: 100%
+        - white-space: normal
+        - height: 50px
+        - overflow: show
+        - color: var(--secondary-text-color)
+    state:
+      - color: var(--primary-text-color)
+      - font-weight: 300
+      - margin-top: "-16px"
+      - padding-top: 0px
+      - margin-right: 3px
+      - text-transform: uppercase
+      - color: var(--secondary-text-color)
+  custom_fields:
+    desc: "[[[ return variables.desc ]]]"
+  state:
+    - value: "on"
+      styles:
+        state:
+          - color: "#FFFFFF"
+        name:
+          - color: "#FFFFFF"
+        icon:
+          - color: "#FFFFFF"
+        card:
+          - background: var(--accent-color)
+        custom_fields:
+          desc:
+            - color: "#FFFFFF"
