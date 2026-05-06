@@ -1,0 +1,255 @@
+theme: Backend-selected
+title: Audio
+path: audio
+badges: []
+type: custom:grid-layout
+layout:
+  grid-template-columns: 200px 5px 1fr 1fr 1fr 1fr 1fr 24px
+  grid-template-rows: auto
+  grid-gap: 16px
+  grid-template-areas: >
+    "side_menu . audio_h audio_h audio_h audio_h audio_h . "
+    "side_menu . a_player a_player a_player a_player a_player ."
+    "side_menu . a_pl_h a_pl_h a_pl_h a_pl_h a_pl_h . "
+    "side_menu . a_p1 . . . . ."
+    "side_menu . a_pc_h a_pc_h a_pc_h a_pc_h a_pc_h . "
+    "side_menu . a_pc1 . . . . ."
+    "side_menu . a_r_h a_r_h a_r_h a_r_h a_r_h . "
+    "side_menu . a_r1 . . . . ."
+
+
+cards:
+  - type: custom:button-card
+    template: header_card
+    view_layout:
+      grid-area: audio_h
+    name: Audio
+
+      # MENÜ
+  - !include /config/ui_lovelace_tablet/cards/side_menu.yaml
+
+  - type: vertical-stack
+    cards:
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          grid-template-columns: auto auto 200px
+          grid-template-rows: 48px
+          grid-template-areas: |
+            ". . a_player_lsdrop"
+        cards:
+          - type: custom:button-card
+            view_layout:
+              grid-area: a_player_lsdrop
+            show_icon: false
+            name: Player wählen
+            tap_action:
+              action: call-service
+              service: script.media_player_auswahl_menue_anzeigen
+            styles:
+              card:
+                - height: 48px
+                - margin-top: 0
+                - border-radius: 16px
+                - display: inline-block
+                - margin-left: 8px
+              grid:
+                - grid-template-areas: '"n arrow"'
+                - grid-template-columns: auto 48px
+                - grid-template-rows: auto
+              name:
+                - justify-self: left
+                - padding-left: 18px
+                - line-height: 14px
+                - padding-top: 0px
+                - padding-bottom: 0px
+                - font-size: 14px
+                - font-weight: bold
+                - margin-top: 0px
+              icon:
+                - padding: 0px
+                - margin-top: 0px
+                - margin-left: "-8px"
+              custom_fields:
+                arrow:
+                  - padding-top: 0px
+                  - padding-bottom: 0px
+                  - margin-top: 0px
+            custom_fields:
+              arrow: |
+                [[[
+                  if (states["input_boolean.media_player_auswahl_helfer"].state === "on") 
+                    return `<ha-icon icon="mdi:chevron-up" style="width: 32px; height: 32px; margin-left: -2px;"></ha-icon>`
+                  else
+                    return `<ha-icon icon="mdi:chevron-down" style="width: 32px; height: 32px; margin-left: -2px;"></ha-icon>`
+                ]]]
+            card_mod:
+              style: |
+                ha-card {
+                  transition: none;
+                }
+
+                
+      - type: conditional
+        conditions:
+          - entity: input_boolean.media_player_auswahl_helfer
+            state: "on"
+        card:
+          type: horizontal-stack
+          cards:
+            ##############################################################################################################
+            ## WOHNZIMMER ################################################################################################
+            - type: custom:button-card
+              entity: null
+              template: audio_card_choise_card_modern_wge
+              layout: icon_name
+              name: Wohnzimmer
+              label: Spielt
+              entity: media_player.apple_tv_wohnzimmer
+              variables:
+                player_room: "Wohnzimmer"
+              tap_action:
+                action: call-service
+                service: script.media_player_auswahl_input_select_wechseln
+                service_data:
+                  mplayer: Wohnzimmer
+
+            ##############################################################################################################
+            ## KÜCHE #####################################################################################################
+            - type: custom:button-card
+              entity: null
+              template: audio_card_choise_card_modern_wge
+              layout: icon_name
+              name: Küche
+              label: Spielt
+              entity: media_player.apple_tv_wohnzimmer
+              variables:
+                player_room: "Küche"
+              tap_action:
+                action: call-service
+                service: script.media_player_auswahl_input_select_wechseln
+                service_data:
+                  mplayer: Küche
+
+            ##############################################################################################################
+            ## KINDERZIMMER ##############################################################################################
+            - type: custom:button-card
+              entity: null
+              template: audio_card_choise_card_modern_wge
+              layout: icon_name
+              name: Kinderzimmer
+              label: Spielt
+              entity: media_player.apple_tv_alissa
+              variables:
+                player_room: "Kinderzimmer"
+              tap_action:
+                action: call-service
+                service: script.media_player_auswahl_input_select_wechseln
+                service_data:
+                  mplayer: Kinderzimmer
+
+            ##############################################################################################################
+            ## SCHLAFZIMMER ##############################################################################################
+            - type: custom:button-card
+              entity: null
+              template: audio_card_choise_card_modern_wge
+              layout: icon_name
+              name: Schlafzimmer
+              label: Spielt
+              entity: media_player.apple_tv_alissa
+              variables:
+                player_room: "Schlafzimmer"
+              tap_action:
+                action: call-service
+                service: script.media_player_auswahl_input_select_wechseln
+                service_data:
+                  mplayer: Schlafzimmer
+
+
+      - type: custom:state-switch
+        entity: input_select.media_player_auswahl_helfer
+        states:
+
+          Wohnzimmer:
+            type: custom:mini-media-player
+            entity: media_player.apple_tv_wohnzimmer
+            artwork: material
+            hide:
+              icon: true
+              power: true
+            entities: null
+            card_mod:
+              style: |
+                ha-card {
+                  min-height: 240px
+                }
+                ha-card .mmp-player {
+                  width: 62%;
+                }
+
+          Küche:
+            type: custom:mini-media-player
+            entity: media_player.apple_tv_wohnzimmer
+            artwork: material
+            hide:
+              icon: true
+              power: true
+            entities: null
+            card_mod:
+              style: |
+                ha-card {
+                  min-height: 240px
+                }
+                ha-card .mmp-player {
+                  width: 62%;
+                }
+
+          Kinderzimmer:
+            type: custom:mini-media-player
+            entity: media_player.kinderzimmer
+            artwork: material
+            hide:
+              icon: true
+              power: true
+            entities: null
+            card_mod:
+              style: |
+                ha-card {
+                  min-height: 240px
+                }
+                ha-card .mmp-player {
+                  width: 62%;
+                }
+
+          Schlafzimmer:
+            type: custom:mini-media-player
+            neme: TV Schlafzimmer
+            entity: media_player.lg_webos_tv_32lq63006la
+            artwork: material
+            hide:
+              icon: true
+              power: true
+            #speaker_group:
+            #  platform: sonos
+            #  show_group_count: true
+            #  entities:
+            #    - entity_id: media_player.wohnzimmer
+            #      name: Sonos Wohnzimmer
+            #    - entity_id: media_player.wohnzimmer
+            #      name: Sonos Küche
+            #    - entity_id: media_player.kinderzimmer
+            #      name: Sonos Kinderzimmer
+            #    - entity_id: media_player.kinderzimmer
+            #      name: Sonos Schlafzimmer
+            entities: null
+            card_mod:
+              style: |
+                ha-card {
+                  min-height: 240px
+                }
+                ha-card .mmp-player {
+                  width: 62%;
+                }
+    view_layout:
+      grid-area: a_player
+

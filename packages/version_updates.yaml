@@ -1,0 +1,54 @@
+rest:
+  - authentication: basic
+    username: !secret github_username
+    password: !secret github_access_token
+    resource: https://api.github.com/repos/home-assistant/core/releases/latest
+    sensor:
+      name: hass_release_notes
+      value_template: >
+        {{ value_json.name }}
+      json_attributes:
+        - body
+    scan_interval: 21600
+
+  - resource: https://api.github.com/repos/home-assistant/core/releases?per_page=1
+    sensor:
+      name: hass_release_notes_beta
+      value_template: >
+        {{ value_json[0].name }}
+      json_attributes:
+        - body
+    scan_interval: 21600
+
+template:
+  - binary_sensor:
+      - name: "Home Assistant Update available"
+        unique_id: ha_update_available
+        device_class: update
+        state: >
+          {{ is_state('update.home_assistant_core_update', 'on')            
+            or is_state('update.home_assistant_operating_system_update','on')
+            or is_state('update.home_assistant_supervisor_update','on')
+          }}
+          
+command_line:
+  - sensor:
+      name: hacs_installed
+      command: |-
+        python3 << EOF
+        import os, json
+        installed = {"repositories": []}
+        PATH = "/config/.storage/hacs.repositories"
+        with open(PATH, "r", encoding="UTF-8") as file:
+            data = json.load(file)["data"]
+            for i in data:
+                if "installed" in data[i]:
+                    installed["repositories"] += [data[i]["full_name"]]
+            file.close()
+        print(json.dumps(installed))
+        EOF
+      value_template: >
+        {{ value_json.repositories | count }}
+      json_attributes:
+        - repositories
+      scan_interval: 86400

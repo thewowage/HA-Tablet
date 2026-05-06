@@ -1,0 +1,17 @@
+homeassistant:
+  customize:
+    person.wowa:
+      entity_picture: /local/person/wowa.png
+    #device_tracker.iphone_wg:
+    #  friendly_name: iPhone WG iOS
+    #  entity_picture: /local/device_tracker.svg
+    person.rita:
+      entity_picture: /local/person/rita.png
+    #device_tracker.iphone_rg:
+    #  friendly_name: iPhone RG iOS
+    #  entity_picture: /local/device_tracker.svg
+    person.alissa:
+      entity_picture: /local/person/alissa.png
+    #device_tracker.iphone_ag:
+    #  friendly_name: iPhone AG iOS
+    #  entity_picture: /local/device_tracker.svg

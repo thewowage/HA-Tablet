@@ -1,0 +1,87 @@
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    unique_id: wge_alarm_control
+    code: !secret code_alarm_panel
+    arming_states:
+      - armed_away
+      - armed_home
+    arming_time: 60 # Zeit bis SCHARF geschaltet
+    delay_time: 60 # Zeit von ERKENNEN bis AUSGELÖST
+    trigger_time: 60 # Zeit wie lange ALARM Zustand andauert
+    disarmed:
+      trigger_time: 0 # Zeit bis UNSCHARF geschaltet
+    armed_home: # Alarmfunktion für Nacht
+      arming_time: 0
+      delay_time: 0
+
+template:
+  - sensor:
+      - default_entity_id: sensor.alarm_state
+        state:
+          "{% if states('alarm_control_panel.home_alarm', 'armed_away') %}\n  aktiv
+          Away\n{% elif states('alarm_control_panel.home_alarm', 'armed_home') %}\n  aktiv
+          Home\n{% endif %}\n  deaktiviert"
+        name: alarm_state
+
+automation:
+  - id: efbb8954de8045aaaa0aa814bde515ae
+    alias: Alarm - Auslöser - Armed Away
+    description: Auslösen, wenn Bewegung erkannt wird und keiner zu Hause ist.
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.eingangstur_offnung
+        to: "on"
+      - trigger: state
+        entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+        to: "on"
+    condition:
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: armed_away
+    actions:
+      - delay: 00:00:05
+      - action: notify.mobile_app_wowa_iphone
+        data:
+          message: ALARM - Bewegung zu Hause registriert!
+
+  - id: cf28e7c217e0485596cffc8260be2745
+    alias: Alarm - Auslöser - Armed Home
+    description: Auslösen, wenn Bewegung erkannt wird.
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.eingangstur_offnung
+        to: "on"
+      - trigger: state
+        entity_id: binary_sensor.bewegungsmelder_treppenhaus_belegung
+        to: "on"
+    condition:
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: armed_home
+    actions:
+      - delay: 00:00:05
+      - action: notify.mobile_app_wowa_iphone
+        data:
+          message: ALARM! Bewegung im Treppenhaus registriert!
+      #- service: notify.mobile_app_nicolas_iphone
+      #  data:
+      #    message: Alarm Pending - Motion Detected!
+      - action: tts.google_translate_say
+        data:
+          entity_id: media_player.wohnzimmer
+          message: ALARM! Bewegung im Treppenhaus registriert!
+          language: "de"
+          cache: true
+        enabled: true
+
+  #- id: 118afb36f63a4d8390330c3cf9593d91
+  #  alias: Alarm - Deaktiviert
+  #  trigger:
+  #    - platform: state
+  #      entity_id: alarm_control_panel.home_alarm
+  #      to: disarmed
+  #  action:
+  #    - service: notify.mobile_app_wowa_iphone
+  #      data:
+  #        message: Alarm Deaktiviert

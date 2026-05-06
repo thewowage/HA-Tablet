@@ -1,0 +1,59 @@
+template:
+  - sensor:
+      # 1) Absolute Luftfeuchtigkeit im Wohnzimmer
+      - name: "Absolute Luftfeuchtigkeit Wohnzimmer"
+        unique_id: absolute_humidity_wohnzimmer
+        unit_of_measurement: "g/m³"
+        state: >
+          {% set t_raw = states('sensor.multisensor_wohnzimmer_temperatur') %}
+          {% set rh_raw = states('sensor.multisensor_wohnzimmer_luftfeuchtigkeit') %}
+
+          {% if t_raw in ['unknown','unavailable','none',''] 
+                or rh_raw in ['unknown','unavailable','none',''] %}
+            {{ none }}
+          {% else %}
+            {% set t = t_raw | float %}
+            {% set rh = rh_raw | float %}
+            {# Sättigungsdampfdruck in hPa #}
+            {% set es = 6.112 * (2.718281828 ** ((17.67 * t) / (t + 243.5))) %}
+            {# tatsächlicher Dampfdruck in hPa #}
+            {% set e_air = rh / 100 * es %}
+            {# absolute Feuchte in g/m³ #}
+            {{ (2.1674 * e_air / (273.15 + t)) | round(2) }}
+          {% endif %}
+
+      # 2) Absolute Luftfeuchtigkeit außen
+      - name: "Absolute Luftfeuchtigkeit Aussen"
+        unique_id: absolute_humidity_aussen
+        unit_of_measurement: "g/m³"
+        state: >
+          {% set t_raw = states('sensor.outside_temperature_weather') %}
+          {% set rh_raw = states('sensor.outside_humidity_weather') %}
+
+          {% if t_raw in ['unknown','unavailable','none',''] 
+                or rh_raw in ['unknown','unavailable','none',''] %}
+            {{ none }}
+          {% else %}
+            {% set t = t_raw | float %}
+            {% set rh = rh_raw | float %}
+            {% set es = 6.112 * (2.718281828 ** ((17.67 * t) / (t + 243.5))) %}
+            {% set e_air = rh / 100 * es %}
+            {{ (2.1674 * e_air / (273.15 + t)) | round(2) }}
+          {% endif %}
+
+      # 3) Differenz innen - außen
+      #    > 0  => drinnen feuchter
+      #    < 0  => draußen feuchter
+      - name: "Absolute Luftfeuchte Differenz innen-aussen"
+        unique_id: absolute_humidity_diff_in_out
+        unit_of_measurement: "g/m³"
+        state: >
+          {% set inside = states('sensor.absolute_luftfeuchtigkeit_wohnzimmer') %}
+          {% set outside = states('sensor.absolute_luftfeuchtigkeit_aussen') %}
+
+          {% if inside in ['unknown','unavailable','none',''] 
+                or outside in ['unknown','unavailable','none',''] %}
+            {{ none }}
+          {% else %}
+            {{ (inside | float - outside | float) | round(2) }}
+          {% endif %}

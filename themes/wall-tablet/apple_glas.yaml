@@ -1,0 +1,112 @@
+Apple Glass:
+  modes:
+    light:
+      primary-background-color: "#F5F7FB"
+      secondary-background-color: "#FFFFFF"
+      ha-card-background: "rgba(255,255,255,0.62)"
+
+      primary-text-color: "rgba(10,15,25,0.95)"
+      secondary-text-color: "rgba(10,15,25,0.58)"
+      disabled-text-color: "rgba(10,15,25,0.32)"
+
+      card-text-color: "rgba(10,15,25,0.95)"
+      card-subtext-color: "rgba(10,15,25,0.58)"
+
+      sidebar-background-color: "rgba(245,247,251,0.92)"
+      sidebar-text-color: "rgba(10,15,25,0.70)"
+      sidebar-icon-color: "rgba(10,15,25,0.55)"
+      sidebar-selected-text-color: "rgba(10,15,25,0.95)"
+      sidebar-selected-icon-color: "var(--label-badge-blue)"
+      sidebar-selected-background-color: "rgba(10,15,25,0.08)"
+
+      card-glass-bg: "rgba(255,255,255,0.42)"
+      card-glass-border: "rgba(255,255,255,0.55)"
+      card-glass-reflection-start: "rgba(255,255,255,0.75)"
+      card-glass-reflection-mid: "rgba(255,255,255,0.28)"
+
+    dark:
+      primary-background-color: "#0B1020"
+      secondary-background-color: "#11182A"
+      ha-card-background: "rgba(32,37,54,0.72)"
+
+      primary-text-color: "rgba(255,255,255,0.96)"
+      secondary-text-color: "rgba(255,255,255,0.58)"
+      disabled-text-color: "rgba(255,255,255,0.32)"
+
+      card-text-color: "rgba(255,255,255,0.96)"
+      card-subtext-color: "rgba(255,255,255,0.58)"
+
+      sidebar-background-color: "rgba(16,22,38,0.94)"
+      sidebar-text-color: "rgba(255,255,255,0.70)"
+      sidebar-icon-color: "rgba(255,255,255,0.58)"
+      sidebar-selected-text-color: "#FFFFFF"
+      sidebar-selected-icon-color: "var(--label-badge-blue)"
+      sidebar-selected-background-color: "rgba(255,255,255,0.12)"
+
+      card-glass-bg: "rgba(32,37,54,0.42)"
+      card-glass-border: "rgba(255,255,255,0.12)"
+      card-glass-reflection-start: "rgba(255,255,255,0.28)"
+      card-glass-reflection-mid: "rgba(255,255,255,0.08)"
+
+  # Dynamische Grundfarben
+  apple-card-glow-rgb: "120,180,255"
+  apple-card-graph-rgb: "120,180,255"
+
+  label-badge-blue: "rgba(120,180,255,0.95)"
+  label-badge-green: "rgba(120,255,180,0.95)"
+  label-badge-yellow: "rgba(255,209,102,0.95)"
+  label-badge-red: "rgba(236,99,55,0.95)"
+
+  # Button/Card Fonts
+  card-glass-font-size-primary: "14px"
+  card-glass-font-size-secondary: "12px"
+  card-glass-font-weight-primary: "800"
+  card-glass-font-weight-secondary: "700"
+  card-glass-font-size-sensor: "26px"
+
+  # HA Standard-Fixes
+  text-primary-color: "var(--primary-text-color)"
+  text-medium-color: "var(--secondary-text-color)"
+  app-header-text-color: "var(--primary-text-color)"
+
+  paper-item-icon-color: "var(--secondary-text-color)"
+  #paper-item-icon-active-color: "rgba(var(--apple-card-glow-rgb),1)"
+  paper-item-icon-active-color: rgba(120,180,255,1)
+
+  paper-slider-active-color: "rgba(var(--apple-card-glow-rgb),0.95)"
+  paper-slider-knob-color: "#FFFFFF"
+  paper-slider-container-color: "rgba(255,255,255,0.12)"
+
+  # Karten
+  ha-card-border-radius: "22px"
+  ha-card-border-width: "0px"
+  ha-card-box-shadow: "none"
+
+  # Theme-Variablen
+  card-height: 100px
+  card-height-small: 88px
+  card-height-medium: 100px
+  card-height-large: 116px
+
+  card-padding: 14px 16px
+  card-padding-small: 12px 14px
+  card-padding-medium: 14px 16px
+  card-padding-large: 18px
+
+  card-radius: 22px
+
+  card-font-size-primary: 16px
+  card-font-size-secondary: 13px
+  card-font-size-sensor: 24px
+
+  card-icon-size: 22px
+  card-icon-cell-size: 34px
+
+  # Inputs / Dialoge
+  input-fill-color: "rgba(255,255,255,0.08)"
+  input-ink-color: "var(--primary-text-color)"
+  input-label-ink-color: "var(--secondary-text-color)"
+
+  # Header
+  app-header-background-color: "var(--primary-background-color)"
+  #app-header-text-color: "var(--primary-text-color)"
