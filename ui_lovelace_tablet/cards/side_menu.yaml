@@ -306,7 +306,7 @@ card:
                     [[[
                       return location.pathname.includes("audio")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "rgba(255,255,255,0.45)";
+                        : "var(--primary-text-color)";
                     ]]]
               custom_fields:
                 indicator:
@@ -335,7 +335,7 @@ card:
                     [[[
                       return location.pathname.includes("szenen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "rgba(255,255,255,0.45)";
+                        : "var(--primary-text-color)";
                     ]]]
               custom_fields:
                 indicator:
@@ -364,7 +364,7 @@ card:
                     [[[
                       return location.pathname.includes("einstellungen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "rgba(255,255,255,0.45)";
+                        : "var(--primary-text-color)";
                     ]]]
               custom_fields:
                 indicator:
