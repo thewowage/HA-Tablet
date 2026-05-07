@@ -322,28 +322,8 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("audio") ? "block" : "none"; ]]]
-            custom_fields:
-              indicator: <div class="side-indicator"></div>
-            extra_styles: |
-              .side-indicator {
-                width: 5px;
-                height: 24px;
-                border-radius: 999px;
-                background: rgba(var(--card-color-rgb,120,180,255),1);
-                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
-                animation: sidePulse 1.8s ease-in-out infinite;
-              }
-
-              @keyframes sidePulse {
-                0%, 100% {
-                  opacity: 0.55;
-                  transform: scaleY(0.72);
-                }
-                50% {
-                  opacity: 1;
-                  transform: scaleY(1);
-                }
-              }
+            custom_fields: *indicator
+            extra_styles: *indicator_style
 
           - type: custom:button-card
             icon: phu:scene-concentrate
@@ -371,28 +351,8 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("szenen") ? "block" : "none"; ]]]
-            custom_fields:
-              indicator: <div class="side-indicator"></div>
-            extra_styles: |
-              .side-indicator {
-                width: 5px;
-                height: 24px;
-                border-radius: 999px;
-                background: rgba(var(--card-color-rgb,120,180,255),1);
-                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
-                animation: sidePulse 1.8s ease-in-out infinite;
-              }
-
-              @keyframes sidePulse {
-                0%, 100% {
-                  opacity: 0.55;
-                  transform: scaleY(0.72);
-                }
-                50% {
-                  opacity: 1;
-                  transform: scaleY(1);
-                }
-              }
+            custom_fields: *indicator
+            extra_styles: *indicator_style
 
           - type: custom:button-card
             icon: fapro:toggle-on
@@ -420,25 +380,5 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
-            custom_fields:
-              indicator: <div class="side-indicator"></div>
-            extra_styles: |
-              .side-indicator {
-                width: 5px;
-                height: 24px;
-                border-radius: 999px;
-                background: rgba(var(--card-color-rgb,120,180,255),1);
-                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
-                animation: sidePulse 1.8s ease-in-out infinite;
-              }
-
-              @keyframes sidePulse {
-                0%, 100% {
-                  opacity: 0.55;
-                  transform: scaleY(0.72);
-                }
-                50% {
-                  opacity: 1;
-                  transform: scaleY(1);
-                }
-              }
+            custom_fields: *indicator
+            extra_styles: *indicator_style
