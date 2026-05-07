@@ -198,8 +198,8 @@ philips_air_purifier_card_modern_wge:
             - background: rgba(0,0,0,0.12)
 
           thumb:
-            - height: 30%
-            - width: 3px
+            - height: 14px
+            - width: 14px
             - position: absolute
             - right: 7px
             - top: 10px
