@@ -52,8 +52,8 @@ card:
             border-right: 1px solid var(--sidebar-border);
 
             box-shadow:
-              12px 0 30px rgba(0,0,0,0.25),
-              inset -1px 0 0 rgba(255,255,255,0.06);
+              12px 0 30px var(--sidebar-shadow-color),
+              inset -1px 0 0 var(--sidebar-inset-color);
 
             overflow: hidden !important;
           }
