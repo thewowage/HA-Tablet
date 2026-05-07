@@ -52,6 +52,9 @@ Apple Glass:
       card-glass-reflection-start: "rgba(255,255,255,0.28)"
       card-glass-reflection-mid: "rgba(255,255,255,0.08)"
 
+      # Sidebar
+      sidebar-background: "rgba(32,37,54,0.42)"
+
   # Dynamische Grundfarben
   apple-card-glow-rgb: "120,180,255"
   apple-card-graph-rgb: "120,180,255"
