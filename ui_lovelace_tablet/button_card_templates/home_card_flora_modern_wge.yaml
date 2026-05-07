@@ -23,7 +23,7 @@ home_card_flora_modern_wge:
       - overflow: hidden
       - border: none
       - background: >
-          [[[ url('${variables.image} )
+          [[[ url('${variables.image}')
             `;
           ]]]
       - background-size: 100%
