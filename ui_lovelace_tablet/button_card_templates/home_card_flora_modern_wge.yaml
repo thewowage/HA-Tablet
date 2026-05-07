@@ -26,7 +26,7 @@ home_card_flora_modern_wge:
           [[[
             return `url('${variables.image}')`;
           ]]]
-      - background-size: 90%
+      - background-size: 80%
       - background-size: cover
       - background-position: center
 
