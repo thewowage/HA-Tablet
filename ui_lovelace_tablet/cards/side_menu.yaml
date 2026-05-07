@@ -284,7 +284,6 @@ card:
                 background: rgba(var(--card-color-rgb,120,180,255),1);
                 animation: sidePulse 1.8s ease-in-out infinite;
               }
-
               @keyframes sidePulse {
                 0%, 100% {
                   opacity: 0.55;
