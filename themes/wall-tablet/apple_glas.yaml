@@ -48,15 +48,6 @@ Apple Glass:
       card-glass-reflection-start: "rgba(255,255,255,0.28)"
       card-glass-reflection-mid: "rgba(255,255,255,0.08)"
 
-      background-color: "#202631"
-      background-color-2: "#3a3c55"
-      background: "var(--background-color)"
-     # primary-background-color: "var(--background-color)"
-      #secondary-background-color: "var(--background-color)"
-      markdown-code-background-color: "var(--background-color)"
-      welcome-card-background: "rgba(255,255,255,0.1)"
-      #welcome-screen-img-bg:
-
   # Dynamische Grundfarben
   apple-card-glow-rgb: "120,180,255"
   apple-card-graph-rgb: "120,180,255"
