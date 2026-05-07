@@ -45,8 +45,6 @@ card:
                 rgba(255,255,255,0.03)
               ),
               rgba(32,37,54,0.42);
-
-            overflow: hidden !important;
           }
 
           /* verhindert JEGLICHES Scrollen im Menü */
