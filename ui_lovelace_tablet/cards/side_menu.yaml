@@ -362,11 +362,6 @@ card:
             styles:
               <<: *sidebar_button
               icon:
-                - width: 28px
-                - height: 28px
-                - justify-self: center
-                - align-self: center
-                - margin: 0
                 - color: >
                     [[[
                       return location.pathname.includes("einstellungen")
