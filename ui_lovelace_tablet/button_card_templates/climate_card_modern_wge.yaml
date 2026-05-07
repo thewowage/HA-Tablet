@@ -50,38 +50,17 @@ climate_card_modern_wge:
             const t = Number(entity.attributes.current_temperature || 20);
             const cold = variables.cold_temp || 18;
             const hot = variables.hot_temp || 25;
-
             const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
 
-            // kalt = blau, mittel = weich neutral/warm, heiß = orange/rot
-            const stops = [
-              { p: 0.00, c: [80, 170, 255] },
-              { p: 0.50, c: [255, 209, 102] },
-              { p: 1.00, c: [236, 99, 55] }
-            ];
-
-            let a = stops[0];
-            let b = stops[stops.length - 1];
-
-            for (let i = 0; i < stops.length - 1; i++) {
-              if (ratio >= stops[i].p && ratio <= stops[i + 1].p) {
-                a = stops[i];
-                b = stops[i + 1];
-                break;
-              }
-            }
-
-            const localRatio = (ratio - a.p) / (b.p - a.p);
-
-            const r = Math.round(a.c[0] + (b.c[0] - a.c[0]) * localRatio);
-            const g = Math.round(a.c[1] + (b.c[1] - a.c[1]) * localRatio);
-            const bl = Math.round(a.c[2] + (b.c[2] - a.c[2]) * localRatio);
+            const r = Math.round(80 + ratio * 175);
+            const g = Math.round(170 - ratio * 70);
+            const b = Math.round(255 - ratio * 180);
 
             return `
               linear-gradient(
                 145deg,
-                rgba(${r},${g},${bl},0.30),
-                rgba(${r},${g},${bl},0.10)
+                rgba(${r},${g},${b},0.28),
+                rgba(${r},${g},${b},0.08)
               ),
               var(--ha-card-background)
             `;
