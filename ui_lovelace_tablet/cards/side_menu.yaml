@@ -245,7 +245,7 @@ card:
                 - height: 58px
                 - margin: 8px auto
                 - border-radius: 18px
-                - background: rgba(255,255,255,0.06)
+                - background: transparent
                 #- box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
                 - position: relative
               img_cell:
