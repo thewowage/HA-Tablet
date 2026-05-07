@@ -46,9 +46,6 @@ card:
                   rgba(${color},0.10)
                 ),
                 var(--ha-card-background)
-              `
-              : "var(--ha-card-background)";
-              var(--sidebar-background-color);
 
             overflow: hidden !important;
           }
