@@ -15,7 +15,7 @@ home_card_consumption_modern_wge:
 
   styles:
     card:
-      - height: 280px
+      - height: 260px
       - padding: 18px
       - border-radius: 24px
       - position: relative
