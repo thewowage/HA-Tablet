@@ -302,25 +302,7 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/audio
             styles:
-              grid:
-                - grid-template-areas: '"indicator i spacer"'
-                - grid-template-columns: 22px 1fr 22px
-                - grid-template-rows: 1fr
-              card:
-                - width: 108px
-                - height: 58px
-                - margin: 8px auto
-                - border-radius: 18px
-                - background: rgba(255,255,255,0.06)
-                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
-                - position: relative
-              img_cell:
-                - grid-area: i
-                - justify-self: center
-                - align-self: center
-                - width: 100%
-                - height: 100%
-                - margin: 0
+              <<: *sidebar_button
               icon:
                 - width: 28px
                 - height: 28px
@@ -369,25 +351,7 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/szenen
             styles:
-              grid:
-                - grid-template-areas: '"indicator i spacer"'
-                - grid-template-columns: 22px 1fr 22px
-                - grid-template-rows: 1fr
-              card:
-                - width: 108px
-                - height: 58px
-                - margin: 8px auto
-                - border-radius: 18px
-                - background: rgba(255,255,255,0.06)
-                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
-                - position: relative
-              img_cell:
-                - grid-area: i
-                - justify-self: center
-                - align-self: center
-                - width: 100%
-                - height: 100%
-                - margin: 0
+              <<: *sidebar_button
               icon:
                 - width: 28px
                 - height: 28px
@@ -436,25 +400,7 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/einstellungen
             styles:
-              grid:
-                - grid-template-areas: '"indicator i spacer"'
-                - grid-template-columns: 22px 1fr 22px
-                - grid-template-rows: 1fr
-              card:
-                - width: 108px
-                - height: 58px
-                - margin: 8px auto
-                - border-radius: 18px
-                - background: rgba(255,255,255,0.06)
-                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
-                - position: relative
-              img_cell:
-                - grid-area: i
-                - justify-self: center
-                - align-self: center
-                - width: 100%
-                - height: 100%
-                - margin: 0
+              <<: *sidebar_button
               icon:
                 - width: 28px
                 - height: 28px
