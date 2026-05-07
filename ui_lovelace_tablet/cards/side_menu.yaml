@@ -52,10 +52,6 @@ card:
 
             border-right: 1px solid var(--card-glass-border, rgba(255,255,255,0.10));
 
-            box-shadow:
-              12px 0 30px rgba(var(--card-color-rgb,120,180,255),0.12),
-              var(--card-shadow, 0 3px 10px rgba(0,0,0,0.16));
-
             overflow: hidden !important;
           }
 
