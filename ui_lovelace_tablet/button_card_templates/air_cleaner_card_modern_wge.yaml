@@ -124,7 +124,7 @@ air_cleaner_card_modern_wge:
         entity: "[[[ return entity.entity_id ]]]"
         styles:
           card:
-            - height: 10px
+            - height: var(--card-slider-height)
             - box-shadow: none
             - padding: 0
             - background: rgba(255,255,255,0.08)
