@@ -16,7 +16,7 @@ home_card_flora_modern_wge:
 
   styles:
     card:
-      - height: 263px
+      - height: 262px
       - padding: 18px
       - border-radius: 26px
       - position: relative
