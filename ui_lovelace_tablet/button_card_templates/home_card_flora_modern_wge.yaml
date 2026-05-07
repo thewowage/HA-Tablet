@@ -31,7 +31,6 @@ home_card_flora_modern_wge:
       - background-repeat: no-repeat
     grid:
       - grid-template-areas: |
-          "title"
           "label_mango"
           "mango"
           "label_strelitzie"
@@ -51,11 +50,11 @@ home_card_flora_modern_wge:
         - top: 16px
         - right: 16px
 
-      title:
-        - font-size: 22px
-        - font-weight: 800
-        - color: white
-        - z-index: 3
+      #title:
+      #  - font-size: 22px
+      #  - font-weight: 800
+      #  - color: white
+      #  - z-index: 3
 
       label_mango:
         - font-size: 11px
