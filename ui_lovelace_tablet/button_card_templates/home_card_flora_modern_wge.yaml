@@ -209,12 +209,12 @@ home_card_flora_modern_wge:
             days_entity: "sensor.mangobaum_tage_seit_giessen"
           },
           {
-            entity: "sensor.strelitzie",
-            days_entity: "sensor.strelitzie_tage_seit_giessen"
+            entity: "sensor.mangobaum",
+            days_entity: "sensor.mangobaum_tage_seit_giessen"
           },
           {
-            entity: "sensor.monstera",
-            days_entity: "sensor.monstera_tage_seit_giessen"
+            entity: "sensor.mangobaum",
+            days_entity: "sensor.mangobaum_tage_seit_giessen"
           }
         ];
 
