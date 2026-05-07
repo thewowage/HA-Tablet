@@ -202,7 +202,7 @@ mediaplayer_tv_card_modern_wge:
                 return 'center / cover no-repeat url("/local/images/music/youtube_media.gif")';
               }
 
-              if (appId === 'com.google.ios.neflix') {
+              if (appId === 'com.google.ios.netflix') {
                 return 'center / cover no-repeat url("/local/images/music/netflix_media.jpg")';
               }
 
