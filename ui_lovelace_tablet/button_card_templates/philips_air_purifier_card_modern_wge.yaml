@@ -177,7 +177,7 @@ philips_air_purifier_card_modern_wge:
             - box-shadow: none
             - padding: 0
             - background: rgba(0,0,0,0.12)
-            - border-radius: 10px
+            - border-radius: 999px
             - touch-action: pan-y
 
           progress:
