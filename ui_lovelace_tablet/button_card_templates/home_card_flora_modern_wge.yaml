@@ -289,11 +289,13 @@ home_card_flora_modern_wge:
       25% { transform: translateY(-2px) rotate(-8deg); }
       75% { transform: translateY(-2px) rotate(8deg); }
     }
+
     .plant-status-wrap {
     display:flex;
     align-items:center;
     justify-content:center;
     }
+
     .plant-dot {
       width: 12px;
       height: 12px;
@@ -303,6 +305,7 @@ home_card_flora_modern_wge:
         0 0 18px currentColor;
       animation: plantPulse 2s ease-in-out infinite;
     }
+    
     @keyframes plantPulse {
       0%,100% {
         transform: scale(1);
