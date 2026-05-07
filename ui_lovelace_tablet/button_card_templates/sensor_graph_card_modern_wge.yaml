@@ -48,11 +48,6 @@ sensor_graph_card_modern_wge:
               var(--ha-card-background)
             `;
           ]]]
-      - box-shadow: >
-          [[[
-            const color = variables.card_color || variables.graph_color || "120,180,255";
-            return `0 6px 18px rgba(${color},0.16)`;
-          ]]]
 
     name:
       - justify-self: start

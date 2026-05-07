@@ -48,15 +48,6 @@ scene_card_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const active = entity?.state === "on";
-            const color = variables.card_color || "255,209,102";
-
-            return active
-              ? `0 6px 18px rgba(${color},0.22)`
-              : "var(--card-shadow)";
-          ]]]
 
     icon:
       - justify-self: start
