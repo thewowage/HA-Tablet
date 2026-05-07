@@ -244,10 +244,9 @@ climate_card_modern_wge:
           - entity: "[[[ return variables.graph_entity ]]]"
         line_width: 2
         line_color: >
-          [[[
-            const climate = states["climate.wohnzimmer"];
-            const t = Number(climate?.attributes?.current_temperature || 20);
 
+          [[[
+            const t = Number(entity.attributes.current_temperature || 20);
             const cold = variables.cold_temp || 18;
             const hot = variables.hot_temp || 25;
 
