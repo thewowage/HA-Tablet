@@ -276,7 +276,7 @@ card:
               indicator: <div class="side-indicator"></div>
             extra_styles: &indicator_style |
               .side-indicator {
-                width: 34px;
+                width: 30px;
                 height: 4px;
                 border-radius: 999px;
                 background: rgba(var(--card-color-rgb,120,180,255),1);
@@ -286,7 +286,7 @@ card:
               @keyframes sidePulse {
                 0%, 100% {
                   opacity: 0.55;
-                  transform: scaleY(1.72);
+                  transform: scaleY(0.72);
                 }
                 50% {
                   opacity: 1;
