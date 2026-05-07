@@ -366,6 +366,37 @@ philips_air_purifier_card_modern_wge:
     action: more-info
 
   extra_styles: |
+    ha-card {
+      transition:
+        background 0.65s ease,
+        box-shadow 0.65s ease,
+        filter 0.65s ease,
+        transform 0.18s ease;
+    }
+
+    [[[ 
+      const v = Number(states[variables.pm25_sensor]?.state) || 0;
+
+      if (v > 35 && entity.state === "on") {
+        return `
+          ha-card {
+            animation: badAirPulse 1.8s ease-in-out infinite;
+          }
+
+          @keyframes badAirPulse {
+            0%, 100% {
+              filter: brightness(1);
+            }
+            50% {
+              filter: brightness(1.12);
+            }
+          }
+        `;
+      }
+
+      return "";
+    ]]]
+
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
