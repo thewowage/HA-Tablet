@@ -276,7 +276,7 @@ card:
               indicator: <div class="side-indicator"></div>
             extra_styles: &indicator_style |
               .side-indicator {
-                width: 22px;
+                width: 34px;
                 height: 4px;
                 border-radius: 999px;
                 background: rgba(var(--card-color-rgb,120,180,255),1);
