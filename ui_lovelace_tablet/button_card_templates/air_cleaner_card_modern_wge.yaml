@@ -125,11 +125,6 @@ air_cleaner_card_modern_wge:
         styles:
           card:
             - height: 10px
-            - box-shadow: >
-                [[[
-                  const color = variables.card_color || "120,180,255";
-                  return `0 0 12px rgba(${color},0.22)`;
-                ]]]
             - padding: 0
             - background: rgba(255,255,255,0.08)
             - border-radius: 999px
