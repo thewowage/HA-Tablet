@@ -173,7 +173,7 @@ philips_air_purifier_card_modern_wge:
         entity: "[[[ return entity.entity_id ]]]"
         styles:
           card:
-            - height: 10px
+            - height: 15px
             - box-shadow: none
             - padding: 0
             - background: rgba(0,0,0,0.12)
