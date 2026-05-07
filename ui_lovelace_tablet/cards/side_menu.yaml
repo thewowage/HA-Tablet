@@ -258,8 +258,8 @@ card:
                 - color: >
                     [[[
                       return location.pathname.includes("home")
-                        ? "var(--primary-text-color)"
-                        : "rgba(255,255,255,0.45)";
+                        ? "rgba(var(--card-color-rgb,120,180,255),1)"
+                        : "var(--primary-text-color)";
                     ]]]
               custom_fields:
                 indicator:
