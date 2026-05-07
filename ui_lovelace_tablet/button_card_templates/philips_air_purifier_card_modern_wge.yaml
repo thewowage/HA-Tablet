@@ -14,8 +14,8 @@ philips_air_purifier_card_modern_wge:
       [[[
         const value = Number(states[variables.pm25_sensor]?.state) || 0;
 
-        if (value <= 12) return "120,255,180";     // gut = grün
-        if (value <= 35) return "255,170,80";     // mittel = orange
+        if (value >= 12) return "120,255,180";     // gut = grün
+        if (value >= 35) return "255,170,80";     // mittel = orange
         return "236,99,55";                      // schlecht = rot
       ]]]
 
