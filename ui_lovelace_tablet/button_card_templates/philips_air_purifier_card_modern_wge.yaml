@@ -12,10 +12,10 @@ philips_air_purifier_card_modern_wge:
     graph_color: "120,180,255"
     card_color: >
       [[[
-        const aqi = Number(states["sensor.wohnzimmer_pm2_5"]?.state) || 0;
+        const value = Number(states[variables.pm25_sensor]?.state) || 0;
 
-        if (aqi <= 12) return "120,255,180";     // gut = grün
-        if (aqi <= 35) return "255,170,80";     // mittel = orange
+        if (value <= 12) return "120,255,180";     // gut = grün
+        if (value <= 35) return "255,170,80";     // mittel = orange
         return "236,99,55";                      // schlecht = rot
       ]]]
 
