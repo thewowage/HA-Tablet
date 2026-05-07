@@ -159,7 +159,7 @@ light_card_modern_wge:
             - width: 3px
             - position: absolute
             - right: 7px
-            - top: 11px
+            - top: 7px
             - touch-action: pan-y
             - background: var(--primary-text-color)
 
