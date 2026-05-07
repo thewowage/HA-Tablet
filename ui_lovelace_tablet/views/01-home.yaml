@@ -297,7 +297,7 @@ cards:
             entity: climate.wohnzimmer
             variables:
               graph_color: var(--label-badge-blue)
-              graph_entity: climate.wohnzimmer
+              graph_entity: sensor.multisensor_wohnzimmer_temperatur
             view_layout:
               grid-area: wz_climate
 
