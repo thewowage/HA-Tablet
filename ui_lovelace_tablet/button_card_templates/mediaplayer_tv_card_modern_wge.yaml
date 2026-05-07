@@ -201,12 +201,13 @@ mediaplayer_tv_card_modern_wge:
 
               if (!pic && appId === 'com.google.ios.youtube') {
                 return 'center / cover no-repeat url("/local/images/music/youtube_media.gif")';
-
+              }
+                
               if (!pic && appId === 'com.netflix.Netflix') {
                 return 'center / cover no-repeat url("/local/images/music/netflix_media.jpg")';
               }
 
-              if (!entity.attributes.entity_picture) {
+              if (!pic) {
                 return 'center / cover no-repeat url("/local/images/music/idle-media.gif")';
               }
 
