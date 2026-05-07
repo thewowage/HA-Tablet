@@ -168,7 +168,7 @@ climate_card_modern_wge:
               show_state: false
               styles:
                 card:
-                  - width: 34px
+                  - width: 24px
                   - height: 34px
                   - padding: 0
                   - background: transparent
