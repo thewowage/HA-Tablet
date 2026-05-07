@@ -193,6 +193,7 @@ mediaplayer_tv_card_modern_wge:
         - background: |
             [[[
               const appId = entity.attributes.app_id;
+              const pic = entity?.attributes?.entity_picture;
 
               if (states['binary_sensor.christmas_time']?.state === 'on' && appId === 'com.google.ios.youtube') {
                 return 'center / cover no-repeat url("/local/images/music/youtube_christmas_media.gif")';
