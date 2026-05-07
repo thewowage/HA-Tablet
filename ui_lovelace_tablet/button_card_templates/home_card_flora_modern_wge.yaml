@@ -6,7 +6,7 @@ home_card_flora_modern_wge:
   variables:
     moisture_graph: sensor.mangobaum_feuchtigkeit
     show_graph: true
-    image: /local/images/plant/monstera_deliciosa_plant_bg.png
+    image: /local/images/dashboard/monstera_deliciosa_plant_bg.png
     ok_color: "88,214,141"
     dry_color: "255,95,87"
 
