@@ -114,13 +114,13 @@ home_card_flora_status_wge:
             return;
           }
 
-          const moisture = p.attributes.feuchtigkeit ?? "-";
+          const feuchtigkeit = p.attributes.feuchtigkeit ?? "-";
           const temp = p.attributes.temperatur ?? "-";
           const light = p.attributes.licht ?? "-";
           const conductivity = p.attributes.leitfaehigkeit ?? "-";
           const code = p.attributes.problem_code || "";
 
-          const dry = code.includes("moisture");
+          const dry = code.includes("feuchtigkeit");
           const warning = code && code !== "none" && code !== "nein" && !dry;
 
           html += `
@@ -134,7 +134,7 @@ home_card_flora_status_wge:
               <div class="plant-values">
                 <div class="homekit-pill ${dry ? "dry" : ""}">
                   <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${moisture}%</span>
+                  <span>${feuchtigkeit}%</span>
                 </div>
 
                 <div class="homekit-pill">
