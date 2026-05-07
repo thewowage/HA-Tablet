@@ -54,7 +54,7 @@ home_card_consumption_modern_wge:
 
     custom_fields:
       label_consumption_daily:
-        - font-size: 14px
+        - font-size: 12px
         - font-weight: 800
         - letter-spacing: 0.08em
         - color: rgba(255,255,255,0.62)
@@ -68,7 +68,7 @@ home_card_consumption_modern_wge:
         - margin-bottom: 5px
 
       label_consumption_monthly:
-        - font-size: 14px
+        - font-size: 12px
         - font-weight: 800
         - letter-spacing: 0.08em
         - color: rgba(255,255,255,0.62)
@@ -82,7 +82,7 @@ home_card_consumption_modern_wge:
         - margin-bottom: 5px
 
       label_consumption_yearly:
-        - font-size: 14px
+        - font-size: 12px
         - font-weight: 800
         - letter-spacing: 0.08em
         - color: rgba(255,255,255,0.62)
