@@ -39,15 +39,6 @@ audio_card_choise_card_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const active = states["input_select.media_player_auswahl_helfer"]?.state === variables.player_room;
-            const color = variables.card_color || "120,180,255";
-
-            return active
-              ? `0 6px 18px rgba(${color},0.22)`
-              : "var(--card-shadow)";
-          ]]]
 
     icon:
       - width: var(--card-icon-size)
