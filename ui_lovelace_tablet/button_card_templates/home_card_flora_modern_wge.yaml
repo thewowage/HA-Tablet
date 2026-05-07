@@ -101,7 +101,7 @@ home_card_flora_modern_wge:
         - pointer-events: none
 
   custom_fields:
-    title: "Flora"
+    #title: "Flora"
 
     label_mango: |
       [[[
