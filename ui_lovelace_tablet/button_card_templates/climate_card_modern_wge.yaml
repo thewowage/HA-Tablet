@@ -22,7 +22,7 @@ climate_card_modern_wge:
 
   state_display: >
     [[[
-      const hvac = entity.attributes.hvac_modes || entity.state;
+      const hvac = entity.state;
       const current = Number(entity.attributes.current_temperature);
       const target = entity.attributes.temperature;
 
