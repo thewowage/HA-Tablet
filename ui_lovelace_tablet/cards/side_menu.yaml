@@ -235,7 +235,7 @@ card:
             tap_action:
               action: navigate
               navigation_path: /lovelace-tablet/home
-            styles:
+            styles: &sidebar_button
               grid:
                 - grid-template-areas: '"indicator i spacer"'
                 - grid-template-columns: 22px 1fr 22px
