@@ -22,7 +22,31 @@ home_card_flora_modern_wge:
       - position: relative
       - overflow: hidden
       - border: none
+      - background: >
+          [[[
+            const p = states["sensor.mangobaum"];
+            const problem = p?.attributes?.problem_code || "";
+            const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
+            const dry = problem.includes("moisture") || days >= 14;
+            const color = dry ? variables.dry_color : variables.ok_color;
 
+            return `
+              linear-gradient(
+                90deg,
+                rgba(18,22,30,0.98) 0%,
+                rgba(18,22,30,0.94) 42%,
+                rgba(18,22,30,0.76) 62%,
+                rgba(18,22,30,0.44) 80%,
+                rgba(18,22,30,0.12) 100%
+              ),
+              radial-gradient(
+                circle at 18% 22%,
+                rgba(${color},0.22),
+                transparent 44%
+              ),
+              url('${variables.image}')
+            `;
+          ]]]
       - background-size: 70%
       - background-position: center right
       - background-repeat: no-repeat
