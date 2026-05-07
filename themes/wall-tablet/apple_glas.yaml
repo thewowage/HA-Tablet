@@ -5,7 +5,7 @@ Apple Glass:
       secondary-background-color: "#FFFFFF"
       ha-card-background: "rgba(255,255,255,0.62)"
 
-      lovelace-background: "#b9b9b9" # Ein sehr dunkles Grau
+      lovelace-background: "#cccccc" # Ein sehr dunkles Grau
 
       primary-text-color: "rgba(10,15,25,0.95)"
       secondary-text-color: "rgba(10,15,25,0.58)"
