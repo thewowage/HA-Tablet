@@ -240,7 +240,7 @@ card:
                 - align-items: center
               card:
                 - width: 108px
-                - height: 58px
+                - height: 70px   # etwas höher für Indicator
                 - margin: 8px auto
                 - border-radius: 18px
                 - background: transparent
