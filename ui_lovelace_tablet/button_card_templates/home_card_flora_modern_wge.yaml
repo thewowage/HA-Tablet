@@ -176,29 +176,6 @@ home_card_flora_modern_wge:
         return `${d} ${d === 1 ? "Tag" : "Tagen"}`;
       ]]]
 
-    graph:
-      card:
-        type: custom:mini-graph-card
-        entities:
-          - entity: "[[[ return variables.moisture_graph ]]]"
-        height: 55
-        line_width: 2
-        line_color: rgba(88,214,141,0.95)
-        show:
-          icon: false
-          name: false
-          state: false
-          legend: false
-          labels: false
-        card_mod:
-          style: |
-            ha-card {
-              background: none !important;
-              box-shadow: none !important;
-              --ha-card-border-width: 0;
-              border-radius: 0 !important;
-            }
-
     status: >
         [[[
           const p = states["sensor.mangobaum"];
