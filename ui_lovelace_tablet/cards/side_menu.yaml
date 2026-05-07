@@ -281,6 +281,7 @@ card:
                 border-radius: 999px;
                 background: rgba(var(--card-color-rgb,120,180,255),1);
                 box-shadow: 0 0 10px rgba(var(--card-color-rgb,120,180,255),0.7);
+                animation: sidePulse 1.8s ease-in-out infinite;
               }
               @keyframes sidePulse {
                 0%, 100% {
