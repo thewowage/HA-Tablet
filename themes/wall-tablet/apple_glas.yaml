@@ -31,7 +31,8 @@ Apple Glass:
       background-color-2: "#3a3c55"
       background: "var(--background-color)"
 
-      primary-background-color: "#0B1020"
+      primary-background-color: "#202631"
+      #primary-background-color: "#0B1020"
       secondary-background-color: "#11182A"
       ha-card-background: "rgba(32,37,54,0.72)"
 
