@@ -23,10 +23,11 @@ home_card_flora_modern_wge:
       - overflow: hidden
       - border: none
       - background: >
-          [[[ url('${variables.image}')]]]
-      - background-size: 100%
-      - background-position: center right
-      - background-repeat: no-repeat
+          [[[
+            return `url('${variables.image}')`;
+          ]]]
+      - background-size: cover
+      - background-position: center
       #- box-shadow: >
       #    [[[
       #      const p = states["sensor.mangobaum"];
