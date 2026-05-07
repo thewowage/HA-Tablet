@@ -201,52 +201,7 @@ home_card_flora_modern_wge:
               border-radius: 0 !important;
             }
 
-    status: |
-      [[[
-        const plants = [
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          },
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          },
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          }
-        ];
 
-        let html = `<div class="plant-status-wrap">`;
-
-        plants.forEach((plant) => {
-          const p = states[plant.entity];
-          const problem = p?.attributes?.problem_code || "";
-          const days = Number(states[plant.days_entity]?.state || 0);
-
-          const dry = problem.includes("feuchtigkeit") || days >= 14;
-          const warning = days >= 10 && days < 14;
-
-          let color = "rgba(88,214,141,1)";
-
-          if (warning) color = "rgba(255,190,70,1)";
-          if (dry) color = "rgba(255,95,87,1)";
-
-          html += `
-            <div
-              class="plant-dot"
-              style="
-                background:${color};
-                box-shadow:0 0 12px ${color};
-              ">
-            </div>
-          `;
-        });
-
-        html += `</div>`;
-        return html;
-      ]]]
 
   extra_styles: |
     ha-card {
