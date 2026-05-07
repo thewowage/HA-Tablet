@@ -177,7 +177,7 @@ light_card_modern_wge:
             - touch-action: pan-y
 
           thumb:
-            - height: 20px
+            - height: 18px
             - width: 3px
             - position: absolute
             - right: 7px
