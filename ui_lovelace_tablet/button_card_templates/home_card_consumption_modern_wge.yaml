@@ -61,7 +61,7 @@ home_card_consumption_modern_wge:
         - z-index: 3
 
       consumption_daily:
-        - font-size: 22px
+        - font-size: 24px
         - font-weight: 800
         - color: white
         - z-index: 3
@@ -75,7 +75,7 @@ home_card_consumption_modern_wge:
         - z-index: 3
 
       consumption_monthly:
-        - font-size: 22px
+        - font-size: 24px
         - font-weight: 800
         - color: white
         - z-index: 3
@@ -89,7 +89,7 @@ home_card_consumption_modern_wge:
         - z-index: 3
 
       consumption_yearly:
-        - font-size: 22px
+        - font-size: 24px
         - font-weight: 800
         - color: white
         - z-index: 3
