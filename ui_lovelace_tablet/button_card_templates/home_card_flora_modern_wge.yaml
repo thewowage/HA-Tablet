@@ -128,8 +128,14 @@ home_card_flora_modern_wge:
           const problem = p?.attributes?.problem_code || "";
           const days = Number(states[plant.days_entity]?.state || 0);
 
-          const dry = problem.includes("feuchtigkeit") || days >= 14;
-          const warning = days >= 10 && days < 14;
+        const warning =
+          problem !== "" &&
+          problem !== "none" ||
+          days >= 10;
+
+        const dry =
+          problem.includes("moisture") ||
+          days >= 14;
 
           let color = "rgba(88,214,141,1)";
 
