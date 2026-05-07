@@ -276,7 +276,7 @@ card:
                       [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
             custom_fields: &indicator
               indicator: <div class="side-indicator"></div>
-            extra_styles: |
+            extra_styles: &indicator_style |
               .side-indicator {
                 width: 5px;
                 height: 24px;
