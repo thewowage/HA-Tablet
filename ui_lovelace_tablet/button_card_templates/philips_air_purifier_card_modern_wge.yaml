@@ -9,7 +9,14 @@ philips_air_purifier_card_modern_wge:
     show_graph: true
     graph_entity:
     #card_color: "120,180,255"
-    graph_color: "120,180,255"
+    graph_color: >
+      [[[
+        const value = Number(states[variables.pm25_sensor]?.state) || 0;
+
+        if (value <= 12) return "120,255,180";
+        if (value <= 35) return "255,170,80";
+        return "236,99,55";
+      ]]]
     card_color: >
       [[[
         const value = Number(states[variables.pm25_sensor]?.state) || 0;
