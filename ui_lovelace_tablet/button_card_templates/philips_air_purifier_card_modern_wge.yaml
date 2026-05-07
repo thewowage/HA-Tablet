@@ -17,7 +17,7 @@ philips_air_purifier_card_modern_wge:
           0;
 
         if (aqi <= 10) return "120,255,180";     // gut = grün
-        if (aqi <= 100) return "255,170,80";     // mittel = orange
+        if (aqi <= 30) return "255,170,80";     // mittel = orange
         return "236,99,55";                      // schlecht = rot
       ]]]
 
