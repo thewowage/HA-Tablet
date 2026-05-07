@@ -521,7 +521,7 @@ card:
             icon: mdi:refresh
             tap_action:
               action: navigate
-              navigation_path: /lovelace-tablet/einstellungen
+              navigation_path: location.reload();
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
