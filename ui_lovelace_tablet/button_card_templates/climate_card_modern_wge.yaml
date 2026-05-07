@@ -241,7 +241,7 @@ climate_card_modern_wge:
       card:
         type: custom:mini-graph-card
         entities:
-          - entity: "[[[ return states[entity.entity_id]?.attributes?.current_temperature ]]]"
+          - entity: "[[[ return states[entity.entity_id].attributes.current_temperature ]]]"
         line_width: 2
         line_color: >
           [[[
