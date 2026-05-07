@@ -1,12 +1,18 @@
-home_card_flora_status_wge:
+home_card_flora_modern_wge:
+
   show_icon: false
   show_name: false
 
   variables:
+    moisture_graph: sensor.mangobaum_feuchtigkeit
+    show_graph: true
     image: /local/images/plant/monstera_deliciosa_plant_bg.png
-    plant_1: sensor.mangobaum
-    plant_2: sensor.mangobaum
-    plant_3: sensor.mangobaum
+    ok_color: "88,214,141"
+    dry_color: "255,95,87"
+
+  tap_action:
+    action: call-service
+    service: script.dashboard_state_switch_card_durchwechseln
 
   styles:
     card:
@@ -20,116 +26,129 @@ home_card_flora_status_wge:
           [[[
             return `url('${variables.image}')`;
           ]]]
-      - background-size: 80%
-      - background-position: center right
+      - background-size: 80% 
+      - background-position: center right 
       - background-repeat: no-repeat
-
     grid:
       - grid-template-areas: |
-          "title status"
-          "plants plants"
-      - grid-template-columns: 1fr min-content
-      - grid-template-rows: min-content 1fr
-      - row-gap: 18px
+          "title"
+          "label_mango"
+          "mango"
+          "label_strelitzie"
+          "strelitzie"
+          "label_stillstand"
+          "stillstand"
+          "graph"
+      - grid-template-columns: 1fr
+      - row-gap: 7px
+      - justify-items: start
+      - align-items: start
+      - text-align: left
 
     custom_fields:
+      status:
+        - position: absolute
+        - top: 16px
+        - right: 16px
+
       title:
-        - justify-self: start
         - font-size: 22px
         - font-weight: 800
         - color: white
         - z-index: 3
 
-      status:
-        - justify-self: end
-        - align-self: start
-        - z-index: 4
-
-      plants:
-        - justify-self: start
-        - align-self: start
+      label_mango:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
         - z-index: 3
 
+      mango:
+        - z-index: 3
+
+      label_strelitzie:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
+        - z-index: 3
+
+      strelitzie:
+        - z-index: 3
+
+      label_stillstand:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
+        - z-index: 3
+
+      stillstand:
+        - font-size: 20px
+        - font-weight: 800
+        - color: white
+        - z-index: 3
+
+      graph:
+        - display: >
+            [[[ return variables.show_graph ? "block" : "none"; ]]]
+        - position: absolute
+        - left: 0
+        - bottom: 0
+        - width: 100%
+        - opacity: 0.34
+        - z-index: 1
+        - pointer-events: none
+
   custom_fields:
-    title: Flora
+    title: "Flora"
 
     status: |
       [[[
         const plants = [
-          "sensor.mangobaum",
-          "sensor.mangobaum",
-          "sensor.mangobaum"
+          {
+            entity: "sensor.mangobaum",
+            days_entity: "sensor.mangobaum_tage_seit_giessen"
+          },
+          {
+            entity: "sensor.mangobaum",
+            days_entity: "sensor.mangobaum_tage_seit_giessen"
+          },
+          {
+            entity: "sensor.mangobaum",
+            days_entity: "sensor.mangobaum_tage_seit_giessen"
+          }
         ];
 
         let html = `<div class="plant-status-wrap">`;
 
-        plants.forEach((entityId) => {
-          const p = states[entityId];
-          const code = p?.attributes?.problem_code || "";
-
-          const dry = code.includes("moisture");
-          const warning = code && code !== "none" && code !== "nein" && !dry;
-
-          let color = "rgba(88,214,141,1)";
-          if (warning) color = "rgba(255,190,70,1)";
-          if (dry) color = "rgba(255,95,87,1)";
-          if (!p || p.state === "unknown" || p.state === "unavailable") {
-            color = "rgba(160,160,160,1)";
-          }
-
-          html += `
-            <div class="plant-dot" style="background:${color}; box-shadow:0 0 12px ${color};"></div>
-          `;
-        });
-
-        html += `</div>`;
-        return html;
-      ]]]
-
-    plants: |
-      [[[
-        const plants = [
-          { name: "MANGO", entity: "sensor.mangobaum" },
-          { name: "STRELITZIE", entity: "sensor.mangobaum" },
-          { name: "MONSTERA", entity: "sensor.mangobaum" }
-        ];
-
-        let html = `<div class="plants-list">`;
-
         plants.forEach((plant) => {
           const p = states[plant.entity];
-          if (!p) return;
+          const problem = p?.attributes?.problem_code || "";
+          const days = Number(states[plant.days_entity]?.state || 0);
 
-          const moisture = p.attributes.feuchtigkeit ?? "-";
-          const temp = p.attributes.temperatur ?? "-";
-          const light = p.attributes.licht ?? "-";
-          const conductivity = p.attributes.leitfaehigkeit ?? "-";
-          const code = p.attributes.problem_code || "";
+        const warning =
+          problem !== "" &&
+          problem !== "none" ||
+          days >= 10;
 
-          const dry = code.includes("moisture");
-          const warning = code && code !== "none" && code !== "nein" && !dry;
+        const dry =
+          problem.includes("moisture") ||
+          days >= 14;
+
+          let color = "rgba(88,214,141,1)";
+
+          if (warning) color = "rgba(255,190,70,1)";
+          if (dry) color = "rgba(255,95,87,1)";
 
           html += `
-            <div class="plant-row">
-              <div class="plant-label">${plant.name}</div>
-              <div class="plant-values">
-                <div class="homekit-pill ${dry ? "dry" : ""}">
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  <span>${moisture}%</span>
-                </div>
-                <div class="homekit-pill">
-                  <ha-icon icon="mdi:thermometer"></ha-icon>
-                  <span>${temp}°</span>
-                </div>
-                <div class="homekit-pill ${warning ? "warn" : ""}">
-                  <ha-icon icon="mdi:white-balance-sunny"></ha-icon>
-                  <span>${light}</span>
-                </div>
-                <div class="homekit-pill">
-                  <ha-icon icon="mdi:flash"></ha-icon>
-                  <span>${conductivity}<small> µS</small></span>
-                </div>
-              </div>
+            <div
+              class="plant-dot"
+              style="
+                background:${color};
+                box-shadow:0 0 12px ${color};
+              ">
             </div>
           `;
         });
@@ -138,9 +157,102 @@ home_card_flora_status_wge:
         return html;
       ]]]
 
-  tap_action:
-    action: call-service
-    service: script.dashboard_state_switch_card_durchwechseln
+    label_mango: |
+      [[[
+        const p = states["sensor.mangobaum"];
+        const dry = (p?.attributes?.problem_code || "").includes("moisture");
+        return dry
+          ? `MANGO <ha-icon class="dry-leaf" icon="mdi:leaf-off"></ha-icon>`
+          : "MANGO";
+      ]]]
+
+    mango: |
+      [[[
+        const p = states["sensor.mangobaum"];
+        if (!p) return "-";
+
+        const moisture = Number(p.attributes.feuchtigkeit || 0);
+        const conductivity = p.attributes.leitfaehigkeit ?? "-";
+        const problem = p.attributes.problem_code || "";
+        const dry = problem.includes("moisture");
+        const cond = problem.includes("conductivity");
+
+        return `
+          <div class="homekit-pill ${dry ? "dry" : ""}">
+            <ha-icon icon="mdi:water-percent"></ha-icon>
+            <span>${moisture}%</span>
+            <div class="progress"><div class="bar" style="width:${moisture}%;"></div></div>
+          </div>
+
+          <div class="homekit-pill ${cond ? "dry" : ""}">
+            <ha-icon icon="mdi:flash"></ha-icon>
+            <span>${conductivity}<small> µS</small></span>
+          </div>
+        `;
+      ]]]
+
+    label_strelitzie: "STRELITZIE"
+
+    strelitzie: |
+      [[[
+        const p = states["sensor.strelitzie"] || states["sensor.mangobaum"];
+        if (!p) return "-";
+
+        const moisture = Number(p.attributes.feuchtigkeit || 0);
+        const conductivity = p.attributes.leitfaehigkeit ?? "-";
+
+        return `
+          <div class="homekit-pill">
+            <ha-icon icon="mdi:water-percent"></ha-icon>
+            <span>${moisture}%</span>
+            <div class="progress"><div class="bar" style="width:${moisture}%;"></div></div>
+          </div>
+
+          <div class="homekit-pill">
+            <ha-icon icon="mdi:flash"></ha-icon>
+            <span>${conductivity}<small> µS</small></span>
+          </div>
+        `;
+      ]]]
+
+    label_stillstand: |
+      [[[
+        const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
+        return days >= 14
+          ? `GEGOSSEN VOR <ha-icon class="dry-leaf" icon="mdi:alert-circle"></ha-icon>`
+          : "GEGOSSEN VOR";
+      ]]]
+
+    stillstand: |
+      [[[
+        const value = states["sensor.mangobaum_tage_seit_giessen"]?.state;
+        if (!value || value === "unknown" || value === "unavailable") return "-";
+        const d = Number(value);
+        return `${d} ${d === 1 ? "Tag" : "Tagen"}`;
+      ]]]
+
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return variables.moisture_graph ]]]"
+        height: 55
+        line_width: 2
+        line_color: rgba(88,214,141,0.95)
+        show:
+          icon: false
+          name: false
+          state: false
+          legend: false
+          labels: false
+        card_mod:
+          style: |
+            ha-card {
+              background: none !important;
+              box-shadow: none !important;
+              --ha-card-border-width: 0;
+              border-radius: 0 !important;
+            }
 
   extra_styles: |
     ha-card {
@@ -154,65 +266,14 @@ home_card_flora_status_wge:
       transform: scale(0.97);
     }
 
-    .plant-status-wrap {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .plant-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      animation: plantPulse 2s ease-in-out infinite;
-    }
-
-    .plants-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .plant-row {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .plant-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.62);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .plant-warning {
-      width: 14px;
-      height: 14px;
-      color: rgb(255,95,87);
-      animation: leafShake 1.2s ease-in-out infinite;
-    }
-
-    .plant-warning.amber {
-      color: rgb(255,190,70);
-    }
-
-    .plant-values {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
     .homekit-pill {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      min-width: 58px;
-      padding: 6px 10px;
+      min-width: 66px;
+      padding: 6px 11px;
+      margin-right: 7px;
       border-radius: 999px;
       background: rgba(255,255,255,0.18);
       color: white;
@@ -225,6 +286,11 @@ home_card_flora_status_wge:
       width: 16px;
       height: 16px;
       color: rgba(88,214,141,1);
+      z-index: 2;
+    }
+
+    .homekit-pill span {
+      z-index: 2;
     }
 
     .homekit-pill small {
@@ -237,24 +303,33 @@ home_card_flora_status_wge:
       animation: dryPulse 1.8s ease-in-out infinite;
     }
 
-    .homekit-pill.warn {
-      background: rgba(255,190,70,0.86);
-    }
-
-    .homekit-pill.dry ha-icon,
-    .homekit-pill.warn ha-icon {
+    .homekit-pill.dry ha-icon {
       color: white;
     }
 
-    @keyframes plantPulse {
-      0%,100% {
-        transform: scale(1);
-        opacity: .82;
-      }
-      50% {
-        transform: scale(1.18);
-        opacity: 1;
-      }
+    .progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,0.14);
+    }
+
+    .bar {
+      height: 100%;
+      background: rgba(88,214,141,0.95);
+    }
+
+    .dry .bar {
+      background: white;
+    }
+
+    .dry-leaf {
+      width: 14px;
+      height: 14px;
+      color: rgb(255,95,87);
+      animation: leafShake 1.2s ease-in-out infinite;
     }
 
     @keyframes dryPulse {
@@ -266,4 +341,29 @@ home_card_flora_status_wge:
       0%, 100% { transform: translateY(-2px) rotate(0deg); }
       25% { transform: translateY(-2px) rotate(-8deg); }
       75% { transform: translateY(-2px) rotate(8deg); }
+    }
+
+    .plant-status-wrap {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .plant-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: plantPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes plantPulse {
+      0%,100% {
+        transform: scale(1);
+        opacity: .82;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
     }
