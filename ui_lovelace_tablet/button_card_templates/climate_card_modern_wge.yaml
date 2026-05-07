@@ -187,7 +187,16 @@ climate_card_modern_wge:
                   entity_id: "[[[ return entity.entity_id ]]]"
 
           value: >
-            [[[ return entity.attributes.temperature + "°" ]]]
+            [[[
+              if (
+                entity.state === "off" ||
+                entity.state === "unavailable"
+              ) {
+                return "-";
+              }
+
+              return `${entity.attributes.temperature}°`;
+            ]]]
 
           down:
             card:
