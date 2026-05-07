@@ -145,6 +145,7 @@ cards:
             name: Haus verlassen
             variables:
               room_color: "120,180,255"
+              input_select: input_select.haus_anwesenheit
             view_layout:
               grid-area: h_script_1
             tap_action:
