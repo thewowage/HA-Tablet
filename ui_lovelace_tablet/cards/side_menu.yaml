@@ -274,7 +274,7 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
-        custom_fields: &indicator
+            custom_fields: &indicator
               indicator: <div class="side-indicator"></div>
             extra_styles: |
               .side-indicator {
