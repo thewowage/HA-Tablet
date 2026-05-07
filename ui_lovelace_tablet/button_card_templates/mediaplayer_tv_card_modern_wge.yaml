@@ -313,7 +313,7 @@ mediaplayer_tv_card_modern_wge:
 
     .ambient-glow {
       position: absolute;
-      inset: -40%;
+      inset: -30%;
       border-radius: 999px;
       background:
         radial-gradient(
