@@ -199,7 +199,7 @@ home_card_flora_modern_wge:
               border-radius: 0 !important;
             }
 
-      status: >
+    status: >
         [[[
           const p = states["sensor.mangobaum"];
           const problem = p?.attributes?.problem_code || "";
