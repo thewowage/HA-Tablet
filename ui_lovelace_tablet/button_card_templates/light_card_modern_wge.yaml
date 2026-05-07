@@ -128,7 +128,7 @@ light_card_modern_wge:
         mode: brightness
         styles:
           card:
-            - height: var(--card-slider-height)
+            - height: 20px
             - box-shadow: none
             - padding: 0
             - background: rgba(0,0,0,0.12)
