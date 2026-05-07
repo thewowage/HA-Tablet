@@ -31,6 +31,7 @@ home_card_flora_modern_wge:
       - background-repeat: no-repeat
     grid:
       - grid-template-areas: |
+          "."
           "label_mango"
           "mango"
           "label_strelitzie"
