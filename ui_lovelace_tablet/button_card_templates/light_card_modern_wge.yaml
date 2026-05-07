@@ -129,11 +129,25 @@ light_card_modern_wge:
         styles:
           card:
             - height: 20px
-            - box-shadow: none
             - padding: 0
             - background: rgba(0,0,0,0.12)
             - border-radius: 10px
             - touch-action: pan-y
+            - box-shadow: >
+                [[[
+                  let r = 255, g = 209, b = 102;
+
+                  if (entity.attributes.rgb_color) {
+                    [r, g, b] = entity.attributes.rgb_color;
+                  }
+
+                  return entity.state === "on"
+                    ? `
+                      0 0 14px rgba(${r},${g},${b},0.30),
+                      0 0 28px rgba(${r},${g},${b},0.12)
+                    `
+                    : "none";
+                ]]]
 
           progress:
             - height: 100%
