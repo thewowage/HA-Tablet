@@ -40,7 +40,7 @@ Apple Glass:
       card-text-color: "rgba(255,255,255,0.96)"
       card-subtext-color: "rgba(255,255,255,0.58)"
 
-      sidebar-background-color: "rgba(16,22,38,0.94)"
+      sidebar-background-color: "255,209,102"
       sidebar-text-color: "rgba(255,255,255,0.70)"
       sidebar-icon-color: "rgba(255,255,255,0.58)"
       sidebar-selected-text-color: "#FFFFFF"
