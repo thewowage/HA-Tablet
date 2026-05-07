@@ -40,8 +40,8 @@ home_card_flora_modern_wge:
           "graph"
       - grid-template-columns: 1fr
       - row-gap: 7px
-      - justify-items: center
-      - align-items: start
+      - justify-items: start
+      - align-items: center
       - text-align: left
 
     custom_fields:
