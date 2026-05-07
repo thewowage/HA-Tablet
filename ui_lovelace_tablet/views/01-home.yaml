@@ -128,7 +128,6 @@ cards:
               style: |
                 ha-card {
                   background: var(--ha-card-background);
-                  border-top: 1px solid var(--background-color);
                   height: 100%;
                 }
             card:
