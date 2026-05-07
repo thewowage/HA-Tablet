@@ -201,7 +201,7 @@ home_card_flora_modern_wge:
               border-radius: 0 !important;
             }
 
-    status: >
+    status: |
       [[[
         const plants = [
           {
