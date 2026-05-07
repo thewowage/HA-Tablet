@@ -39,7 +39,7 @@ home_card_flora_modern_wge:
           "stillstand"
           "graph"
       - grid-template-columns: 1fr
-      - row-gap: 5px
+      - row-gap: 7px
       - justify-items: start
       - align-items: center
       - text-align: left
