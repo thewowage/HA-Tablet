@@ -243,13 +243,19 @@ card:
           - type: custom:button-card
             icon: fapro:house-fill
             tap_action:
-              action: call-service
-              service: input_select.select_option
-              service_data:
-                entity_id: input_select.dashboard_auswahl
-                option: home
-              action: navigate
-              navigation_path: /lovelace-tablet/audio
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.sequence
+                data:
+                  sequence:
+                    - service: input_select.select_option
+                      data:
+                        entity_id: input_select.dashboard_auswahl
+                        option: home
+
+                    - service: browser_mod.navigate
+                      data:
+                        path: /lovelace-tablet/audio
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
