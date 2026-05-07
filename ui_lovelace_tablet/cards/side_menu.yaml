@@ -273,7 +273,7 @@ card:
             extra_styles: &indicator_style |
               .side-indicator {
                 width: 5px;
-                height: 30px;
+                height: 28px;
                 border-radius: 999px;
                 background: rgba(var(--card-color-rgb,120,180,255),1);
                 animation: sidePulse 1.8s ease-in-out infinite;
