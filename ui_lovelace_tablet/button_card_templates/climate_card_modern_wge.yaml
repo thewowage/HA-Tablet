@@ -241,40 +241,37 @@ climate_card_modern_wge:
       card:
         type: custom:mini-graph-card
         entities:
-          - entity: "[[[ entity.attributes.current_temperature || 20; ]]]"
+          - entity: "[[[ return variables.graph_entity ]]]"
         line_width: 2
         line_color: >
           [[[
+            // 🔹 Wenn fixe Farbe gesetzt → nutze sie
+            if (variables.graph_color) return variables.graph_color;
+
+            // 🔹 Entity lesen
+            const q = states[variables.graph_color_entity]?.state?.toLowerCase();
+
+            // 🔹 Mapping Luftqualität → Farbe
+            if (["gut", "good", "excellent"].includes(q))
+              return "rgba(120,255,180,0.95)";
+
+            if (["mittel", "moderate", "ok"].includes(q))
+              return "rgba(255,170,80,0.95)";
+
+            if (["schlecht", "bad", "poor", "unhealthy"].includes(q))
+              return "rgba(236,99,55,0.95)";
+
+            // 🔹 Fallback (dein alter Temp-Verlauf)
             const t = Number(entity.attributes.current_temperature || 20);
             const cold = variables.cold_temp || 18;
             const hot = variables.hot_temp || 25;
-
             const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
 
-            const stops = [
-              { p: 0.00, c: [80, 170, 255] },
-              { p: 0.50, c: [255, 209, 102] },
-              { p: 1.00, c: [236, 99, 55] }
-            ];
+            const r = Math.round(80 + ratio * 175);
+            const g = Math.round(170 - ratio * 70);
+            const b = Math.round(255 - ratio * 180);
 
-            let a = stops[0];
-            let b = stops[stops.length - 1];
-
-            for (let i = 0; i < stops.length - 1; i++) {
-              if (ratio >= stops[i].p && ratio <= stops[i + 1].p) {
-                a = stops[i];
-                b = stops[i + 1];
-                break;
-              }
-            }
-
-            const localRatio = (ratio - a.p) / (b.p - a.p);
-
-            const r = Math.round(a.c[0] + (b.c[0] - a.c[0]) * localRatio);
-            const g = Math.round(a.c[1] + (b.c[1] - a.c[1]) * localRatio);
-            const bl = Math.round(a.c[2] + (b.c[2] - a.c[2]) * localRatio);
-
-            return `rgba(${r},${g},${bl},0.95)`;
+            return `rgba(${r},${g},${b},0.95)`;
           ]]]
         height: 42
         show:
