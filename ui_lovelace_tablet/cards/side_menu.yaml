@@ -276,7 +276,7 @@ card:
                     [[[
                       return location.pathname.includes("home")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : var(--sidebar-icon-inactive-color);
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -343,7 +343,7 @@ card:
                     [[[
                       return location.pathname.includes("audio")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : var(--sidebar-icon-inactive-color);
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -410,7 +410,7 @@ card:
                     [[[
                       return location.pathname.includes("szenen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : var(--sidebar-icon-inactive-color);
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -477,7 +477,7 @@ card:
                     [[[
                       return location.pathname.includes("einstellungen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : var(--sidebar-icon-inactive-color);
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
