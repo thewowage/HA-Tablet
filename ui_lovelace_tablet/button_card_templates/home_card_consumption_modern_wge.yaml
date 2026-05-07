@@ -39,7 +39,7 @@ home_card_consumption_modern_wge:
 
     grid:
       - grid-template-areas: |
-          "title"
+          "."
           "label_consumption_daily"
           "consumption_daily"
           "label_consumption_monthly"
