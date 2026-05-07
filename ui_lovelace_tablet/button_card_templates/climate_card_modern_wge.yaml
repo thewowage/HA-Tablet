@@ -138,7 +138,7 @@ climate_card_modern_wge:
         styles:
           grid:
             - grid-template-areas: "'up value down'"
-            - grid-template-columns: 24px min-content 24px
+            - grid-template-columns: 34px min-content 34px
             - align-items: center
             - justify-content: center
             - column-gap: 4px
