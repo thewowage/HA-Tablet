@@ -76,6 +76,7 @@ Apple Glass:
   paper-slider-active-color: "rgba(var(--apple-card-glow-rgb),0.95)"
   paper-slider-knob-color: "#FFFFFF"
   paper-slider-container-color: "rgba(255,255,255,0.12)"
+  card-slider-height: 
 
   # Karten
   ha-card-border-radius: "22px"
