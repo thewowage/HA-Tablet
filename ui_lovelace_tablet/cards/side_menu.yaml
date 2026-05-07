@@ -191,7 +191,7 @@ card:
                 - align-self: center
                 - font-size: 14px
                 - font-weight: 800
-                - color: rgba(255,255,255,0.82)
+                - color: var(--sidebar-weather-temp-color)
                 - z-index: 2
 
             extra_styles: |
