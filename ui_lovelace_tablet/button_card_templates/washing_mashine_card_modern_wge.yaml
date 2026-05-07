@@ -109,17 +109,6 @@ washing_mashine_card_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const state = states["input_select.washing_machine_state"]?.state;
-
-            let color = variables.card_color || "120,180,255";
-            if (state === "fertig") color = variables.done_color || "120,255,180";
-
-            return state !== "aus"
-              ? `0 6px 18px rgba(${color},0.22)`
-              : "var(--card-shadow)";
-          ]]]
 
     name:
       - justify-self: start
