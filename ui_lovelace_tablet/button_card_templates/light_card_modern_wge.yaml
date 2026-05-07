@@ -161,7 +161,7 @@ light_card_modern_wge:
             - right: 7px
             - top: 0
             - touch-action: pan-y
-            - background: var(--primary-text-color)
+            #- background: var(--primary-text-color)
 
   state:
     - value: "on"
