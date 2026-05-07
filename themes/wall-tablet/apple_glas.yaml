@@ -29,6 +29,8 @@ Apple Glass:
       secondary-background-color: "#11182A"
       ha-card-background: "rgba(32,37,54,0.72)"
 
+      lovelace-background: "#171b24" # Ein sehr dunkles Grau
+
       primary-text-color: "rgba(255,255,255,0.96)"
       secondary-text-color: "rgba(255,255,255,0.58)"
       disabled-text-color: "rgba(255,255,255,0.32)"
@@ -110,11 +112,4 @@ Apple Glass:
   # Header
   app-header-background-color: "var(--primary-background-color)"
   #app-header-text-color: "var(--primary-text-color)"
-
-  background-color: "#202631"
-  background-color-2: "#3a3c55"
-  background: "var(--background-color)"
-  primary-background-color: "var(--background-color)"
-  lovelace-background: "#171b24" # Ein sehr dunkles Grau
-  primary-color: "#ff9800"       # Akzentfarbe (optional)
 
