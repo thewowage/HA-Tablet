@@ -8,7 +8,7 @@ air_cleaner_card_modern_wge:
     #card_color: "120,180,255"
     card_color: >
       [[[
-        const q = states["sensor.wohnzimmer_luftqualitat"]?.state?.toLowerCase();
+        const q = states[variables.air_quality_sensor]?.state?.toLowerCase();
 
         if (["gut", "good", "excellent"].includes(q)) return "120,255,180";
         if (["mittel", "moderate", "ok"].includes(q)) return "255,170,80";
