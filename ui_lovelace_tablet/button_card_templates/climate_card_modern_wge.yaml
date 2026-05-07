@@ -223,9 +223,25 @@ climate_card_modern_wge:
           - entity: "[[[ return variables.graph_entity ]]]"
         line_width: 2
         line_color: >
+        line_color: >
           [[[
+            // 🔹 Wenn fixe Farbe gesetzt → nutze sie
             if (variables.graph_color) return variables.graph_color;
 
+            // 🔹 Entity lesen
+            const q = states[variables.graph_color_entity]?.state?.toLowerCase();
+
+            // 🔹 Mapping Luftqualität → Farbe
+            if (["gut", "good", "excellent"].includes(q))
+              return "rgba(120,255,180,0.95)";
+
+            if (["mittel", "moderate", "ok"].includes(q))
+              return "rgba(255,170,80,0.95)";
+
+            if (["schlecht", "bad", "poor", "unhealthy"].includes(q))
+              return "rgba(236,99,55,0.95)";
+
+            // 🔹 Fallback (dein alter Temp-Verlauf)
             const t = Number(entity.attributes.current_temperature || 20);
             const cold = variables.cold_temp || 18;
             const hot = variables.hot_temp || 25;
