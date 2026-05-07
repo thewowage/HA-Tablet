@@ -316,77 +316,77 @@ card:
           #      }
           #    }
 
-# Beispiel: HOME Button
-- type: custom:button-card
-  icon: fapro:house-fill
-  tap_action:
-    action: fire-dom-event
-    browser_mod:
-      service: browser_mod.sequence
-      data:
-        sequence:
-          - service: input_select.select_option
-            data:
-              entity_id: input_select.dashboard_auswahl
-              option: home
-          - service: browser_mod.navigate
-            data:
-              path: /lovelace-tablet/home
+          # Beispiel: HOME Button
+          - type: custom:button-card
+            icon: fapro:house-fill
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.sequence
+                data:
+                  sequence:
+                    - service: input_select.select_option
+                      data:
+                        entity_id: input_select.dashboard_auswahl
+                        option: home
+                    - service: browser_mod.navigate
+                      data:
+                        path: /lovelace-tablet/home
 
-  styles:
-    grid:
-      - grid-template-areas: '"indicator i spacer"'
-      - grid-template-columns: 22px 1fr 22px
-    icon:
-      - width: 28px
-      - color: >
-          [[[
-            const active =
-              states["input_select.dashboard_auswahl"]?.state === "home" ||
-              location.pathname.includes("/home");
+            styles:
+              grid:
+                - grid-template-areas: '"indicator i spacer"'
+                - grid-template-columns: 22px 1fr 22px
+              icon:
+                - width: 28px
+                - color: >
+                    [[[
+                      const active =
+                        states["input_select.dashboard_auswahl"]?.state === "home" ||
+                        location.pathname.includes("/home");
 
-            return active
-              ? "rgba(var(--card-color-rgb,120,180,255),1)"
-              : "rgba(255,255,255,0.45)";
-          ]]]
+                      return active
+                        ? "rgba(var(--card-color-rgb,120,180,255),1)"
+                        : "rgba(255,255,255,0.45)";
+                    ]]]
 
-    custom_fields:
-      indicator:
-        - grid-area: indicator
-        - justify-self: center
-        - align-self: center
-        - display: >
-            [[[
-              const active =
-                states["input_select.dashboard_auswahl"]?.state === "home" ||
-                location.pathname.includes("/home");
+              custom_fields:
+                indicator:
+                  - grid-area: indicator
+                  - justify-self: center
+                  - align-self: center
+                  - display: >
+                      [[[
+                        const active =
+                          states["input_select.dashboard_auswahl"]?.state === "home" ||
+                          location.pathname.includes("/home");
 
-              return active ? "block" : "none";
-            ]]]
+                        return active ? "block" : "none";
+                      ]]]
 
-  custom_fields:
-    indicator: <div class="side-indicator"></div>
+            custom_fields:
+              indicator: <div class="side-indicator"></div>
 
-  extra_styles: |
-    .side-indicator {
-      width: 5px;
-      height: 24px;
-      border-radius: 999px;
-      background: rgba(var(--card-color-rgb,120,180,255),1);
-      box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
-      animation: sidePulse 1.8s ease-in-out infinite;
-    }
+            extra_styles: |
+              .side-indicator {
+                width: 5px;
+                height: 24px;
+                border-radius: 999px;
+                background: rgba(var(--card-color-rgb,120,180,255),1);
+                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+                animation: sidePulse 1.8s ease-in-out infinite;
+              }
 
-    @keyframes sidePulse {
-      0%, 100% {
-        opacity: 0.55;
-        transform: scaleY(0.72);
-      }
-      50% {
-        opacity: 1;
-        transform: scaleY(1);
-      }
-    }
+              @keyframes sidePulse {
+                0%, 100% {
+                  opacity: 0.55;
+                  transform: scaleY(0.72);
+                }
+                50% {
+                  opacity: 1;
+                  transform: scaleY(1);
+                }
+              }
 
           - type: custom:button-card
             icon: fapro:music-alt
