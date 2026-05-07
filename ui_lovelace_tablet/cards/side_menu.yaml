@@ -47,9 +47,6 @@ card:
               ),
               var(--sidebar-background);
 
-            backdrop-filter: blur(var(--sidebar-blur, 30px)) saturate(var(--sidebar-saturate, 170%));
-            -webkit-backdrop-filter: blur(var(--sidebar-blur, 30px)) saturate(var(--sidebar-saturate, 170%));
-
             overflow: hidden !important;
           }
 
