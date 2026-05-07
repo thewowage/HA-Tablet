@@ -41,19 +41,19 @@ card:
             background:
               linear-gradient(
                 145deg,
-                var(--sidebar-glass-start),
-                var(--sidebar-glass-end)
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.03)
               ),
-              var(--sidebar-bg);
+              rgba(32,37,54,0.42);
 
             backdrop-filter: blur(30px) saturate(170%);
             -webkit-backdrop-filter: blur(30px) saturate(170%);
 
-            border-right: 1px solid var(--sidebar-border);
+            border-right: 1px solid rgba(255,255,255,0.10);
 
             box-shadow:
-              12px 0 30px var(--sidebar-shadow-color),
-              inset -1px 0 0 var(--sidebar-inset-color);
+              12px 0 30px rgba(0,0,0,0.25),
+              inset -1px 0 0 rgba(255,255,255,0.06);
 
             overflow: hidden !important;
           }
@@ -87,7 +87,7 @@ card:
               name:
                 - font-size: 30px
                 - font-weight: 900
-                - color: var(--sidebar-time-color)
+                - color: rgba(255,255,255,0.96)
                 - justify-self: center
                 - text-align: center
 
@@ -112,7 +112,7 @@ card:
               name:
                 - font-size: 14px
                 - font-weight: 700
-                - color: var(--sidebar-date-color)
+                - color: rgba(255,255,255,0.58)
                 - justify-self: center
                 - text-align: center
 
@@ -175,7 +175,7 @@ card:
                       if (s === "sunny") return "rgba(255,209,102,1)";
                       if (s === "rainy" || s === "pouring") return "rgba(120,180,255,1)";
                       if (s === "snowy") return "rgba(220,245,255,1)";
-                      return var(--sidebar-weather-icon-color);
+                      return "rgba(255,255,255,0.86)";
                     ]]]
                 - animation: >
                     [[[
@@ -191,7 +191,7 @@ card:
                 - align-self: center
                 - font-size: 14px
                 - font-weight: 800
-                - color: var(--sidebar-weather-temp-color)
+                - color: rgba(255,255,255,0.82)
                 - z-index: 2
 
             extra_styles: |
@@ -276,7 +276,7 @@ card:
                     [[[
                       return location.pathname.includes("home")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "var(--sidebar-icon-inactive-color)";
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
