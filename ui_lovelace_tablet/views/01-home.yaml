@@ -124,7 +124,11 @@ cards:
           - type: custom:mod-card
             view_layout:
               grid-area: h_slider
-
+            card_mod:
+              style: |
+                ha-card {
+                  background: transparent;
+                }
             card:
               type: custom:state-switch
               entity: input_select.dashboard_state_switch_card_helfer
