@@ -175,7 +175,7 @@ card:
                       if (s === "sunny") return "rgba(255,209,102,1)";
                       if (s === "rainy" || s === "pouring") return "rgba(120,180,255,1)";
                       if (s === "snowy") return "rgba(220,245,255,1)";
-                      return "rgba(255,255,255,0.86)";
+                      return var(--sidebar-weather-icon-color);
                     ]]]
                 - animation: >
                     [[[
