@@ -361,7 +361,6 @@ card:
                       ]]]
             custom_fields:
               indicator: <div class="side-indicator"></div>
-
             extra_styles: |
               .side-indicator {
                 width: 5px;
@@ -371,7 +370,6 @@ card:
                 box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
                 animation: sidePulse 1.8s ease-in-out infinite;
               }
-
               @keyframes sidePulse {
                 0%, 100% {
                   opacity: 0.55;
