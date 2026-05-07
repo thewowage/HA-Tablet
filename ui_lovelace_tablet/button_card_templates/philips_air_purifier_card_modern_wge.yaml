@@ -5,7 +5,7 @@ philips_air_purifier_card_modern_wge:
   variables:
     enable_osc_btn: false
     child_lock: switch.wohnzimmer_kindersicherung_2
-    
+    pm25_sensor: 
     show_graph: true
     graph_entity:
     #card_color: "120,180,255"
