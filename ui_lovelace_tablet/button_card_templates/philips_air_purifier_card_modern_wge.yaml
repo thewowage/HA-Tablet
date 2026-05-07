@@ -9,7 +9,18 @@ philips_air_purifier_card_modern_wge:
     graph_entity:
     card_color: "120,180,255"
     graph_color: "120,180,255"
+    card_color: >
+      [[[
+        const aqi =
+          Number(states["sensor.wohnzimmer_luftqualitat"]?.state) ||
+          Number(states["sensor.wohnzimmer_pm25"]?.state) ||
+          0;
 
+        if (aqi <= 50) return "120,255,180";     // gut = grün
+        if (aqi <= 100) return "255,170,80";     // mittel = orange
+        return "236,99,55";                      // schlecht = rot
+      ]]]
+        
   show_name: true
   show_icon: true
   show_label: true
