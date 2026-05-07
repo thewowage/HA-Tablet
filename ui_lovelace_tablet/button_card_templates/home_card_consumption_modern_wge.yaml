@@ -53,13 +53,6 @@ home_card_consumption_modern_wge:
       - text-align: left
 
     custom_fields:
-      title:
-        - font-size: 22px
-        - font-weight: 800
-        - color: white
-        - z-index: 3
-        - margin-bottom: 4px
-
       label_consumption_daily:
         - font-size: 11px
         - font-weight: 800
@@ -102,8 +95,6 @@ home_card_consumption_modern_wge:
         - z-index: 3
 
   custom_fields:
-    title: "Energie"
-
     label_consumption_daily: |
       [[[
         const kwh = Number(states["sensor.energy_consumption_daily"]?.state || 0);
