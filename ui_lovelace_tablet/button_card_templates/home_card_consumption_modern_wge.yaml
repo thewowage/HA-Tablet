@@ -23,27 +23,7 @@ home_card_consumption_modern_wge:
       - border: none
       - background: >
           [[[
-            const daily = Number(states["sensor.energy_consumption_daily"]?.state || 0);
-            const color = daily > 10
-              ? variables.warning_color || "236,99,55"
-              : variables.card_color || "255,209,102";
-
-            return `
-              linear-gradient(
-                90deg,
-                rgba(18,22,30,0.98) 0%,
-                rgba(18,22,30,0.94) 42%,
-                rgba(18,22,30,0.76) 62%,
-                rgba(18,22,30,0.44) 80%,
-                rgba(18,22,30,0.12) 100%
-              ),
-              radial-gradient(
-                circle at 18% 22%,
-                rgba(${color},0.22),
-                transparent 44%
-              ),
-              url('${variables.image}')
-            `;
+            return `url('${variables.image}')`;
           ]]]
       - background-size: cover
       - background-position: center right
