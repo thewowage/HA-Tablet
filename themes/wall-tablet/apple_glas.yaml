@@ -115,6 +115,6 @@ Apple Glass:
   background-color-2: "#3a3c55"
   background: "var(--background-color)"
   primary-background-color: "var(--background-color)"
-  lovelace-background: "#1a1a1a" # Ein sehr dunkles Grau
+  lovelace-background: "#202631" # Ein sehr dunkles Grau
   primary-color: "#ff9800"       # Akzentfarbe (optional)
 
