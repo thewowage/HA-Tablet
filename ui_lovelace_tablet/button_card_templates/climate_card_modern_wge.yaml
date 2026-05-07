@@ -192,7 +192,7 @@ climate_card_modern_wge:
                 entity.state === "off" ||
                 entity.state === "unavailable"
               ) {
-                return "-";
+                return "--";
               }
 
               return `${entity.attributes.temperature}°`;
