@@ -30,7 +30,7 @@ climate_card_modern_wge:
       if (entity.state === "off") return "Aus";
       if (current <= 16) return "❄️ Frostschutz";
       if (hvac === "heat") return "🔥 Heizt auf " + target + "°";
-      if (hvac === "idle") return "Ruht · Ziel " + target + "°";
+      if (hvac === "auto") return "Automatisch · Ziel " + target + "°";
       return "Ziel " + target + "°";
     ]]]
 
