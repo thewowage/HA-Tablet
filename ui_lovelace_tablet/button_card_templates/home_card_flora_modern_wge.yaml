@@ -202,28 +202,49 @@ home_card_flora_modern_wge:
             }
 
     status: >
-        [[[
-          const p = states["sensor.mangobaum"];
-          const problem = p?.attributes?.problem_code || "";
-          const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
+      [[[
+        const plants = [
+          {
+            moisture: states["sensor.mangobaum_feuchtigkeit"]?.state,
+            days: Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0)
+          },
+          {
+            moisture: states["sensor.monstera_feuchtigkeit"]?.state,
+            days: Number(states["sensor.monstera_tage_seit_giessen"]?.state || 0)
+          },
+          {
+            moisture: states["sensor.alocasia_feuchtigkeit"]?.state,
+            days: Number(states["sensor.alocasia_tage_seit_giessen"]?.state || 0)
+          }
+        ];
 
-          const dry = problem.includes("moisture") || days >= 14;
-          const warning = days >= 10 && days < 14;
+        let html = `<div class="plant-status-wrap">`;
+
+        plants.forEach((p) => {
 
           let color = "rgba(80,220,120,1)";
 
-          if (warning)
+          if (p.days >= 10)
             color = "rgba(255,190,70,1)";
 
-          if (dry)
+          if (p.days >= 14)
             color = "rgba(255,90,90,1)";
 
-          return `
-            <div class="plant-status-wrap">
-              <div class="plant-dot" style="background:${color}"></div>
+          html += `
+            <div
+              class="plant-dot"
+              style="
+                background:${color};
+                box-shadow:0 0 12px ${color};
+              ">
             </div>
           `;
-        ]]]
+        });
+
+        html += `</div>`;
+
+        return html;
+      ]]]
 
   extra_styles: |
     ha-card {
