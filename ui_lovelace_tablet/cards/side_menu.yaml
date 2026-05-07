@@ -240,81 +240,153 @@ card:
           #      - background: transparent
           #      - box-shadow: none
 
-          - type: custom:button-card
-            icon: fapro:house-fill
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.sequence
-                data:
-                  sequence:
-                    - service: input_select.select_option
-                      data:
-                        entity_id: input_select.dashboard_auswahl
-                        option: home
-                    - service: browser_mod.navigate
-                      data:
-                        path: /lovelace-tablet/home
-            styles:
-              grid:
-                - grid-template-areas: '"indicator i spacer"'
-                - grid-template-columns: 22px 1fr 22px
-                - grid-template-rows: 1fr
-              card:
-                - width: 108px
-                - height: 58px
-                - margin: 8px auto
-                - border-radius: 18px
-                - background: rgba(255,255,255,0.06)
-                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
-                - position: relative
-              img_cell:
-                - grid-area: i
-                - justify-self: center
-                - align-self: center
-                - width: 100%
-                - height: 100%
-                - margin: 0
-              icon:
-                - width: 28px
-                - height: 28px
-                - justify-self: center
-                - align-self: center
-                - margin: 0
-                - color: >
-                    [[[
-                      return location.pathname.includes("home")
-                        ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "rgba(255,255,255,0.45)";
-                    ]]]
-              custom_fields:
-                indicator:
-                  - grid-area: indicator
-                  - justify-self: center
-                  - align-self: center
-                  - display: >
-                      [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
-            custom_fields:
-              indicator: <div class="side-indicator"></div>
-            extra_styles: |
-              .side-indicator {
-                width: 5px;
-                height: 24px;
-                border-radius: 999px;
-                background: rgba(var(--card-color-rgb,120,180,255),1);
-                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
-                animation: sidePulse 1.8s ease-in-out infinite;
-              }
-              @keyframes sidePulse {
-                0%, 100% {
-                  opacity: 0.55;
-                  transform: scaleY(0.72);
-                }
-                50% {
-                  opacity: 1;
-                  transform: scaleY(1);
-                }
-              }
+          #- type: custom:button-card
+          #  icon: fapro:house-fill
+          #  tap_action:
+          #    action: fire-dom-event
+          #    browser_mod:
+          #      service: browser_mod.sequence
+          #      data:
+          #        sequence:
+          #          - service: input_select.select_option
+          #            data:
+          #              entity_id: input_select.dashboard_auswahl
+          #              option: home
+          #          - service: browser_mod.navigate
+          #            data:
+          #              path: /lovelace-tablet/home
+          #  styles:
+          #    grid:
+          #      - grid-template-areas: '"indicator i spacer"'
+          #      - grid-template-columns: 22px 1fr 22px
+          #      - grid-template-rows: 1fr
+          #    card:
+          #      - width: 108px
+          #      - height: 58px
+          #      - margin: 8px auto
+          #      - border-radius: 18px
+          #      - background: rgba(255,255,255,0.06)
+          #      - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
+          #      - position: relative
+          #    img_cell:
+          #      - grid-area: i
+          #      - justify-self: center
+          #      - align-self: center
+          #      - width: 100%
+          #      - height: 100%
+          #      - margin: 0
+          #    icon:
+          #      - width: 28px
+          #      - height: 28px
+          #      - justify-self: center
+          #      - align-self: center
+          #      - margin: 0
+          #      - color: >
+          #          [[[
+          #            return location.pathname.includes("home")
+          #              ? "rgba(var(--card-color-rgb,120,180,255),1)"
+          #              : "rgba(255,255,255,0.45)";
+          #          ]]]
+          #    custom_fields:
+          #      indicator:
+          #        - grid-area: indicator
+          #        - justify-self: center
+          #        - align-self: center
+          #        - display: >
+          #            [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
+          #  custom_fields:
+          #    indicator: <div class="side-indicator"></div>
+          #  extra_styles: |
+          #    .side-indicator {
+          #      width: 5px;
+          #      height: 24px;
+          #      border-radius: 999px;
+          #      background: rgba(var(--card-color-rgb,120,180,255),1);
+          #      box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+          #      animation: sidePulse 1.8s ease-in-out infinite;
+          #    }
+          #    @keyframes sidePulse {
+          #      0%, 100% {
+          #        opacity: 0.55;
+          #        transform: scaleY(0.72);
+          #      }
+          #      50% {
+          #        opacity: 1;
+          #        transform: scaleY(1);
+          #      }
+          #    }
+
+# Beispiel: HOME Button
+- type: custom:button-card
+  icon: fapro:house-fill
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.sequence
+      data:
+        sequence:
+          - service: input_select.select_option
+            data:
+              entity_id: input_select.dashboard_auswahl
+              option: home
+          - service: browser_mod.navigate
+            data:
+              path: /lovelace-tablet/home
+
+  styles:
+    grid:
+      - grid-template-areas: '"indicator i spacer"'
+      - grid-template-columns: 22px 1fr 22px
+    icon:
+      - width: 28px
+      - color: >
+          [[[
+            const active =
+              states["input_select.dashboard_auswahl"]?.state === "home" ||
+              location.pathname.includes("/home");
+
+            return active
+              ? "rgba(var(--card-color-rgb,120,180,255),1)"
+              : "rgba(255,255,255,0.45)";
+          ]]]
+
+    custom_fields:
+      indicator:
+        - grid-area: indicator
+        - justify-self: center
+        - align-self: center
+        - display: >
+            [[[
+              const active =
+                states["input_select.dashboard_auswahl"]?.state === "home" ||
+                location.pathname.includes("/home");
+
+              return active ? "block" : "none";
+            ]]]
+
+  custom_fields:
+    indicator: <div class="side-indicator"></div>
+
+  extra_styles: |
+    .side-indicator {
+      width: 5px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(var(--card-color-rgb,120,180,255),1);
+      box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+      animation: sidePulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes sidePulse {
+      0%, 100% {
+        opacity: 0.55;
+        transform: scaleY(0.72);
+      }
+      50% {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+    }
 
           - type: custom:button-card
             icon: fapro:music-alt
