@@ -45,7 +45,7 @@ card:
                 rgba(255,255,255,0.12),
                 rgba(255,255,255,0.03)
               ),
-              var(--sidebar-background)
+              var(--sidebar-background);
 
             backdrop-filter: blur(var(--sidebar-blur, 30px)) saturate(var(--sidebar-saturate, 170%));
             -webkit-backdrop-filter: blur(var(--sidebar-blur, 30px)) saturate(var(--sidebar-saturate, 170%));
