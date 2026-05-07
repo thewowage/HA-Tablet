@@ -66,23 +66,6 @@ climate_card_modern_wge:
             `;
           ]]]
 
-      - box-shadow: >
-          [[[
-            const action = entity.attributes.hvac_action;
-            const t = Number(entity.attributes.current_temperature || 20);
-            const cold = variables.cold_temp || 18;
-            const hot = variables.hot_temp || 25;
-            const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
-
-            const r = Math.round(80 + ratio * 175);
-            const g = Math.round(170 - ratio * 70);
-            const b = Math.round(255 - ratio * 180);
-
-            return action === "heating"
-              ? `0 6px 18px rgba(${r},${g},${b},0.28)`
-              : "var(--card-shadow)";
-          ]]]
-
     name:
       - justify-self: start
       - align-self: end
