@@ -201,52 +201,29 @@ home_card_flora_modern_wge:
               border-radius: 0 !important;
             }
 
-    status: |
-      [[[
-        const plants = [
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          },
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          },
-          {
-            entity: "sensor.mangobaum",
-            days_entity: "sensor.mangobaum_tage_seit_giessen"
-          }
-        ];
-
-        let html = `<div class="plant-status-wrap">`;
-
-        plants.forEach((plant) => {
-          const p = states[plant.entity];
+      status: >
+        [[[
+          const p = states["sensor.mangobaum"];
           const problem = p?.attributes?.problem_code || "";
-          const days = Number(states[plant.days_entity]?.state || 0);
+          const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
 
           const dry = problem.includes("moisture") || days >= 14;
           const warning = days >= 10 && days < 14;
 
-          let color = "rgba(88,214,141,1)";
+          let color = "rgba(80,220,120,1)";
 
-          if (warning) color = "rgba(255,190,70,1)";
-          if (dry) color = "rgba(255,95,87,1)";
+          if (warning)
+            color = "rgba(255,190,70,1)";
 
-          html += `
-            <div
-              class="plant-dot"
-              style="
-                background:${color};
-                box-shadow:0 0 12px ${color};
-              ">
+          if (dry)
+            color = "rgba(255,90,90,1)";
+
+          return `
+            <div class="plant-status-wrap">
+              <div class="plant-dot" style="background:${color}"></div>
             </div>
           `;
-        });
-
-        html += `</div>`;
-        return html;
-      ]]]
+        ]]]
 
   extra_styles: |
     ha-card {
@@ -338,23 +315,25 @@ home_card_flora_modern_wge:
     }
 
     .plant-status-wrap {
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     }
 
     .plant-dot {
       width: 12px;
       height: 12px;
       border-radius: 50%;
+      box-shadow:
+        0 0 10px currentColor,
+        0 0 18px currentColor;
       animation: plantPulse 2s ease-in-out infinite;
     }
 
     @keyframes plantPulse {
       0%,100% {
         transform: scale(1);
-        opacity: .82;
+        opacity: .85;
       }
       50% {
         transform: scale(1.18);
