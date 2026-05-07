@@ -46,6 +46,11 @@ home_card_flora_modern_wge:
       - text-align: left
 
     custom_fields:
+      status:
+        - position: absolute
+        - top: 16px
+        - right: 16px
+
       title:
         - font-size: 22px
         - font-weight: 800
