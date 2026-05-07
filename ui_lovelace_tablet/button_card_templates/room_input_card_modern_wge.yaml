@@ -77,28 +77,6 @@ room_input_card_modern_wge:
               : "var(--ha-card-background)";
           ]]]
 
-      - box-shadow: >
-          [[[
-            const entities = variables.entities || [];
-
-            const light = entities.find(e =>
-              e.startsWith("light.") &&
-              states[e]?.state === "on" &&
-              states[e]?.attributes?.rgb_color
-            );
-
-            let color = variables.room_color || "255,209,102";
-            if (light) color = states[light].attributes.rgb_color.join(",");
-
-            const selected = states[variables.input_select]?.state === variables.option;
-
-            return selected
-              ? `
-                0 0 0 1px rgba(${color},0.35),
-                0 6px 16px rgba(${color},0.32)
-              `
-              : "0 3px 10px rgba(0,0,0,0.16)";
-          ]]]
 
     name:
       - justify-self: center
