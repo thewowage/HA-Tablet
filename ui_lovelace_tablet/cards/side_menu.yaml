@@ -5,7 +5,6 @@ conditions:
 card:
   type: horizontal-stack
   cards:
-
     - type: custom:mod-card
       view_layout:
         grid-area: side_menu
@@ -244,8 +243,11 @@ card:
           - type: custom:button-card
             icon: fapro:house-fill
             tap_action:
-              action: navigate
-              navigation_path: /lovelace-tablet/home
+              action: call-service
+              service: input_select.select_option
+              service_data:
+                entity_id: input_select.dashboard_auswahl
+                option: home
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
