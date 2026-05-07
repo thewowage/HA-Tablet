@@ -4,7 +4,7 @@ air_cleaner_card_modern_wge:
 
   variables:
     enable_osc_btn: false
-    luftqualitat_sensor: sensor.luftreiniger_wohnzimmer_luftqualitat
+    air_quality_sensor: sensor.luftreiniger_wohnzimmer_luftqualitat
     #card_color: "120,180,255"
     card_color: >
       [[[
