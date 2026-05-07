@@ -286,7 +286,7 @@ card:
               @keyframes sidePulse {
                 0%, 100% {
                   opacity: 0.55;
-                  transform: scaleY(0.72);
+                  transform: scaleY(1.72);
                 }
                 50% {
                   opacity: 1;
