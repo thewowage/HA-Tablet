@@ -175,7 +175,7 @@ climate_card_modern_wge:
                   - box-shadow: none
                   - border: none
                 icon:
-                  - width: 18px
+                  - width: 28px
                   - color: var(--primary-text-color)
               tap_action:
                 action: call-service
