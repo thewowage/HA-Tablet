@@ -368,20 +368,3 @@ card:
                       [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
             custom_fields: *indicator
             extra_styles: *indicator_style
-
-          - type: custom:button-card
-            icon: mdi:refresh
-            tap_action:
-              action: javascript
-              javascript: location.reload()
-            styles:
-              <<: *sidebar_button
-              icon:
-                - width: var(--sidebar-icon-size, 28px)
-                - height: var(--sidebar-icon-size, 28px)
-                - color: var(--secondary-text-color)
-              custom_fields:
-                indicator:
-                  - display: none
-            custom_fields: *indicator
-            extra_styles: *indicator_style
