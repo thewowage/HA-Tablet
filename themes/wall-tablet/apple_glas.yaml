@@ -122,27 +122,3 @@ Apple Glass:
 
   card-shadow: 0 3px 10px rgba(0,0,0,0.16)
   card-glass-border: rgba(255,255,255,0.10)
-
-  # Sidebar
-  sidebar-width: 200px
-  sidebar-radius: 30px
-  sidebar-blur: 30px
-  sidebar-saturate: 170%
-
-  sidebar-bg-opacity-strong: 0.14
-  sidebar-bg-opacity-soft: 0.04
-
-  sidebar-time-size: 30px
-  sidebar-time-weight: 900
-  sidebar-date-size: 14px
-  sidebar-date-weight: 700
-
-  sidebar-button-width: 108px
-  sidebar-button-height: 58px
-  sidebar-button-radius: 18px
-  sidebar-button-spacer: 16px
-
-  sidebar-icon-size: 28px
-  sidebar-indicator-width: 5px
-  sidebar-indicator-height: 24px
-
