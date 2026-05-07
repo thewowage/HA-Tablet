@@ -136,7 +136,7 @@ light_card_modern_wge:
             - touch-action: pan-y
 
           progress:
-            - height: 20px
+            - height: 100%
             - border-radius: 999px
             - touch-action: pan-y
             - background: >
