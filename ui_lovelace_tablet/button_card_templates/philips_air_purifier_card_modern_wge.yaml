@@ -76,12 +76,30 @@ philips_air_purifier_card_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const color = variables.card_color || "120,180,255";
+      #- box-shadow: >
+      #    [[[
+      #      const color = variables.card_color || "120,180,255";
 
             return entity.state === "on"
               ? `0 6px 18px rgba(${color},0.22)`
+              : "var(--card-shadow)";
+          ]]]
+
+      - box-shadow: >
+          [[[
+            const v = Number(states[variables.pm25_sensor]?.state) || 0;
+            const color = variables.card_color || "120,180,255";
+
+            if (v > 35 && entity.state === "on") {
+              return `
+                0 0 0 1px rgba(${color},0.28),
+                0 0 22px rgba(${color},0.42),
+                0 8px 22px rgba(${color},0.24)
+              `;
+            }
+
+            return entity.state === "on"
+              ? `0 6px 18px rgba(${color},0.16)`
               : "var(--card-shadow)";
           ]]]
 
