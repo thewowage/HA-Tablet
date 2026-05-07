@@ -88,7 +88,7 @@ mediaplayer_tv_card_modern_wge:
         const appId = entity.attributes.app_id;
         const appName = entity.attributes.app_name;
 
-        if (appId === 'com.google.ios.youtube') return '<ha-icon icon="fapro:youtube"></ha-icon>';
+        if (appId === 'com.google.ios.youtube') return '<ha-icon icon="mdi:youtube"></ha-icon>';
         if (appId === 'com.netflix.Netflix') return '<ha-icon icon="mdi:netflix"></ha-icon>';
         if (appId === 'com.apple.TVMusic') return '<ha-icon icon="mdi:music"></ha-icon>';
         if (appId === 'com.disney.disneyplus') return '<ha-icon icon="mdi:movie-open-star"></ha-icon>';
