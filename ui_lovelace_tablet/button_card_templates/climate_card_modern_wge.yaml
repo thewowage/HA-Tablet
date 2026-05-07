@@ -223,7 +223,6 @@ climate_card_modern_wge:
           - entity: "[[[ return variables.graph_entity ]]]"
         line_width: 2
         line_color: >
-        line_color: >
           [[[
             // 🔹 Wenn fixe Farbe gesetzt → nutze sie
             if (variables.graph_color) return variables.graph_color;
