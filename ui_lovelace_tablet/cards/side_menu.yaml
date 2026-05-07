@@ -516,3 +516,70 @@ card:
                   transform: scaleY(1);
                 }
               }
+
+          - type: custom:button-card
+            icon: fapro:toggle-on
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-tablet/einstellungen
+            styles:
+              grid:
+                - grid-template-areas: '"indicator i spacer"'
+                - grid-template-columns: 22px 1fr 22px
+                - grid-template-rows: 1fr
+              card:
+                - width: 108px
+                - height: 58px
+                - margin: 8px auto
+                - border-radius: 18px
+                - background: rgba(255,255,255,0.06)
+                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
+                - position: relative
+              img_cell:
+                - grid-area: i
+                - justify-self: center
+                - align-self: center
+                - width: 100%
+                - height: 100%
+                - margin: 0
+              icon:
+                - width: 28px
+                - height: 28px
+                - justify-self: center
+                - align-self: center
+                - margin: 0
+                - color: >
+                    [[[
+                      return location.pathname.includes("einstellungen")
+                        ? "rgba(var(--card-color-rgb,120,180,255),1)"
+                        : "rgba(255,255,255,0.45)";
+                    ]]]
+              custom_fields:
+                indicator:
+                  - grid-area: indicator
+                  - justify-self: center
+                  - align-self: center
+                  - display: >
+                      [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
+            custom_fields:
+              indicator: <div class="side-indicator"></div>
+            extra_styles: |
+              .side-indicator {
+                width: 5px;
+                height: 24px;
+                border-radius: 999px;
+                background: rgba(var(--card-color-rgb,120,180,255),1);
+                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+                animation: sidePulse 1.8s ease-in-out infinite;
+              }
+
+              @keyframes sidePulse {
+                0%, 100% {
+                  opacity: 0.55;
+                  transform: scaleY(0.72);
+                }
+                50% {
+                  opacity: 1;
+                  transform: scaleY(1);
+                }
+              }
