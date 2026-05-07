@@ -88,17 +88,6 @@ home_card_flora_modern_wge:
         - color: white
         - z-index: 3
 
-      graph:
-        - display: >
-            [[[ return variables.show_graph ? "block" : "none"; ]]]
-        - position: absolute
-        - left: 0
-        - bottom: 0
-        - width: 100%
-        - opacity: 0.34
-        - z-index: 1
-        - pointer-events: none
-
   custom_fields:
     #title: "Flora"
 
