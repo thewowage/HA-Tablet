@@ -26,8 +26,8 @@ home_card_flora_modern_wge:
           [[[
             return `url('${variables.image}')`;
           ]]]
-      - background-size: 80% 
-      - background-position: center right 
+      - background-size: cover
+      - background-position: center right
       - background-repeat: no-repeat
     grid:
       - grid-template-areas: |
