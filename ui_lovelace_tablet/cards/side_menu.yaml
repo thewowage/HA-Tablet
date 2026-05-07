@@ -67,12 +67,6 @@ card:
                 - background: transparent
                 - box-shadow: none
                 - padding: 0
-              name:
-                - font-size: 30px
-                - font-weight: 900
-                - color: rgba(255,255,255,0.96)
-                - justify-self: center
-                - text-align: center
 
           - type: custom:button-card
             show_icon: false
