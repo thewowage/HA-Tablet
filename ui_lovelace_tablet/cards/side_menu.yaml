@@ -248,6 +248,8 @@ card:
               service_data:
                 entity_id: input_select.dashboard_auswahl
                 option: home
+              action: navigate
+              navigation_path: /lovelace-tablet/audio
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
