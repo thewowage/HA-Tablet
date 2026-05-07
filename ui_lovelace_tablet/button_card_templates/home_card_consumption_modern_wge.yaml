@@ -5,7 +5,7 @@ home_card_consumption_modern_wge:
 
   variables:
     price_per_kwh: 0.30
-    image: /local/images/dashboard/lamp_bg.png
+    image: /local/images/dashboard/floor_lamp_bg.png
     card_color: "255,209,102"
     warning_color: "236,99,55"
 
