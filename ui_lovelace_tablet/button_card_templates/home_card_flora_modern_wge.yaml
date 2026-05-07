@@ -37,7 +37,6 @@ home_card_flora_modern_wge:
           "strelitzie"
           "label_stillstand"
           "stillstand"
-          "graph"
       - grid-template-columns: 1fr
       - row-gap: 7px
       - justify-items: start
