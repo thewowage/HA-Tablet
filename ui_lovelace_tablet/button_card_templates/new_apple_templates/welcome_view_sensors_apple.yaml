@@ -1,0 +1,98 @@
+welcome_greeting_apple:
+  entity: sensor.welcome_begruessung
+  show_state: true
+  show_name: false
+  show_icon: false
+  show_label: false
+
+  tap_action:
+    action: none
+
+  styles:
+    card:
+      - background: transparent
+      - box-shadow: none
+      - border: 0
+      - margin: 0 0 8px 0
+      - padding: 0
+      - transition: none
+
+    state:
+      - justify-self: start
+      - font-size: 24px
+      - font-weight: 500
+      - letter-spacing: 0.08em
+      - text-transform: uppercase
+      - color: var(--card-subtext-color)
+
+welcome_time_apple:
+  entity: sensor.time
+  show_icon: false
+  show_state: true
+  show_name: false
+
+  tap_action:
+    action: none
+  hold_action:
+    action: none
+
+  styles:
+    card:
+      - background: transparent
+      - box-shadow: none
+      - border: 0
+      - width: 550px
+      - height: 140px
+      - margin-bottom: 8px
+      - padding: 0
+      - transition: none
+
+    state:
+      - justify-self: start
+      - text-align: left
+      - font-size: 168px
+      - line-height: 0.82
+      - font-weight: 100
+      - letter-spacing: -0.08em
+      - color: var(--card-text-color)
+      - text-shadow: 0 10px 40px rgba(0,0,0,0.28)
+      - transform: |-
+          [[[
+            const state = entity?.state || '';
+            const hour = state.split(':')[0] || '';
+
+            if (/^0/.test(hour)) return 'translateX(-18px)';
+            if (/^2/.test(hour)) return 'translateX(-6px)';
+            return 'translateX(0)';
+          ]]]
+
+welcome_date_apple:
+  entity: sensor.calendar_date_de
+  show_icon: false
+  show_state: true
+  show_name: false
+
+  tap_action:
+    action: none
+  hold_action:
+    action: none
+
+  styles:
+    card:
+      - background: transparent
+      - box-shadow: none
+      - border: 0
+      - border-radius: 4px
+      - width: 500px
+      - height: 40px
+      - margin: 0
+      - padding: 0
+      - transition: none
+
+    state:
+      - justify-self: start
+      - text-align: left
+      - font-size: 24px
+      - font-weight: 400
+      - color: var(--card-subtext-color)
+      - text-shadow: 0 4px 20px rgba(0,0,0,0.22)

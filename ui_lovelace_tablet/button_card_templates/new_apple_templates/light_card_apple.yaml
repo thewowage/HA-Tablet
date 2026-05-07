@@ -1,0 +1,354 @@
+light_card_apple:
+  icon: mdi:lightbulb-outline
+  show_label: true
+
+  variables:
+    enable_slider: false
+
+  label: |
+    [[[
+      const briRaw = entity?.attributes?.brightness;
+      const bri = briRaw ? Math.round(briRaw / 2.55) : 0;
+
+      if (entity.state === "on" && variables.enable_slider) return bri + "%";
+      if (entity.state === "on") return "An";
+      if (entity.state === "unavailable") return "Unknown";
+      return "Aus";
+    ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          [[[
+            if (variables.enable_slider && entity?.attributes?.brightness) {
+              return '"n i" "l i" "slider slider"';
+            }
+            return '". i" "n n" "l l"';
+          ]]]
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr
+
+    card:
+      - padding: 18px
+      - height: 113px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - transform-style: preserve-3d
+      - backdrop-filter: blur(28px) saturate(160%)
+      - -webkit-backdrop-filter: blur(28px) saturate(160%)
+      - border: 1px solid var(--card-glass-border)
+      - transition: background 0.6s ease, box-shadow 0.6s ease, filter 0.6s ease
+      - border: none
+      - --ha-card-border-width: 0
+      - background: >
+          [[[
+            const glass = "var(--card-glass-bg)";
+
+            let r = 255, g = 209, b = 102;
+
+            if (entity.attributes.rgb_color) {
+              [r, g, b] = entity.attributes.rgb_color;
+            } else if (entity.attributes.color_temp) {
+              const kelvin = 1000000 / entity.attributes.color_temp;
+
+              if (kelvin < 4000) {
+                r = 255; g = 170; b = 90;
+              } else {
+                r = 180; g = 220; b = 255;
+              }
+            }
+
+            const bri = entity.attributes.brightness ?? 180;
+            const intensity = Math.max(0.35, Math.min(1, bri / 255));
+
+            if (entity.state === "on") {
+              return `
+                radial-gradient(
+                  circle at 8% 8%,
+                  rgba(${r},${g},${b},${0.45 + intensity * 0.30}) 0%,
+                  rgba(${r},${g},${b},${0.22 + intensity * 0.14}) 20%,
+                  rgba(${r},${g},${b},${0.10 + intensity * 0.08}) 38%,
+                  rgba(${r},${g},${b},0.04) 55%,
+                  transparent 72%
+                ),
+                linear-gradient(
+                  145deg,
+                  rgba(255,255,255,0.14),
+                  rgba(255,255,255,0.03)
+                ),
+                ${glass}
+              `;
+            }
+
+            return `
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.10),
+                rgba(255,255,255,0.02)
+              ),
+              ${glass}
+            `;
+          ]]]
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - font-size: var(--card-glass-font-size-primary)
+      - font-weight: var(--card-glass-font-weight-primary)
+      - color: var(--card-text-color)
+      - z-index: 3
+
+    label:
+      - justify-self: start
+      - align-self: center
+      - font-size: var(--card-glass-font-size-secondary)
+      - font-weight: var(--card-glass-font-weight-secondary)
+      - color: var(--card-subtext-color)
+      - z-index: 3
+      - padding-bottom: >
+          [[[
+            return variables.enable_slider && entity?.attributes?.brightness ? "10px" : "0";
+          ]]]
+
+    icon:
+      - width: 22px
+      - color: >
+          [[[
+            let r = 255, g = 209, b = 102;
+
+            if (entity.attributes.rgb_color) {
+              [r, g, b] = entity.attributes.rgb_color;
+            } else if (entity.attributes.color_temp) {
+              const kelvin = 1000000 / entity.attributes.color_temp;
+
+              if (kelvin < 4000) {
+                r = 255; g = 170; b = 90;
+              } else {
+                r = 180; g = 220; b = 255;
+              }
+            }
+
+            return entity.state === "on"
+              ? `rgba(${r},${g},${b},1)`
+              : "var(--card-subtext-color)";
+          ]]]
+      - transition: color 0.6s ease
+      - z-index: 3
+
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - width: 28px
+      - height: 28px
+      - border-radius: 50%
+      - background: transparent
+      - z-index: 2
+
+    custom_fields:
+      glass_reflection:
+        - position: absolute
+        - inset: 0
+        - z-index: 1
+        - pointer-events: none
+
+      soft_light:
+        - position: absolute
+        - inset: 0
+        - z-index: 2
+        - pointer-events: none
+
+      slider:
+        - display: >
+            [[[
+              return variables.enable_slider && entity?.attributes?.brightness
+                ? "block"
+                : "none";
+            ]]]
+        - align-self: end
+        - z-index: 3
+
+  custom_fields:
+    glass_reflection: |
+      [[[
+        return `<div class="glass-reflection"></div>`;
+      ]]]
+
+    soft_light: |
+      [[[
+        let r = 255, g = 209, b = 102;
+
+        if (entity.attributes.rgb_color) {
+          [r, g, b] = entity.attributes.rgb_color;
+        } else if (entity.attributes.color_temp) {
+          const kelvin = 1000000 / entity.attributes.color_temp;
+
+          if (kelvin < 4000) {
+            r = 255; g = 170; b = 90;
+          } else {
+            r = 180; g = 220; b = 255;
+          }
+        }
+
+        return `<div class="soft-light" style="--dynamic-color:${r},${g},${b};"></div>`;
+      ]]]
+
+    slider:
+      card:
+        type: custom:my-slider-v2
+        entity: "[[[ return entity.entity_id ]]]"
+        mode: brightness
+        styles:
+          card:
+            - height: 30px
+            - box-shadow: none
+            - padding: 0
+            - background: var(--card-slider-bg, rgba(255,255,255,0.08))
+            - border-radius: 10px
+            - touch-action: pan-y
+
+          progress:
+            - height: 100%
+            - border-radius: 10px
+            - touch-action: pan-y
+            - transition: width 0.45s ease, background 0.6s ease
+            - background: >
+                [[[
+                  let r = 255, g = 209, b = 102;
+
+                  if (entity.attributes.rgb_color) {
+                    [r, g, b] = entity.attributes.rgb_color;
+                  } else if (entity.attributes.color_temp) {
+                    const kelvin = 1000000 / entity.attributes.color_temp;
+
+                    if (kelvin < 4000) {
+                      r = 255; g = 170; b = 90;
+                    } else {
+                      r = 180; g = 220; b = 255;
+                    }
+                  }
+
+                  return entity.state === "on"
+                    ? `rgba(${r},${g},${b},0.95)`
+                    : "transparent";
+                ]]]
+
+          track:
+            - background: var(--card-slider-bg, rgba(255,255,255,0.08))
+            - border-radius: 10px
+            - touch-action: pan-y
+
+          thumb:
+            - height: 30%
+            - width: 3px
+            - position: absolute
+            - right: 7px
+            - top: 11px
+            - touch-action: pan-y
+            - transition: background 0.6s ease, left 0.45s ease, right 0.45s ease
+            - background: >
+                [[[
+                  let r = 255, g = 209, b = 102;
+
+                  if (entity.attributes.rgb_color) {
+                    [r, g, b] = entity.attributes.rgb_color;
+                  } else if (entity.attributes.color_temp) {
+                    const kelvin = 1000000 / entity.attributes.color_temp;
+
+                    if (kelvin < 4000) {
+                      r = 255; g = 170; b = 90;
+                    } else {
+                      r = 180; g = 220; b = 255;
+                    }
+                  }
+
+                  return entity.state === "on"
+                    ? `rgba(${r},${g},${b},1)`
+                    : "var(--card-text-color)";
+                ]]]
+
+  state:
+    - value: "on"
+      icon: mdi:lightbulb-on
+
+    - value: "off"
+      icon: mdi:lightbulb-outline
+
+    - value: "unavailable"
+      icon: mdi:lightbulb-question
+      label: Unknown
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+        icon:
+          - color: rgba(255,255,255,0.35)
+
+  tap_action:
+    action: toggle
+
+  hold_action:
+    action: more-info
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      transition:
+        background 0.6s ease,
+        filter 0.6s ease,
+        transform 0.22s cubic-bezier(.2,.8,.2,1);
+      perspective: 900px;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--card-glass-reflection-start, rgba(255,255,255,0.28)) 0%,
+          var(--card-glass-reflection-mid, rgba(255,255,255,0.08)) 28%,
+          transparent 58%
+        );
+
+      
+    }
+
+    .soft-light {
+      position: absolute;
+      inset: -35%;
+      border-radius: 999px;
+      background:
+        radial-gradient(
+          circle,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-strong, 0.22)) 0%,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-soft, 0.10)) 34%,
+          transparent 65%
+        );
+      opacity: 0;
+      transform: translate(-18%, -10%);
+      pointer-events: none;
+    }
+
+    ha-card:hover .soft-light {
+      opacity: 5;
+      animation: softLightMove 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes softLightMove {
+      0% {
+        transform: translate(-22%, -12%) scale(1);
+      }
+
+      100% {
+        transform: translate(12%, 10%) scale(1.18);
+      }
+    }

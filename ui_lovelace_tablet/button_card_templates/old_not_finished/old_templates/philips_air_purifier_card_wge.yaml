@@ -1,0 +1,303 @@
+philips_air_purifier_card_wge:
+  variables:
+    enable_osc_btn:
+    child_lock: switch.wohnzimmer_kindersicherung_2
+    show_graph: true
+    graph_entity:
+    graph_color: var(--label-badge-blue)
+  label: |
+    [[[
+      if (entity.state == 'on' && entity.attributes.preset_mode == 'auto') {
+        return "automatisch"
+      } else if (entity.state == 'on' && entity.attributes.preset_mode == 'sleep') {
+        return 'schlafen'
+      } else if (entity.state == 'on' && entity.attributes.mode == 'manual') {
+        return states[entity.entity_id].attributes.percentage + "%"
+      } else if (entity.state == 'off' && states[entity.entity_id].state == 'off') {
+        return 'Aus'
+      } else {
+        return 'Unbekannt'
+      }
+    ]]]
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+  styles:
+    grid:
+      - grid-template-areas: |
+          'n auto_icon turbo_icon sleep_icon i'
+          'l . . . i'
+          'slider slider slider slider slider'
+      - grid-template-rows: min-content min-content 1fr min-content
+      - column-gap: 5px
+    card:
+      - height: 105px
+      - padding: 10px
+    name:
+      - text-align: left
+      - justify-self: start
+      - align-self: star
+      - font-size: var(--font-size-primary)
+      - font-weight: var(--font-weight-primary)
+    label:
+      - text-align: left
+      - font-size: var(--font-size-state)
+      - font-weight: var(--font-weight-state)
+      - justify-self: start
+      - align-self: start
+      - opacity: 0.7
+      - margin-bottom: 5px
+    icon:
+      - width: 60%
+      - color: white
+    img_cell:
+      - background: var(--sidebar-background-color)
+      - padding: 5px
+      - border-radius: 50%
+      - width: 25px
+      - height: 25px
+      - align-self: start
+    custom_fields:
+      osc_icon:
+        - display: >
+            [[[
+              if (variables.enable_osc_btn) {
+                  return "block";
+              }
+              return "none";
+            ]]]
+        - justify-self: start
+        - align-self: start
+      graph:
+        - display: |
+            [[[ return variables.show_graph && variables.graph_entity ? 'block' : 'none' ]]]
+        - position: absolute
+        - left: 0
+        - bottom: -1px
+        - width: 100%
+        - z-index: 1
+  state:
+    - value: "on"
+      styles:
+        card:
+          - background: var(--ha-card-background)
+        name:
+          - color: white
+        label:
+          - color: white
+        state:
+          - color: white
+        icon:
+          - color: var(--paper-item-icon-active-color)
+          - animation-name: spin;
+          - animation-duration: 5000ms;
+          - animation-iteration-count: infinite;
+          - animation-timing-function: linear;
+    - value: "off"
+      styles:
+        icon:
+          - color: var(--paper-item-icon-active-color)
+        img_cell:
+          - background: var(--sidebar-background-color)
+    - value: unavailable
+      styles:
+        icon:
+          - color: var(--paper-item-icon-color)
+        img_cell:
+          - background: var(--paper-item-icon-active-color)
+      label: Unavailable
+      icon: mdi:fan-question
+  extra_styles: |
+    @keyframes spin {
+      from {
+          transform:rotate(0deg);
+      }
+      to {
+          transform:rotate(360deg);
+      }
+    }
+  custom_fields:
+    slider:
+      card:
+        type: custom:my-slider-v2
+        entity: "[[[ return entity.entity_id ]]]"
+        styles:
+          card:
+            - height: 30px
+            - box-shadow: none
+            - padding: 0
+          progress:
+            - height: 100%
+            - background: |
+                [[[
+                  if (states[entity.entity_id].state === 'off') {
+                    return 'transparent';
+                  } else {
+                    return 'white';
+                  }
+                ]]]
+            - border-radius: 12px 12px 12px 12px
+          track:
+            - background: |
+                [[[
+                  if (states[entity.entity_id].state === 'on') {
+                    return 'var(--paper-slider-active-color)';
+                  } else {
+                    return 'var(--paper-slider-container-color)';
+                  }
+                ]]]
+            - border-radius: 12px
+          thumb:
+            - height: 30%
+            - background: |
+                [[[
+                  if (states[entity.entity_id].state === 'off') {
+                    return 'transparent';
+                  } else {
+                    return 'white';
+                  }
+                ]]]
+            - position: absolute
+            - right: 7px
+            - top: 11px
+            - width: 3px
+    auto_icon:
+      card:
+        type: custom:button-card
+        icon: |
+          [[[
+            if (entity.attributes.preset_mode == 'sleep') {
+              return 'mdi:fan-auto'
+            } else {
+              return 'mdi:fan-auto'
+            }
+          ]]]
+        styles:
+          card:
+            - width: 35px
+            - height: 35px
+            - margin: 0
+            - padding: 0
+            - box-shadow: none
+            - background: none
+          icon:
+            - width: 50%
+            - color: |
+                [[[
+                  if (entity.attributes.preset_mode == 'auto') {
+                    return 'var(--paper-item-icon-active-color)'
+                  } else {
+                    return ''
+                  }
+                ]]]
+          img_cell:
+            - background: |
+                [[[
+                  if (entity.attributes.preset_mode == 'auto') {
+                    return 'var(--ha-card-background)'
+                  } else {
+                    return 'var(--ha-card-background)'
+                  }
+            - border-radius: 50px
+            - height: 100%
+        tap_action:
+          action: call-service
+          service: fan.set_preset_mode
+          service_data:
+            preset_mode: auto
+            entity_id: "[[[ return entity.entity_id ]]]"
+    turbo_icon:
+      card:
+        type: custom:button-card
+        icon: |
+          [[[
+            if (entity.attributes.preset_mode == 'turbo') {
+              return 'pap:speed_3'
+            } else {
+              return 'pap:speed_3'
+            }
+          ]]]
+        styles:
+          card:
+            - width: 35px
+            - height: 35px
+            - margin: 0
+            - padding: 0
+            - box-shadow: none
+            - background: none
+          icon:
+            - width: 50%
+            - color: |
+                [[[
+                  if (entity.attributes.preset_mode == 'turbo') {
+                    return 'var(--paper-item-icon-active-color)'
+                  } else {
+                    return ''
+                  }
+                ]]]
+          img_cell:
+            - background: |
+                [[[
+                  if (entity.attributes.preset_mode == 'turbo') {
+                    return 'var(--ha-card-background)'
+                  } else {
+                    return 'var(--ha-card-background)'
+                  }
+                ]]]
+            - border-radius: 50px
+            - height: 100%
+        tap_action:
+          action: call-service
+          service: fan.set_preset_mode
+          service_data:
+            preset_mode: turbo
+            entity_id: "[[[ return entity.entity_id ]]]"
+    sleep_icon:
+      card:
+        type: custom:button-card
+        icon: |
+          [[[
+            if (entity.attributes.preset_mode == 'sleep') {
+              return 'mdi:weather-night'
+            } else {
+              return 'mdi:weather-night'
+            }
+          ]]]
+        styles:
+          card:
+            - width: 35px
+            - height: 35px
+            - margin: 0
+            - padding: 0
+            - box-shadow: none
+            - background: none
+          icon:
+            - width: 50%
+            - color: |
+                [[[
+                  if (entity.attributes.preset_mode == 'sleep') {
+                    return "var(--paper-item-icon-active-color)"
+                  } else {
+                    return ''
+                  }
+                ]]]
+          img_cell:
+            - background: |
+                [[[
+                  if (entity.attributes.preset_mode == 'sleep') {
+                    return 'var(--ha-card-background)'
+                  } else {
+                    return 'var(--ha-card-background)'
+                  }
+                ]]]
+            - border-radius: 50px
+            - height: 100%
+        tap_action:
+          action: call-service
+          service: fan.set_preset_mode
+          service_data:
+            preset_mode: sleep
+            entity_id: "[[[ return entity.entity_id ]]]"
+  hold_action:
+    action: more-info

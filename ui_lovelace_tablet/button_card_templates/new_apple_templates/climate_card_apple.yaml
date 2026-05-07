@@ -1,0 +1,397 @@
+climate_card_apple:
+  variables:
+    show_graph: true
+    graph_entity: sensor.multisensor_wohnzimmer_temperatur
+    graph_color:
+    current_temp_label: "Momentane Temperatur: "
+    cold_temp: 18
+    hot_temp: 25
+    card_glass_bg: "var(--card-glass-bg)"
+
+  show_label: true
+  show_state: true
+
+  label: >
+    [[[
+      const t = entity.attributes.current_temperature ?? "-";
+      return t + '<sup style="font-size:18px;">°</sup>';
+    ]]]
+
+  state_display: >
+    [[[
+      const hvac = entity.attributes.hvac_action || entity.state;
+      const current = Number(entity.attributes.current_temperature);
+      const target = entity.attributes.temperature;
+
+      if (entity.state === "unavailable") return "Unknown";
+      if (entity.state === "off") return "Aus";
+      if (current <= 16) return "❄️ Frostschutz";
+      if (hvac === "heating") return "🔥 Heizt auf " + target + "°";
+      if (hvac === "idle") return "Ruht · Ziel " + target + "°";
+      return "Ziel " + target + "°";
+    ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "l buttons"
+          "n buttons"
+          "s buttons"
+          "graph graph"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content min-content min-content
+
+    card:
+      - height: 110px
+      - padding: 16px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - transform-style: preserve-3d
+      - backdrop-filter: blur(28px) saturate(160%)
+      - -webkit-backdrop-filter: blur(28px) saturate(160%)
+      - border: none
+      - --ha-card-border-width: 0
+      - transition: background 0.6s ease, box-shadow 0.6s ease, filter 0.6s ease
+      - background: >
+          [[[
+            const t = Number(entity.attributes.current_temperature || 20);
+            const cold = variables.cold_temp || 18;
+            const hot = variables.hot_temp || 25;
+            const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
+
+            const r = Math.round(80 + ratio * 175);
+            const g = Math.round(170 - ratio * 70);
+            const b = Math.round(255 - ratio * 180);
+            const color = `${r},${g},${b}`;
+            const glass = variables.card_glass_bg || "var(--card-glass-bg)";
+
+            return `
+              radial-gradient(
+                circle at 8% 8%,
+                rgba(${color},0.55) 0%,
+                rgba(${color},0.26) 22%,
+                rgba(${color},0.10) 42%,
+                rgba(${color},0.04) 58%,
+                transparent 74%
+              ),
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.14),
+                rgba(255,255,255,0.03)
+              ),
+              ${glass}
+            `;
+          ]]]
+
+      - box-shadow: >
+          [[[
+            const action = entity.attributes.hvac_action;
+            const t = Number(entity.attributes.current_temperature || 20);
+            const cold = variables.cold_temp || 18;
+            const hot = variables.hot_temp || 25;
+            const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
+
+            const r = Math.round(80 + ratio * 175);
+            const g = Math.round(170 - ratio * 70);
+            const b = Math.round(255 - ratio * 180);
+
+            return action === "heating"
+              ? `0 0 26px rgba(${r},${g},${b},0.42), inset 0 1px 0 rgba(255,255,255,0.10)`
+              : `0 3px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.06)`;
+          ]]]
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - font-size: var(--card-glass-font-size-primary)
+      - font-weight: var(--card-glass-font-weight-primary)
+      - color: var(--card-text-color)
+      - z-index: 4
+      - pointer-events: none
+
+    label:
+      - justify-self: start
+      - align-self: start
+      - font-size: 24px
+      - font-weight: 800
+      - color: var(--card-text-color)
+      - z-index: 4
+
+    state:
+      - justify-self: start
+      - font-size: 12px
+      - font-weight: 700
+      - color: >
+          [[[
+            if (entity.attributes.current_temperature <= 16) return "rgba(120,180,255,0.95)";
+            if (entity.attributes.hvac_action === "heating") return "rgba(255,170,90,0.95)";
+            return "var(--card-subtext-color)";
+          ]]]
+      - z-index: 4
+
+    custom_fields:
+      glass_reflection:
+        - position: absolute
+        - inset: 0
+        - z-index: 1
+        - pointer-events: none
+
+      soft_light:
+        - position: absolute
+        - inset: 0
+        - z-index: 2
+        - pointer-events: none
+
+      buttons:
+        - z-index: 5
+
+      graph:
+        - position: absolute
+        - display: >
+            [[[
+              return variables.show_graph && variables.graph_entity ? "block" : "none";
+            ]]]
+        - width: 100%
+        - left: 0
+        - bottom: 0
+        - height: 45px
+        - opacity: 0.55
+        - z-index: 3
+        - pointer-events: none
+
+  custom_fields:
+    glass_reflection: |
+      [[[
+        return `<div class="glass-reflection"></div>`;
+      ]]]
+
+    soft_light: |
+      [[[
+        const t = Number(entity.attributes.current_temperature || 20);
+        const cold = variables.cold_temp || 18;
+        const hot = variables.hot_temp || 25;
+        const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
+
+        const r = Math.round(80 + ratio * 175);
+        const g = Math.round(170 - ratio * 70);
+        const b = Math.round(255 - ratio * 180);
+
+        return `<div class="soft-light" style="--dynamic-color:${r},${g},${b};"></div>`;
+      ]]]
+
+    buttons:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        show_icon: false
+        show_name: false
+        show_state: false
+        styles:
+          grid:
+            - grid-template-areas: "'up value down'"
+            - grid-template-columns: 24px min-content 24px
+            - align-items: center
+            - justify-content: center
+            - column-gap: 4px
+          card:
+            - width: 92px
+            - height: 34px
+            - padding: 4px
+            - border-radius: 17px
+            - background: rgba(255,255,255,0.08)
+            - box-shadow: none
+            - border: none
+            - --ha-card-border-width: 0
+          custom_fields:
+            value:
+              - color: var(--card-text-color)
+              - font-size: 13px
+              - font-weight: 800
+              - align-self: center
+              - justify-self: center
+
+        custom_fields:
+          up:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              icon: mdi:chevron-up
+              show_name: false
+              show_state: false
+              styles:
+                card:
+                  - width: 24px
+                  - height: 24px
+                  - padding: 0
+                  - background: transparent
+                  - box-shadow: none
+                  - border: none
+                icon:
+                  - width: 18px
+                  - color: var(--card-text-color)
+              tap_action:
+                action: call-service
+                service: climate.set_temperature
+                data:
+                  temperature: >
+                    [[[ return entity.attributes.temperature + 0.5 ]]]
+                target:
+                  entity_id: "[[[ return entity.entity_id ]]"
+
+          value: >
+            [[[ return entity.attributes.temperature + "°" ]]]
+
+          down:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              icon: mdi:chevron-down
+              show_name: false
+              show_state: false
+              styles:
+                card:
+                  - width: 24px
+                  - height: 24px
+                  - padding: 0
+                  - background: transparent
+                  - box-shadow: none
+                  - border: none
+                icon:
+                  - width: 18px
+                  - color: var(--card-text-color)
+              tap_action:
+                action: call-service
+                service: climate.set_temperature
+                data:
+                  temperature: >
+                    [[[ return entity.attributes.temperature - 0.5 ]]]
+                target:
+                  entity_id: "[[[ return entity.entity_id ]]]"
+
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return variables.graph_entity ]]]"
+        line_width: 2
+        line_color: >
+          [[[
+            if (variables.graph_color) return variables.graph_color;
+
+            const t = Number(entity.attributes.current_temperature || 20);
+            const cold = variables.cold_temp || 18;
+            const hot = variables.hot_temp || 25;
+            const ratio = Math.min(1, Math.max(0, (t - cold) / (hot - cold)));
+
+            const r = Math.round(80 + ratio * 175);
+            const g = Math.round(170 - ratio * 70);
+            const b = Math.round(255 - ratio * 180);
+
+            return `rgba(${r},${g},${b},0.95)`;
+          ]]]
+        height: 45
+        show:
+          icon: false
+          name: false
+          state: false
+          legend: false
+          labels: false
+        card_mod:
+          style: |
+            ha-card {
+              background: none !important;
+              box-shadow: none !important;
+              --ha-card-border-width: 0;
+              border-radius: 0 !important;
+            }
+
+  state:
+    - value: unavailable
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      background-color: transparent !important;
+      transition:
+        background 0.6s ease,
+        filter 0.6s ease,
+        transform 0.22s cubic-bezier(.2,.8,.2,1);
+      perspective: 900px;
+    }
+
+    ha-card:hover {
+      transform: none !important;
+      border-radius: 22px !important;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--card-glass-reflection-start, rgba(255,255,255,0.28)) 0%,
+          var(--card-glass-reflection-mid, rgba(255,255,255,0.08)) 28%,
+          transparent 58%
+        );
+    }
+
+    .soft-light {
+      position: absolute;
+      inset: -35%;
+      border-radius: 999px;
+      background:
+        radial-gradient(
+          circle,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-strong, 0.22)) 0%,
+          rgba(var(--dynamic-color), var(--card-soft-light-opacity-soft, 0.10)) 34%,
+          transparent 65%
+        );
+      opacity: 0;
+      transform: translate(-18%, -10%);
+      pointer-events: none;
+    }
+
+    ha-card:hover .soft-light {
+      opacity: 1;
+      animation: softLightMove 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes softLightMove {
+      0% {
+        transform: translate(-22%, -12%) scale(1);
+      }
+
+      100% {
+        transform: translate(12%, 10%) scale(1.18);
+      }
+    }
+
+    [[[ 
+      if (entity.attributes.hvac_action === "heating") {
+        return `
+          ha-card {
+            animation: heatPulse 1.8s ease-in-out infinite;
+          }
+
+          @keyframes heatPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.12); }
+          }
+        `;
+      }
+      return "";
+    ]]]

@@ -1,0 +1,262 @@
+hc_graph_card_wge:
+  variables:
+    color: var(--color-red)
+    graph_style: line # line, bar, false
+    hours_to_show:
+    aggregate_func:
+    group_by:
+  show_state: false
+  show_name: false
+  show_icon: false
+  styles:
+    grid:
+      - grid-template-areas: |
+          'n i'
+          's i'
+          'graph graph'
+          'day day'
+      - grid-template-rows: min-content min-content
+    card:
+      - padding-bottom: 0px
+    name:
+      - justify-self: start
+      - margin-left: 10px
+      - font-family: montserrat
+      - font-weight: 700
+      - font-size: 1rem
+    state:
+      - justify-self: start
+      - margin-left: 10px
+      - font-family: montserrat
+      - font-weight: 500
+      - font-size: 0.8rem
+      - opacity: 0.8
+    icon:
+      - width: 50%
+      - color: white
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - width: 25px
+      - height: 25px
+      - padding: 5px
+      - margin-right: 10px
+      - background: "[[[ return variables.color ]]]"
+      - border-radius: 50%
+  custom_fields:
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return entity.entity_id ]]]"
+            show_fill: true
+            show_line: false
+        show:
+          name: false
+          icon: false
+          state: true
+          graph: "[[[ return variables.graph_style ]]]"
+        line_width: 2
+        line_color: "[[[ return variables.color ]]]"
+        hours_to_show: "[[[ return variables.hours_to_show ]]]"
+        aggregate_func: "[[[ return variables.aggregate_func ]]]"
+        group_by: "[[[ return variables.group_by ]]]"
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              box-shadow: none;
+              --ha-card-border-width: 0;
+            }
+    day:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        show_name: false
+        show_icon: false
+        styles:
+          grid:
+            - grid-template-areas: '"item1 item2 item3 item4 item5 item6 item7"'
+            - grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+          card:
+            - background: none
+            - box-shadow: none
+            - padding: 5px 0px 5px 0px
+        custom_fields:
+          item1:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature1 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym6'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: &item_styles
+                grid:
+                  - grid-template-areas: '"l l" "icon icon" "n n"'
+                  - grid-template-rows: min-content
+                card:
+                  - background: none
+                  - padding: 0
+                  - box-shadow: none
+                name:
+                  - font-weight: 400
+                  - opacity: 0.8
+                  - font-size: 0.7rem
+                  - color: var(--color-white)
+                label:
+                  - font-size: 0.7rem
+                  - font-weight: 300
+                  - color: var(--color-white)
+                custom_fields:
+                  icon:
+                    - width: 50px
+                    - justify-self: center
+                  rain:
+                    - color: white
+                    - font-size: 1rem
+
+          item2:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature2 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym5'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+          item3:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature3 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym4'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+          item4:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature4 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym3'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+          item5:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature5 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym2'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+          item6:
+            card:
+              type: custom:button-card
+              label: >-
+                [[[ return
+                states[entity.entity_id].attributes.temperature5 + "
+                °C" ]]]
+              name: "[[[ return states['sensor.day_sensor_todaym1'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+          item7:
+            card:
+              type: custom:button-card
+              name: "[[[ return states['sensor.day_sensor_today'].state ]]]"
+              show_label: false
+              show_icon: false
+              styles: *item_styles
+
+hc_graph_card_label_wge:
+  variables:
+    color: var(--color-red)
+    label_on: false
+  show_state: true
+  show_label: "[[[ return variables.label_on ]]]"
+  styles:
+    grid:
+      - grid-template-areas: |
+          [[[
+            if (variables.label_on == true) {
+                return "'n i' 'l i' 's i' 'graph graph'";
+            }
+            else {
+              return "'n i' 's i' 'graph graph'";
+            }
+          ]]]
+
+      - grid-template-rows: min-content min-content
+    card:
+      - padding-bottom: 0px
+    name:
+      - justify-self: start
+      - margin-left: 10px
+      - font-family: montserrat
+      - font-weight: 700
+      - font-size: 1rem
+    state:
+      - justify-self: start
+      - margin-left: 10px
+      - font-family: montserrat
+      - font-weight: 500
+      - font-size: 0.8rem
+      - opacity: 0.8
+    label:
+      - justify-self: start
+      - margin-left: 10px
+      - font-family: montserrat
+      - font-weight: 500
+      - font-size: 0.8rem
+      - opacity: 0.8
+    icon:
+      - width: 80%
+      - color: white
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - width: 25px
+      - height: 25px
+      - padding: 5px
+      - margin-right: 10px
+      - background: "[[[ return variables.color ]]]"
+      - border-radius: 50%
+  custom_fields:
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return entity.entity_id ]]]"
+            show_fill: true
+            show_line: false
+        show:
+          name: false
+          icon: false
+          state: false
+        line_width: 2
+        line_color: "[[[ return variables.color ]]]"
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              box-shadow: none;
+              --ha-card-border-width: 0;
+            }

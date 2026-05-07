@@ -1,0 +1,920 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_tablet",
+  "data": {
+    "config": {
+      "button_card_templates": {
+        "landing_page": {
+          "show_icon": false,
+          "show_name": false,
+          "show_state": false,
+          "styles": {
+            "card": [
+              {
+                "padding": 0
+              },
+              {
+                "margin": 0
+              },
+              {
+                "border-radius": 0
+              },
+              {
+                "height": "100vh"
+              },
+              {
+                "width": "100%"
+              },
+              {
+                "background-image": "[[[\n  return `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url(\"${variables.bg_image}\")`;\n]]]\n"
+              },
+              {
+                "background-size": "cover"
+              },
+              {
+                "background-position": "center center"
+              },
+              {
+                "background-repeat": "no-repeat"
+              },
+              {
+                "box-shadow": "none"
+              },
+              {
+                "overflow": "hidden"
+              }
+            ],
+            "grid": [
+              {
+                "grid-template-areas": "\"main\""
+              },
+              {
+                "grid-template-columns": "1fr"
+              },
+              {
+                "grid-template-rows": "1fr"
+              }
+            ],
+            "custom_fields": {
+              "main": [
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "100%"
+                },
+                {
+                  "height": "100%"
+                }
+              ]
+            }
+          },
+          "custom_fields": {
+            "main": "[[[\n  const doors = variables.door_entities || [];\n  const windows = variables.window_entities || [];\n\n  const openDoors = doors.filter(e => states[e] && states[e].state === 'on').length;\n  const openWindows = windows.filter(e => states[e] && states[e].state === 'on').length;\n\n  const doorText = openDoors === 0 ? 'All Closed' : `${openDoors} Open`;\n  const windowText = openWindows === 0 ? 'All Closed' : `${openWindows} Open`;\n\n  return `\n    <div class=\"landing-wrap\">\n      <div class=\"topbar\">\n        <div class=\"brand\">${variables.logo_text || 'HOMIO'}</div>\n        <div class=\"rooms-btn\">${variables.rooms_text || 'ROOMS'}</div>\n      </div>\n\n      <div class=\"center-content\">\n        <div class=\"family-name\">${variables.family_name || 'THE SMITHS'}</div>\n\n        <div class=\"status-row\">\n          <div class=\"status-block\">\n            <div class=\"status-label\">DOORS</div>\n            <div class=\"status-value\">${doorText}</div>\n          </div>\n\n          <div class=\"divider\"></div>\n\n          <div class=\"status-block\">\n            <div class=\"status-label\">WINDOWS</div>\n            <div class=\"status-value\">${windowText}</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  `;\n]]]\n"
+          },
+          "extra_styles": ".landing-wrap {\n  position: absolute;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  font-family: \"Georgia\", \"Times New Roman\", serif;\n  color: rgba(255,255,255,0.92);\n}\n\n.landing-wrap::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background:\n    linear-gradient(to bottom,\n      rgba(0,0,0,0.18) 0%,\n      rgba(0,0,0,0.22) 18%,\n      rgba(0,0,0,0.34) 55%,\n      rgba(0,0,0,0.56) 100%);\n  pointer-events: none;\n}\n\n.topbar {\n  position: absolute;\n  top: 28px;\n  left: 40px;\n  right: 40px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  z-index: 2;\n}\n\n.brand {\n  font-size: 22px;\n  font-weight: 700;\n  letter-spacing: 1px;\n  color: rgba(255,255,255,0.92);\n  text-transform: uppercase;\n}\n\n.rooms-btn {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 13px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  color: #ffffff;\n  background: rgba(193, 159, 112, 0.92);\n  padding: 12px 36px;\n  border-radius: 0px;\n  box-shadow: 0 8px 24px rgba(0,0,0,0.22);\n}\n\n.center-content {\n  position: absolute;\n  inset: 0;\n  z-index: 2;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  transform: translateY(-2%);\n  text-align: center;\n  padding: 24px;\n}\n\n.family-name {\n  font-size: clamp(48px, 6vw, 110px);\n  line-height: 1;\n  font-weight: 500;\n  letter-spacing: 1px;\n  color: rgba(255,255,255,0.88);\n  text-shadow: 0 3px 18px rgba(0,0,0,0.22);\n  margin-bottom: 56px;\n}\n\n.status-row {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 42px;\n  flex-wrap: wrap;\n}\n\n.status-block {\n  min-width: 180px;\n  text-align: center;\n}\n\n.status-label {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 13px;\n  font-weight: 700;\n  letter-spacing: 4px;\n  color: rgba(255,255,255,0.85);\n  margin-bottom: 14px;\n}\n\n.status-value {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 20px;\n  font-weight: 500;\n  color: rgba(255,255,255,0.92);\n  background: rgba(0,0,0,0.34);\n  padding: 10px 22px;\n  min-width: 150px;\n  display: inline-block;\n}\n\n.divider {\n  width: 1px;\n  min-height: 72px;\n  background: rgba(255,255,255,0.28);\n}\n\n@media (max-width: 900px) {\n  .topbar {\n    top: 18px;\n    left: 18px;\n    right: 18px;\n  }\n\n  .brand {\n    font-size: 18px;\n  }\n\n  .rooms-btn {\n    font-size: 11px;\n    padding: 10px 20px;\n  }\n\n  .family-name {\n    margin-bottom: 34px;\n  }\n\n  .status-row {\n    gap: 20px;\n  }\n\n  .divider {\n    display: none;\n  }\n\n  .status-block {\n    min-width: 150px;\n  }\n\n  .status-value {\n    font-size: 18px;\n  }\n}\n"
+        }
+      },
+      "views": [
+        {
+          "type": "sections",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Neuer Abschnitt"
+                },
+                {
+                  "type": "custom:button-card",
+                  "entity": "media_player.apple_tv_wohnzimmer",
+                  "show_icon": false,
+                  "show_name": false,
+                  "show_label": false,
+                  "triggers_update": "all",
+                  "update_timer": "1s",
+                  "styles": {
+                    "card": [
+                      {
+                        "padding": "22px"
+                      },
+                      {
+                        "border-radius": "26px"
+                      },
+                      {
+                        "background": "linear-gradient(135deg, rgba(25,16,40,0.95) 0%, rgba(92,10,35,0.92) 55%, rgba(20,12,34,0.95) 100%)"
+                      },
+                      {
+                        "box-shadow": "0 0 20px rgba(255,0,90,0.12)"
+                      },
+                      {
+                        "color": "white"
+                      },
+                      {
+                        "position": "relative"
+                      },
+                      {
+                        "overflow": "hidden"
+                      }
+                    ],
+                    "grid": [
+                      {
+                        "grid-template-areas": "\"title\" \"artist\" \"source\" \"controls\""
+                      },
+                      {
+                        "grid-template-columns": "1fr"
+                      },
+                      {
+                        "grid-template-rows": "min-content min-content min-content min-content"
+                      },
+                      {
+                        "row-gap": "6px"
+                      },
+                      {
+                        "justify-items": "start"
+                      },
+                      {
+                        "text-align": "left"
+                      }
+                    ]
+                  },
+                  "custom_fields": {
+                    "title": "[[[\n  let title = entity.attributes.media_title || 'Nichts wird abgespielt';\n  return `\n    <div style=\"\n      font-size:17px;\n      font-weight:700;\n      line-height:1.2;\n      color:white;\n      white-space:nowrap;\n      overflow:hidden;\n      text-overflow:ellipsis;\n      text-align:left;\n    \">${title}</div>\n  `;\n]]]\n",
+                    "artist": "[[[\n  let artist = entity.attributes.media_artist || entity.attributes.media_album_name || '';\n  return `\n    <div style=\"\n      font-size:14px;\n      color:rgba(255,255,255,0.72);\n      white-space:nowrap;\n      overflow:hidden;\n      text-overflow:ellipsis;\n      text-align:left;\n    \">${artist}</div>\n  `;\n]]]\n",
+                    "source": "[[[\n  let source = entity.attributes.source || entity.attributes.app_name || 'Unbekannte Quelle';\n  let volume = Math.round((entity.attributes.volume_level || 0) * 100);\n  return `\n    <div style=\"\n      font-size:13px;\n      color:rgb(255,90,120);\n      display:flex;\n      align-items:start;\n      gap:6px;\n    \">\n      <ha-icon icon=\"mdi:speaker-wireless\" style=\"width:15px; height:15px;\"></ha-icon>\n      <span>${source} • ${volume}%</span>\n    </div>\n  `;\n]]]\n",
+                    "controls": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "entity": "media_player.apple_tv_wohnzimmer",
+                        "show_icon": false,
+                        "show_name": false,
+                        "styles": {
+                          "card": [
+                            {
+                              "background": "none"
+                            },
+                            {
+                              "box-shadow": "none"
+                            },
+                            {
+                              "padding": "14px 0 0 0"
+                            },
+                            {
+                              "border": "0px"
+                            }
+                          ],
+                          "grid": [
+                            {
+                              "grid-template-areas": "\"prev play next bar time\""
+                            },
+                            {
+                              "grid-template-columns": "52px 60px 52px 1fr 48px"
+                            },
+                            {
+                              "align-items": "center"
+                            },
+                            {
+                              "column-gap": "10px"
+                            }
+                          ]
+                        },
+                        "custom_fields": {
+                          "prev": {
+                            "card": {
+                              "type": "custom:button-card",
+                              "icon": "mdi:skip-previous",
+                              "show_name": false,
+                              "styles": {
+                                "card": [
+                                  {
+                                    "width": "42px"
+                                  },
+                                  {
+                                    "height": "42px"
+                                  },
+                                  {
+                                    "border-radius": "50%"
+                                  },
+                                  {
+                                    "background": "rgba(255,255,255,0.12)"
+                                  },
+                                  {
+                                    "box-shadow": "none"
+                                  }
+                                ],
+                                "icon": [
+                                  {
+                                    "color": "white"
+                                  },
+                                  {
+                                    "width": "20px"
+                                  }
+                                ]
+                              },
+                              "tap_action": {
+                                "action": "call-service",
+                                "service": "media_player.media_previous_track",
+                                "target": {
+                                  "entity_id": "media_player.apple_tv_wohnzimmer"
+                                }
+                              }
+                            }
+                          },
+                          "play": {
+                            "card": {
+                              "type": "custom:button-card",
+                              "entity": "media_player.apple_tv_wohnzimmer",
+                              "icon": "[[[\n  return entity.state === 'playing' ? 'mdi:pause' : 'mdi:play';\n]]]\n",
+                              "show_name": false,
+                              "styles": {
+                                "card": [
+                                  {
+                                    "width": "54px"
+                                  },
+                                  {
+                                    "height": "54px"
+                                  },
+                                  {
+                                    "border-radius": "50%"
+                                  },
+                                  {
+                                    "background": "rgb(255,50,95)"
+                                  },
+                                  {
+                                    "box-shadow": "0 0 16px rgba(255,50,95,0.35)"
+                                  },
+                                  {
+                                    "transition": "transform 0.12s ease"
+                                  },
+                                  {
+                                    "--mdc-ripple-color": "transparent"
+                                  },
+                                  {
+                                    "--mdc-ripple-press-opacity": 0
+                                  },
+                                  {
+                                    "--mdc-ripple-hover-opacity": 0
+                                  },
+                                  {
+                                    "--mdc-ripple-focus-opacity": 0
+                                  },
+                                  {
+                                    "-webkit-tap-highlight-color": "transparent"
+                                  }
+                                ],
+                                "card_pressed": [
+                                  {
+                                    "transform": "scale(0.92)"
+                                  }
+                                ],
+                                "icon": [
+                                  {
+                                    "color": "white"
+                                  },
+                                  {
+                                    "width": "24px"
+                                  }
+                                ]
+                              },
+                              "tap_action": {
+                                "action": "call-service",
+                                "service": "media_player.media_play_pause",
+                                "target": {
+                                  "entity_id": "media_player.apple_tv_wohnzimmer"
+                                }
+                              }
+                            }
+                          },
+                          "next": {
+                            "card": {
+                              "type": "custom:button-card",
+                              "icon": "mdi:skip-next",
+                              "show_name": false,
+                              "styles": {
+                                "card": [
+                                  {
+                                    "width": "42px"
+                                  },
+                                  {
+                                    "height": "42px"
+                                  },
+                                  {
+                                    "border-radius": "50%"
+                                  },
+                                  {
+                                    "background": "rgba(255,255,255,0.12)"
+                                  },
+                                  {
+                                    "box-shadow": "none"
+                                  }
+                                ],
+                                "icon": [
+                                  {
+                                    "color": "white"
+                                  },
+                                  {
+                                    "width": "20px"
+                                  }
+                                ]
+                              },
+                              "tap_action": {
+                                "action": "call-service",
+                                "service": "media_player.media_next_track",
+                                "target": {
+                                  "entity_id": "media_player.apple_tv_wohnzimmer"
+                                }
+                              }
+                            }
+                          },
+                          "bar": "[[[\n  const pos = entity.attributes.media_position || 0;\n  const dur = entity.attributes.media_duration || 1;\n  const pct = Math.max(0, Math.min(100, (pos / dur) * 100));\n  return `\n    <div style=\"\n      width:100%;\n      height:6px;\n      background:rgba(255,255,255,0.18);\n      border-radius:999px;\n      overflow:hidden;\n    \">\n      <div style=\"\n        width:${pct}%;\n        height:100%;\n        background:rgb(255,50,95);\n        border-radius:999px;\n      \"></div>\n    </div>\n  `;\n]]]\n",
+                          "time": "[[[\n  const dur = entity.attributes.media_duration || 0;\n  const min = Math.floor(dur / 60);\n  const sec = Math.floor(dur % 60).toString().padStart(2, '0');\n  return `\n    <div style=\"\n      font-size:14px;\n      color:rgba(255,255,255,0.65);\n      text-align:right;\n    \">${dur ? `${min}:${sec}` : '--:--'}</div>\n  `;\n]]]\n"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Neuer Abschnitt"
+                },
+                {
+                  "type": "custom:button-card",
+                  "show_icon": false,
+                  "show_name": false,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "variables": {
+                    "variable_1": "binary_sensor.eingangstur_offnung",
+                    "variable_1_name": "Eingangstür",
+                    "variable_2": "binary_sensor.fenster_kinderzimmer_offnung",
+                    "variable_2_name": "Fenster",
+                    "variable_3": "binary_sensor.hue_bewegungssensor_flur_bewegung",
+                    "variable_3_name": "Bewegungssensoren"
+                  },
+                  "styles": {
+                    "card": [
+                      {
+                        "padding": "16px 16px 14px 16px"
+                      },
+                      {
+                        "border-radius": "24px"
+                      },
+                      {
+                        "background": "rgba(17,19,33,0.64)"
+                      },
+                      {
+                        "backdrop-filter": "blur(22px)"
+                      },
+                      {
+                        "-webkit-backdrop-filter": "blur(22px)"
+                      },
+                      {
+                        "border": "1px solid rgba(255,255,255,0.07)"
+                      },
+                      {
+                        "box-shadow": "inset 0 0 0 1px rgba(255,255,255,0.02), 0 14px 40px rgba(0,0,0,0.36)"
+                      }
+                    ],
+                    "grid": [
+                      {
+                        "grid-template-areas": "\"header\"\n\"door\"\n\"window\"\n\"motion\"\n"
+                      },
+                      {
+                        "grid-template-columns": "1fr"
+                      },
+                      {
+                        "row-gap": "10px"
+                      }
+                    ],
+                    "custom_fields": {
+                      "header": [
+                        {
+                          "grid-area": "header"
+                        }
+                      ],
+                      "door": [
+                        {
+                          "grid-area": "door"
+                        }
+                      ],
+                      "window": [
+                        {
+                          "grid-area": "window"
+                        }
+                      ],
+                      "motion": [
+                        {
+                          "grid-area": "motion"
+                        }
+                      ]
+                    }
+                  },
+                  "custom_fields": {
+                    "header": "[[[\n  return `\n    <div style=\"\n      display:flex;\n      align-items:center;\n      gap:8px;\n      font-size:12px;\n      letter-spacing:2px;\n      text-transform:uppercase;\n      color:rgba(255,255,255,0.6);\n      font-weight:600;\n    \">\n      <span style=\"\n        width:8px;\n        height:8px;\n        border-radius:50%;\n        background:#ff3b6b;\n        box-shadow:0 0 8px rgba(255,59,107,0.45);\n        display:inline-block;\n      \"></span>\n      SECURITY\n    </div>\n  `;\n]]]\n",
+                    "door": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "entity": "[[[ return variables.variable_1 ]]]",
+                        "show_icon": true,
+                        "show_name": true,
+                        "show_label": true,
+                        "show_state": false,
+                        "tap_action": {
+                          "action": "more-info"
+                        },
+                        "name": "[[[ return variables.variable_1_name ]]]",
+                        "label": "[[[\n  const state = states[variables.variable_1]?.state;\n  return state === 'on' ? 'Offen' : 'Geschlossen';\n]]]\n",
+                        "icon": "mdi:door",
+                        "styles": {
+                          "grid": [
+                            {
+                              "grid-template-areas": "\"i n l\""
+                            },
+                            {
+                              "grid-template-columns": "24px 1fr auto"
+                            },
+                            {
+                              "align-items": "center"
+                            },
+                            {
+                              "column-gap": "12px"
+                            }
+                          ],
+                          "card": [
+                            {
+                              "padding": "12px 16px"
+                            },
+                            {
+                              "border-radius": "16px"
+                            },
+                            {
+                              "background": "rgba(255,255,255,0.03)"
+                            },
+                            {
+                              "border": "1px solid rgba(255,255,255,0.05)"
+                            },
+                            {
+                              "box-shadow": "none"
+                            }
+                          ],
+                          "icon": [
+                            {
+                              "width": "18px"
+                            },
+                            {
+                              "color": "#fb923c"
+                            }
+                          ],
+                          "name": [
+                            {
+                              "justify-self": "start"
+                            },
+                            {
+                              "font-size": "16px"
+                            },
+                            {
+                              "font-weight": 500
+                            },
+                            {
+                              "color": "rgba(255,255,255,0.92)"
+                            }
+                          ],
+                          "label": [
+                            {
+                              "justify-self": "end"
+                            },
+                            {
+                              "font-size": "15px"
+                            },
+                            {
+                              "font-weight": 700
+                            },
+                            {
+                              "color": "[[[\n  return states[variables.variable_1]?.state === 'on' ? '#ef4444' : '#22c55e';\n]]]\n"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "window": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "entity": "[[[ return variables.variable_2 ]]]",
+                        "show_icon": true,
+                        "show_name": true,
+                        "show_label": true,
+                        "show_state": false,
+                        "tap_action": {
+                          "action": "more-info"
+                        },
+                        "name": "[[[ return variables.variable_2_name ]]]",
+                        "label": "[[[\n  const state = states[variables.variable_2]?.state;\n  return state === 'on' ? 'Offen' : 'Geschlossen';\n]]]\n",
+                        "icon": "mdi:window-closed-variant",
+                        "styles": {
+                          "grid": [
+                            {
+                              "grid-template-areas": "\"i n l\""
+                            },
+                            {
+                              "grid-template-columns": "24px 1fr auto"
+                            },
+                            {
+                              "align-items": "center"
+                            },
+                            {
+                              "column-gap": "12px"
+                            }
+                          ],
+                          "card": [
+                            {
+                              "padding": "12px 16px"
+                            },
+                            {
+                              "border-radius": "16px"
+                            },
+                            {
+                              "background": "rgba(255,255,255,0.03)"
+                            },
+                            {
+                              "border": "1px solid rgba(255,255,255,0.05)"
+                            },
+                            {
+                              "box-shadow": "none"
+                            }
+                          ],
+                          "icon": [
+                            {
+                              "width": "18px"
+                            },
+                            {
+                              "color": "#60a5fa"
+                            }
+                          ],
+                          "name": [
+                            {
+                              "justify-self": "start"
+                            },
+                            {
+                              "font-size": "16px"
+                            },
+                            {
+                              "font-weight": 500
+                            },
+                            {
+                              "color": "rgba(255,255,255,0.92)"
+                            }
+                          ],
+                          "label": [
+                            {
+                              "justify-self": "end"
+                            },
+                            {
+                              "font-size": "15px"
+                            },
+                            {
+                              "font-weight": 700
+                            },
+                            {
+                              "color": "[[[\n  return states[variables.variable_2]?.state === 'on' ? '#ef4444' : '#22c55e';\n]]]\n"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "motion": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "entity": "[[[ return variables.variable_3 ]]]",
+                        "show_icon": true,
+                        "show_name": true,
+                        "show_label": true,
+                        "show_state": false,
+                        "tap_action": {
+                          "action": "more-info"
+                        },
+                        "name": "[[[ return variables.variable_3_name ]]]",
+                        "label": "[[[\n  const state = states[variables.variable_3]?.state;\n  return state === 'on' ? 'Detected' : 'Clear';\n]]]\n",
+                        "icon": "mdi:motion-sensor",
+                        "styles": {
+                          "grid": [
+                            {
+                              "grid-template-areas": "\"i n l\""
+                            },
+                            {
+                              "grid-template-columns": "24px 1fr auto"
+                            },
+                            {
+                              "align-items": "center"
+                            },
+                            {
+                              "column-gap": "12px"
+                            }
+                          ],
+                          "card": [
+                            {
+                              "padding": "12px 16px"
+                            },
+                            {
+                              "border-radius": "16px"
+                            },
+                            {
+                              "background": "[[[\n  return states[variables.variable_3]?.state === 'on'\n    ? 'rgba(239,68,68,0.10)'\n    : 'rgba(255,255,255,0.03)';\n]]]\n"
+                            },
+                            {
+                              "border": "1px solid rgba(255,255,255,0.05)"
+                            },
+                            {
+                              "box-shadow": "none"
+                            }
+                          ],
+                          "icon": [
+                            {
+                              "width": "18px"
+                            },
+                            {
+                              "color": "[[[\n  return states[variables.variable_3]?.state === 'on'\n    ? '#ef4444'\n    : 'rgba(255,255,255,0.45)';\n]]]\n"
+                            }
+                          ],
+                          "name": [
+                            {
+                              "justify-self": "start"
+                            },
+                            {
+                              "font-size": "16px"
+                            },
+                            {
+                              "font-weight": 500
+                            },
+                            {
+                              "color": "rgba(255,255,255,0.92)"
+                            }
+                          ],
+                          "label": [
+                            {
+                              "justify-self": "end"
+                            },
+                            {
+                              "font-size": "15px"
+                            },
+                            {
+                              "font-weight": 700
+                            },
+                            {
+                              "color": "[[[\n  return states[variables.variable_3]?.state === 'on' ? '#ef4444' : '#22c55e';\n]]]\n"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "view_layout": {
+                    "grid-column": "11 / span 5",
+                    "grid-row": "span 4"
+                  }
+                },
+                {
+                  "type": "custom:button-card",
+                  "entity": "climate.wohnzimmer",
+                  "show_icon": false,
+                  "show_name": false,
+                  "show_state": false,
+                  "tap_action": {
+                    "action": "none"
+                  },
+                  "styles": {
+                    "card": [
+                      {
+                        "height": "220px"
+                      },
+                      {
+                        "padding": "20px"
+                      },
+                      {
+                        "border-radius": "28px"
+                      },
+                      {
+                        "background": "linear-gradient(180deg,\n  rgba(16,21,42,0.96) 0%,\n  rgba(11,16,34,0.98) 100%)\n"
+                      },
+                      {
+                        "box-shadow": "0 0 0 1px rgba(126, 146, 255, 0.10), inset 0 1px 0 rgba(255,255,255,0.03), 0 18px 40px rgba(0,0,0,0.38)\n"
+                      },
+                      {
+                        "overflow": "hidden"
+                      }
+                    ],
+                    "grid": [
+                      {
+                        "grid-template-areas": "\"circle info\"\n\"minus plus\"\n"
+                      },
+                      {
+                        "grid-template-columns": "96px 1fr"
+                      },
+                      {
+                        "grid-template-rows": "1fr 58px"
+                      },
+                      {
+                        "column-gap": "22px"
+                      },
+                      {
+                        "row-gap": "16px"
+                      }
+                    ]
+                  },
+                  "custom_fields": {
+                    "circle": "[[[\n  const target = entity?.attributes?.temperature ?? '--';\n  return `\n    <div style=\"\n      width:92px;\n      height:92px;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      margin:auto;\n    \">\n      <div style=\"\n        width:92px;\n        height:92px;\n        border-radius:50%;\n        background:\n          conic-gradient(\n            #8f63ff 0deg,\n            #8f63ff 300deg,\n            rgba(255,255,255,0.08) 300deg,\n            rgba(255,255,255,0.08) 360deg\n          );\n        display:flex;\n        align-items:center;\n        justify-content:center;\n        box-shadow:\n          inset 0 0 14px rgba(0,0,0,0.28),\n          0 0 18px rgba(143,99,255,0.10);\n      \">\n        <div style=\"\n          width:64px;\n          height:64px;\n          border-radius:50%;\n          background: radial-gradient(circle at 30% 30%, rgba(24,30,58,0.98), rgba(10,14,28,1));\n          display:flex;\n          flex-direction:column;\n          align-items:center;\n          justify-content:center;\n          color:#ffffff;\n          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);\n        \">\n          <div style=\"\n            font-size:17px;\n            font-weight:800;\n            line-height:1;\n            letter-spacing:0.2px;\n          \">\n            ${target}°\n          </div>\n          <div style=\"\n            font-size:10px;\n            font-weight:700;\n            line-height:1;\n            opacity:0.72;\n            margin-top:4px;\n            letter-spacing:0.8px;\n          \">\n            F\n          </div>\n        </div>\n      </div>\n    </div>\n  `;\n]]]\n",
+                    "info": "[[[\n  const title = entity?.attributes?.friendly_name || 'Bedroom Climate';\n  const hvac = entity?.state || 'off';\n  const setTemp = entity?.attributes?.temperature ?? '--';\n  const actualTemp = entity?.attributes?.current_temperature ?? '--';\n\n  const modeMap = {\n    heat: '🔥 HEAT',\n    cool: '❄️ COOL',\n    heat_cool: '🌡️ AUTO',\n    dry: '💧 DRY',\n    fan_only: '🌀 FAN',\n    off: '⏻ OFF'\n  };\n\n  const modeText = modeMap[hvac] || hvac.toUpperCase();\n\n  return `\n    <div style=\"\n      height:100%;\n      display:flex;\n      flex-direction:column;\n      justify-content:center;\n      align-items:flex-start;\n    \">\n      <div style=\"\n        font-size:13px;\n        font-weight:800;\n        letter-spacing:1.8px;\n        color:rgba(174, 154, 255, 0.88);\n        margin-bottom:6px;\n        text-transform:uppercase;\n        line-height:1.1;\n      \">\n        ${title}\n      </div>\n\n      <div style=\"\n        font-size:20px;\n        font-weight:800;\n        color:#ff9e63;\n        margin-bottom:10px;\n        line-height:1.1;\n      \">\n        ${modeText}\n      </div>\n\n      <div style=\"\n        font-size:14px;\n        font-weight:700;\n        color:rgba(255,255,255,0.82);\n        line-height:1.35;\n      \">\n        Set: ${setTemp}°F\n      </div>\n\n      <div style=\"\n        font-size:14px;\n        font-weight:700;\n        color:rgba(255,255,255,0.82);\n        line-height:1.35;\n      \">\n        Actual: ${actualTemp}°F\n      </div>\n    </div>\n  `;\n]]]\n",
+                    "minus": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "icon": "mdi:minus",
+                        "show_name": false,
+                        "show_state": false,
+                        "tap_action": {
+                          "action": "call-service",
+                          "service": "climate.set_temperature",
+                          "target": {
+                            "entity_id": "climate.bedroom"
+                          },
+                          "data": {
+                            "temperature": "[[[\n  const t = states['climate.bedroom']?.attributes?.temperature ?? 72;\n  return Number(t) - 1;\n]]]\n"
+                          }
+                        },
+                        "styles": {
+                          "card": [
+                            {
+                              "height": "58px"
+                            },
+                            {
+                              "border-radius": "18px"
+                            },
+                            {
+                              "background": "linear-gradient(180deg,\n  rgba(66,48,132,0.72) 0%,\n  rgba(53,40,107,0.82) 100%)\n"
+                            },
+                            {
+                              "box-shadow": "inset 0 0 0 1px rgba(155,135,255,0.15), 0 8px 18px rgba(0,0,0,0.20)\n"
+                            }
+                          ],
+                          "icon": [
+                            {
+                              "color": "white"
+                            },
+                            {
+                              "width": "22px"
+                            },
+                            {
+                              "height": "22px"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "plus": {
+                      "card": {
+                        "type": "custom:button-card",
+                        "icon": "mdi:plus",
+                        "show_name": false,
+                        "show_state": false,
+                        "tap_action": {
+                          "action": "call-service",
+                          "service": "climate.set_temperature",
+                          "target": {
+                            "entity_id": "climate.bedroom"
+                          },
+                          "data": {
+                            "temperature": "[[[\n  const t = states['climate.bedroom']?.attributes?.temperature ?? 72;\n  return Number(t) + 1;\n]]]\n"
+                          }
+                        },
+                        "styles": {
+                          "card": [
+                            {
+                              "height": "58px"
+                            },
+                            {
+                              "border-radius": "18px"
+                            },
+                            {
+                              "background": "linear-gradient(180deg,\n  rgba(66,48,132,0.72) 0%,\n  rgba(53,40,107,0.82) 100%)\n"
+                            },
+                            {
+                              "box-shadow": "inset 0 0 0 1px rgba(155,135,255,0.15), 0 8px 18px rgba(0,0,0,0.20)\n"
+                            }
+                          ],
+                          "icon": [
+                            {
+                              "color": "white"
+                            },
+                            {
+                              "width": "22px"
+                            },
+                            {
+                              "height": "22px"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Start",
+          "path": "start",
+          "panel": true,
+          "cards": [
+            {
+              "type": "custom:button-card",
+              "show_icon": false,
+              "show_name": false,
+              "show_state": false,
+              "tap_action": {
+                "action": "none"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "styles": {
+                "card": [
+                  {
+                    "padding": 0
+                  },
+                  {
+                    "margin": 0
+                  },
+                  {
+                    "border-radius": 0
+                  },
+                  {
+                    "height": "100vh"
+                  },
+                  {
+                    "width": "100%"
+                  },
+                  {
+                    "background-image": "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('/local/images/background/tablet_bg.png')\n"
+                  },
+                  {
+                    "background-size": "cover"
+                  },
+                  {
+                    "background-position": "center center"
+                  },
+                  {
+                    "background-repeat": "no-repeat"
+                  },
+                  {
+                    "box-shadow": "none"
+                  },
+                  {
+                    "overflow": "hidden"
+                  }
+                ],
+                "grid": [
+                  {
+                    "grid-template-areas": "\"main\""
+                  },
+                  {
+                    "grid-template-columns": "1fr"
+                  },
+                  {
+                    "grid-template-rows": "1fr"
+                  }
+                ],
+                "custom_fields": {
+                  "main": [
+                    {
+                      "position": "relative"
+                    },
+                    {
+                      "width": "100%"
+                    },
+                    {
+                      "height": "100%"
+                    }
+                  ]
+                }
+              },
+              "custom_fields": {
+                "main": "[[[\n  const openDoors = [\n    'binary_sensor.eingangstur_offnung',\n  ].filter(e => states[e] && states[e].state === 'on').length;\n\n  const openWindows = [\n    'binary_sensor.fenster_wohnzimmer_offnung',\n    'binary_sensor.fenster_schlafzimmer_offnung'\n  ].filter(e => states[e] && states[e].state === 'on').length;\n\n  const doorText = openDoors === 0 ? 'All Closed' : `${openDoors} Open`;\n  const windowText = openWindows === 0 ? 'All Closed' : `${openWindows} Open`;\n\n  return `\n    <div class=\"landing-wrap\">\n      <div class=\"topbar\">\n        <div class=\"brand\">HOMIO</div>\n        <div class=\"rooms-btn\">ROOMS</div>\n      </div>\n\n      <div class=\"center-content\">\n        <div class=\"family-name\">THE SMITHS</div>\n\n        <div class=\"status-row\">\n          <div class=\"status-block\">\n            <div class=\"status-label\">DOORS</div>\n            <div class=\"status-value\">${doorText}</div>\n          </div>\n\n          <div class=\"divider\"></div>\n\n          <div class=\"status-block\">\n            <div class=\"status-label\">WINDOWS</div>\n            <div class=\"status-value\">${windowText}</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  `;\n]]]\n"
+              },
+              "extra_styles": ".landing-wrap {\n  position: absolute;\n  inset: 0;\n  width: 100%;\n  height: 100%;\n  font-family: Georgia, \"Times New Roman\", serif;\n  color: rgba(255,255,255,0.92);\n}\n\n.landing-wrap::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background:\n    linear-gradient(to bottom,\n      rgba(0,0,0,0.18) 0%,\n      rgba(0,0,0,0.22) 18%,\n      rgba(0,0,0,0.34) 55%,\n      rgba(0,0,0,0.56) 100%);\n  pointer-events: none;\n}\n\n.topbar {\n  position: absolute;\n  top: 28px;\n  left: 40px;\n  right: 40px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  z-index: 2;\n}\n\n.brand {\n  font-size: 22px;\n  font-weight: 700;\n  letter-spacing: 1px;\n  color: rgba(255,255,255,0.92);\n  text-transform: uppercase;\n}\n\n.rooms-btn {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 13px;\n  font-weight: 700;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  color: #ffffff;\n  background: rgba(193, 159, 112, 0.92);\n  padding: 12px 36px;\n  box-shadow: 0 8px 24px rgba(0,0,0,0.22);\n}\n\n.center-content {\n  position: absolute;\n  inset: 0;\n  z-index: 2;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  transform: translateY(-2%);\n  text-align: center;\n  padding: 24px;\n}\n\n.family-name {\n  font-size: clamp(48px, 6vw, 110px);\n  line-height: 1;\n  font-weight: 500;\n  letter-spacing: 1px;\n  color: rgba(255,255,255,0.88);\n  text-shadow: 0 3px 18px rgba(0,0,0,0.22);\n  margin-bottom: 56px;\n}\n\n.status-row {\n  display: flex;\n  align-items: stretch;\n  justify-content: center;\n  gap: 42px;\n  flex-wrap: wrap;\n}\n\n.status-block {\n  min-width: 180px;\n  text-align: center;\n}\n\n.status-label {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 13px;\n  font-weight: 700;\n  letter-spacing: 4px;\n  color: rgba(255,255,255,0.85);\n  margin-bottom: 14px;\n}\n\n.status-value {\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 20px;\n  font-weight: 500;\n  color: rgba(255,255,255,0.92);\n  background: rgba(0,0,0,0.34);\n  padding: 10px 22px;\n  min-width: 150px;\n  display: inline-block;\n}\n\n.divider {\n  width: 1px;\n  min-height: 72px;\n  background: rgba(255,255,255,0.28);\n}\n",
+              "card_mod": {
+                "style": "ha-card {\n  margin: 0 !important;\n}\n"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

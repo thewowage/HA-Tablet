@@ -1,0 +1,61 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Dachboden
+    icon: hue:downstairs
+    hash: "#attic"
+    button_type: name
+    sub_button: []
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: binary_sensor.guest_room_motion_sensor
+        icon_color: yellow
+        content_info: last-changed
+        icon: mdi:motion-sensor
+      - type: entity
+        entity: binary_sensor.guest_room_window_door_sensor
+        icon_color: red
+        icon: mdi:window-closed-variant
+    alignment: center
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Klima
+    icon: mdi:thermostat
+    sub_button:
+      - type: entity
+        show_state: true
+        show_icon: true
+        entity: sensor.attic_temperature
+        color: var(--color-red)
+        icon: fapro:thermometer
+        tap_action:
+          action: more-info
+      - type: entity
+        show_state: true
+        show_icon: true
+        entity: sensor.attic_humidity
+        color: var(--color-blue)
+        icon: fapro:humidity
+        tap_action:
+          action: more-info
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Lichter
+    icon: mdi:lightbulb-group
+  - square: false
+    type: grid
+    columns: 2
+    cards:
+      - type: custom:button-card
+        template: hc_light_card_wge
+        entity: light.deckenlicht_dachboden
+        name: Dachboden
+
+      - type: custom:button-card
+        template: hc_light_card_wge
+        entity: light.deckenlicht_nebenraum
+        name: Nebenraum

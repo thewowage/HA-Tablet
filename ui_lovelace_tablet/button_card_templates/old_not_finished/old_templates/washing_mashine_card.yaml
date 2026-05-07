@@ -1,0 +1,174 @@
+#- type: "custom:button-card"
+#  template:
+#    - custom_card_washing_mashine
+#  entity: switch.socket_washing_machine
+#  name: Waschmaschine
+---
+washing_mashine_card:
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+  hold_action:
+    action: more-info
+  icon: |
+    [[[
+      if (states['input_select.washing_machine_state'].state == 'aus') {
+        return 'mdi:washing-machine';
+      } else if (states['input_select.washing_machine_state'].state == 'arbeitet') {
+        return 'mdi:circle-half-full';
+      } else if (states['input_select.washing_machine_state'].state == 'fertig') {
+        return 'mdi:dots-circle';
+      }
+    ]]]
+  label: |
+    [[[
+      if (states['input_select.washing_machine_state'].state == 'aus') {
+        return 'AUS';
+      } else if (states['input_select.washing_machine_state'].state == 'arbeitet') {
+        return 'WÄSCHT';
+      } else if (states['input_select.washing_machine_state'].state == 'fertig') {
+        return 'FERTIG';
+      }
+    ]]]
+  custom_fields:
+    bar: |
+      [[[
+        var color = "var(--color-light-gray-nav)";
+        var state = 100 - states['sensor.waschmaschine_timer'].attributes.remaining_perc;
+        if (state < 10) color = "var(--label-badge-red)";
+        else if (state < 50) color = "var(--label-badge-yellow)";
+        else if (state < 70) color = "var(--label-badge-green)";
+        return `
+        <div>
+        <div style="background:${color}; height: 12px; width:${state}%">
+        </div>
+        </div>`
+      ]]]
+    rem:
+      card:
+        type: conditional
+        conditions:
+          - condition: state
+            entity: input_select.washing_machine_state
+            state: "arbeitet"
+        card:
+          type: custom:button-card
+          entity: sensor.waschmaschine_timer
+          name: |
+            [[[
+            var remainingTime = states['sensor.waschmaschine_timer'].attributes.remaining;
+            return `Restlaufzeit: ${remainingTime}`;
+            ]]]
+          show_icon: false
+          styles:
+            card:
+              - width: min
+              - background: none
+              - border: 0px
+              - overflow: visible
+            name:
+              - font-size: var(--font-size-primary)
+              - font-weight: var(--font-weight-primary)
+    switch: |
+      [[[
+        if (entity.state == "on"){
+          return '<ha-icon icon="fapro:toggle-on"></ha-icon>';
+        } else if (entity.state == "unavailable") {
+          return '<ha-icon icon="fapro:toggle-off"></ha-icon>';
+        } else {
+          return '<ha-icon icon="fapro:toggle-on"></ha-icon>';
+        }
+      ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"n switch" "l l" "rem ." "bar bar"'
+      - grid-template-rows: 24px min-content 1fr min-content
+      - grid-template-columns: 60% 40%
+    card:
+      - background:
+      - height: 105px
+      - padding: 10px
+      - background: |
+          [[[
+            if (states['input_select.washing_machine_state'].state == 'arbeitet') {
+              return 'var(--button-color-background-active-opacity)';
+            } else { return 'var(--ha-cardButton-background--active)';
+            }
+          ]]]
+    img_cell:
+      - position: absolute
+      - top: 1%
+      - left: 30%
+      - overflow: visible
+    icon:
+      - position: absolute
+      - width: 26em
+      - opacity: 15%
+      - color: |
+          [[[
+            if (entity.state == 'on') {
+              return 'var(--text-color)';
+            } else {
+              return 'var(--text-color)';
+            }
+          ]]]
+      - transform: rotate(-20deg)
+      - animation: |
+          [[[
+            if (states['input_select.washing_machine_state'].state == 'aus') {
+              return 'null';
+            } else if (states['input_select.washing_machine_state'].state == 'arbeitet') {
+              return 'rotating 2s linear infinite';
+            } else if (states['input_select.washing_machine_state'].state == 'fertig') {
+              return 'blink 1.5s linear infinite';
+            }
+          ]]]
+    label:
+      - text-align: left
+      - font-size: var(--font-size-secondary)
+      - font-weight: var(--font-weight-secondary)
+      - justify-self: start
+      - align-self: center
+      - opacity: 0.7
+    name:
+      - text-align: left
+      - font-size: var(--font-size-primary)
+      - font-weight: var(--font-weight-primary)
+      - justify-self: start
+      - align-self: end
+    custom_fields:
+      bar:
+        - justify-self: start
+        - width: 100%
+        - height: |
+            [[[
+              if (states['input_select.washing_machine_state'].state == 'aus') {
+                return '0px';
+              } else {
+                return '12px';
+              }
+            ]]]
+        - background: "#cccccc"
+        - border-radius: 24px
+        - z-index: 1
+      rem:
+        - justify-self: start
+        - align-self: end
+        - height: |
+            [[[
+              if (states['input_select.washing_machine_state'].state == 'aus') {
+                return '0px';
+              } else {
+                return '27px';
+              }
+            ]]]
+        - border: 0px
+      switch:
+        - width: 25px
+        - justify-self: end
+        - align-self: start
+        - color: var(--text-color)
+        - margin-top: -4px
+    hold_action:
+      action: more-info

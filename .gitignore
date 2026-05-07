@@ -1,62 +1,30 @@
-# Home Assistant
-.HA_VERSION
-.ha_run.lock
-.storage/
-.cloud/
-.cache/
-tts/
+# Only track specific file types
+# Ignore everything by default
+*
 
-# Databases
-*.db
-*.db-shm
-*.db-wal
-pyozw.sqlite
+# === Home Assistant Version Control Managed (do not edit below) ===
+# Tracked file types
+!*.yaml
+!**/.??*.yaml
+!*.yml
+!**/.??*.yml
 
-# Logs
-*.log
-*.log.fault
+# Track specific .storage configuration files
+!.storage/lovelace
+!.storage/lovelace_dashboards
+!.storage/lovelace_resources
+!.storage/lovelace.*
+# === End Home Assistant Version Control Managed ===
 
-# Python
-__pycache__/
-deps/
+# Allow directory traversal
+!*/
 
-# Node
-node_modules/
-
-# macOS
-.DS_Store
+# Re-ignore macOS metadata files (even if they match allowed extensions)
 ._*
 
-# NFS
-.nfs*
+# Ignore nested git repositories to prevent submodule conflicts
+/esphome
+/esphome/**
 
-# Trash
-.Trash-0/
-
-# Secrets and credentials
+# Excluded files
 secrets.yaml
-
-# UI-Files
-ui-hacasa.yaml
-ui_lovelace_tablet/button_card_templates/new_apple_templates
-ui_lovelace_tablet/button_card_templates/old_not_finished
-
-# Themes
-themes/HaCasa
-
-# HACS
-custom_components/
-
-# Folders
-.storage
-.cloud
-.google.token
-.vscode
-ui_lovelace_hacasa
-pyscript
-image
-blueprints
-custom_icons
-www
-esphome
-simple_plant

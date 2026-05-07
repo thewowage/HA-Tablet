@@ -1,0 +1,51 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Keller
+    icon: hue:upstairs
+    hash: "#cellar"
+    button_type: name
+    sub_button: []
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Lichter
+    icon: mdi:lightbulb-group
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: custom:button-card
+        template: hc_light_card_wge
+        entity: light.deckenlicht_keller
+        name: Deckenlicht
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Geräte
+    icon: mdi:devices
+  - square: false
+    type: grid
+    columns: 2
+    cards:
+      - type: "custom:button-card"
+        entity: switch.shellyplug_s_b49a1d
+        template: hc_switch_card
+        icon: fapro:plug
+        name: 3D Drucker
+        variables:
+          power_entity: sensor.shellyplug_s_b49a1d_power
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Waschküche
+    icon: mdi:washing-machine
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: custom:button-card
+        template: hc_washing_mashine_card
+        entity: switch.socket_washing_machine
+        name: Waschmaschine

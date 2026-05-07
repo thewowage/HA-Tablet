@@ -1,0 +1,147 @@
+mediaplayer_tv_card_wge:
+  show_label: true
+  show_state: true
+  icon: mdi:play
+  label: |
+    [[[
+      if (states[entity.entity_id].attributes.app_id == 'de.telekom.magentatv') {
+        return 'Magenta TV'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.google.ios.youtube') {
+        return 'YouTube'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.netflix.Netflix') {
+        return 'Netflix'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.apple.TVMusic') {
+        return 'Musik'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.apple.TVWatchList') {
+        return 'Apple TV'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.disney.disneyplus') {
+        return 'Disney+'
+      } else if (states[entity.entity_id].attributes.app_id == 'com.amazon.aiv.AIVApp') {
+        return 'Prime Video'
+      } else if (states[entity.entity_id].attributes.app_name == 'RTL+') {
+        return 'RTL+'
+      } else if (states[entity.entity_id].state == 'off') {
+        return 'Aus'
+      } else {
+        return 'Unbekannt'
+      }
+    ]]]
+  name: |
+    [[[
+      let title = states[entity.entity_id].attributes.media_title;
+
+      if (title === undefined || title === null) {
+        return '';
+      }
+
+      // Zeichenlimit (max 45)
+      if (title.length > 45) {
+        title = title.slice(0, 45) + '…';
+      }
+
+      return `<marquee behavior="alternate" scrollamount="2">${title}</marquee>`;
+    ]]]
+  state:
+    - value: playing
+      icon: mdi:pause
+  custom_fields:
+    background_cover: ""
+    app_icon: |
+      [[[
+        if (states[entity.entity_id].attributes.app_id == 'com.google.ios.youtube'){
+          return '<ha-icon icon="fapro:youtube"></ha-icon>';
+        } else {
+          return '<ha-icon icon="fapro:screen"></ha-icon>';
+        }
+      ]]]
+  state_display: |
+    [[[
+      if (entity.state === 'off') {
+        return 'Es wird nichts abgespielt...';
+      }
+
+      let artist = states[entity.entity_id].attributes.media_artist || '';
+
+      // Zeichen begrenzen (max 40)
+      if (artist.length > 40) {
+        artist = artist.slice(0, 40) + '…';
+      }
+
+      return `<marquee behavior="alternate" scrollamount="2">${artist}</marquee>`;
+    ]]]
+  styles:
+    grid:
+      - grid-template-areas: |
+          'app_icon l i'
+          's s s'
+          'n n n'
+      - grid-template-columns: min-content 1fr
+      - grid-template-rows: min-content min-content min-content
+      - column-gap: 10px
+      - row-gap: 3px
+    label:
+      - justify-self: start
+      - align-self: start
+      - font-family: montserrat
+      - z-index: 1
+      - font-size: var(--font-size-secondary)
+      - font-weight: var(--font-weight-secondary)
+      - margin-top: "4px"
+    card:
+      - padding: 15px
+      - height: 105px
+    icon:
+      - height: 15px
+      - width: 15px
+      - color: var(--color-darkest-gray)
+      - bottom: 4px
+      - z-index: 1
+    img_cell:
+      - align-self: start
+      - height: 15px
+      - width: 15px
+      - background: var(--color-light-gray-card)
+      - border-radius: 6px
+      - padding: 5px
+      - z-index: 1
+    name:
+      - justify-self: start
+      - align-self: end
+      - font-family: montserrat
+      - font-size: var(--font-size-state)
+      - font-weight: var(--font-weight-state)
+      - color: var(--subtext-color)
+      - z-index: 1
+    state:
+      - justify-self: start
+      - font-family: montserrat
+      - font-size: var(--font-size-primary)
+      - font-weight: var(--font-weight-primary)
+      - z-index: 1
+    custom_fields:
+      app_icon:
+        - width: 25px
+        - height: 25px
+        #- margin-bottom: 20px
+        - align-self: start
+      background_cover:
+        - position: absolute
+        - left: 50%
+        - border-bottom-left-radius: 70px
+        - transform: scale(1.1)
+        - width: 50%
+        - opacity: 40%
+        - height: 100%
+        - margin-top: -9px
+        - background: |
+            [[[
+              if (states['binary_sensor.christmas_time'].state === 'on' && states[entity.entity_id].attributes.app_id === 'com.google.ios.youtube') {
+                return 'center / cover no-repeat url("/local/images/music/youtube_christmas_media.gif")';
+              } else if (states[entity.entity_id].attributes.app_id === 'com.google.ios.youtube') {
+                return 'center / cover no-repeat url("/local/images/music/youtube_media.gif")';
+              } else if (entity.attributes.entity_picture === undefined) {
+                return 'center / cover no-repeat url("/local/images/music/idle-media.gif")';
+              } else {
+                return 'center / cover no-repeat url("' + states[entity.entity_id].attributes.entity_picture + '")';
+              }
+            ]]]

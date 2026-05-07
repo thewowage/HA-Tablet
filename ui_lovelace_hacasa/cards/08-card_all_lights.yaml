@@ -1,0 +1,211 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Lichter
+    icon: mdi:lightbulb-group
+    hash: "#lights_card"
+    button_type: name
+  - square: false
+    columns: 1
+    type: grid
+    cards:
+      - type: heading
+        icon: mdi:sofa-outline
+        heading: Wohnzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#living-room"
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.deckenlicht_wohnzimmer
+            name: Deckenlicht
+            variables:
+              enable_slider: True
+
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.ambiente
+            name: Ambiente
+            variables:
+              enable_slider: True
+    
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:bed-king
+        heading: Schlafzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#bedroom"
+      - square: false
+        columns: 1
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.deckenlicht_schlafzimmer
+            name: Deckenlicht
+            variables:
+              enable_slider: True
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:bed-queen
+        heading: Kinderzimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#nursery"
+      - square: false
+        columns: 1
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.deckenlicht_kinderzimmer
+            name: Deckenlicht
+            variables:
+              enable_slider: True
+
+          - square: false
+            columns: 2
+            type: grid
+            cards:
+              - type: custom:button-card
+                template: hc_light_card_wge
+                entity: light.ambiente_rgb
+                name: Regal Weiß
+                variables:
+                  enable_slider: True
+
+              - type: custom:button-card
+                template: hc_light_card_wge
+                entity: light.ambiente_rgb_2
+                name: Regal RGB
+                variables:
+                  enable_slider: True
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:silverware-variant
+        heading: Küche
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#kitchen"
+
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.deckenlicht_kuche
+            name: Deckenlicht
+            variables:
+              enable_slider: True
+
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.spots_kuche
+            name: Spots
+    
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:paper-roll-outline
+        heading: Badezimmer
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#bathroom"
+      - square: false
+        columns: 1
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.spots_badezimmer
+            name: Spots
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:door
+        heading: Flur
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#corridor"
+      - square: false
+        columns: 1
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: light.deckenlicht_flur
+            name: Deckenlicht
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:home-roof
+        heading: Dachboden
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#attic"
+      - square: false
+        columns: 2
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: switch.light_attic
+            name: Dachboden
+
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: switch.light_storageroom
+            name: Nebenraum
+
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: heading
+        icon: mdi:stairs-down
+        heading: Keller
+        heading_style: subtitle
+        tap_action:
+          action: navigate
+          navigation_path: "#cellar"
+      - square: false
+        columns: 1
+        type: grid
+        cards:
+          - type: custom:button-card
+            template: hc_light_card_wge
+            entity: switch.shellyplus1pm_345f451fdd88_switch_0
+            name: Deckenlicht

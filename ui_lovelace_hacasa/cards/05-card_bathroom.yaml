@@ -1,0 +1,64 @@
+type: vertical-stack
+cards:
+  - type: custom:bubble-card
+    card_type: pop-up
+    name: Badezimmer
+    icon: mdi:paper-roll-outline
+    hash: "#bathroom"
+    button_type: name
+    sub_button: []
+  - type: custom:bubble-card
+    card_type: separator
+    name: Klima
+    icon: mdi:thermostat
+    sub_button:
+      - type: entity
+        show_state: true
+        show_icon: true
+        entity: sensor.multisensor_badezimmer_temperatur
+        color: var(--color-red)
+        icon: fapro:thermometer
+        tap_action:
+          action: more-info
+
+      - type: entity
+        show_state: true
+        show_icon: true
+        entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
+        color: var(--color-blue)
+        icon: fapro:humidity
+        tap_action:
+          action: more-info
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Lichter
+    icon: mdi:lightbulb-group
+  - square: false
+    type: grid
+    columns: 1
+    cards:
+      - type: custom:button-card
+        template: hc_light_card_wge
+        entity: light.spots_badezimmer
+        name: Spots
+
+  - type: custom:bubble-card
+    card_type: separator
+    name: Geräte
+    icon: mdi:devices
+  - square: false
+    columns: 2
+    type: grid
+    cards:
+      - type: "custom:button-card"
+        entity: switch.gosund_sp112_nursery
+        template: hc_switch_card
+        icon: fapro:plug
+        name: Steckdose
+
+      - type: "custom:button-card"
+        entity: switch.gosund_sp112_nursery_usb
+        template: hc_switch_card
+        icon: fapro:plug
+        name: Steckdose USB

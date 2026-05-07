@@ -1,0 +1,158 @@
+---
+hc_custom_lock_card_wge:
+  type: custom:button-card
+  show_state: false
+  show_icon: true
+  variables:
+    hc_icon_color: var(--primary-color)
+  icon: |
+    [[[ 
+      if (entity.state === "locked") return "fas:lock";
+      if (entity.state === "unlocked") return "fas:lock-open";
+      if (entity.state === "jammed") return "mdi:lock-alert";
+      return "mdi:lock-question";
+    ]]]
+  show_name: true
+  show_last_changed: true
+  show_label: true
+  styles:
+    grid:
+      - grid-template-areas: |
+          "icon icon"      
+          "n action_card"
+          "l action_card"
+      - grid-template-rows: auto min-content 1fr
+    card:
+      - overflow: hidden
+      - padding: 20px
+      - pointer-events: none
+    name:
+      - justify-self: start
+      - font-size: 20px
+      - font-weight: 600
+    label:
+      - justify-self: start
+      - align-self: start
+      - font-size: 12px
+      - font-weight: 500
+      - color: var(--subtext-color)
+    img_cell:
+      - position: absolute
+      - top: 40%
+      - right: 40%
+      - overflow: visible
+    icon:
+      - position: absolute
+      - width: 120px
+      - color: "[[[ return variables.hc_icon_color ]]]"
+
+  state:
+    - value: locked
+      name: Locked
+    - value: unlocked
+      name: Unlocked
+    - value: jammed
+      name: Jammed
+    - value: unknown
+      name: Unknown
+      styles:
+        name:
+          - color: var(--color-dark-gray)
+  custom_fields:
+    action_card:
+      card:
+        type: custom:button-card
+        styles:
+          grid:
+            - grid-template-areas: '"item1" "item2"'
+            - row-gap: 8px
+          card:
+            - padding: 10px
+            - border-radius: 50px
+            - background-color: var(--button-card-background)
+            - box-shadow: none
+        custom_fields:
+          item1:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              show_name: false
+              show_state: false
+              icon: fas:lock
+              styles:
+                icon:
+                  - width: 25px
+                  - color: var(--icon-color)
+                card:
+                  - padding: 10px
+                  - border-radius: 500px
+                  - box-shadow: none
+                  - pointer-events: auto
+                  - background: none
+              state:
+                - value: locked
+                  styles:
+                    card:
+                      - background: "[[[ return variables.hc_icon_color ]]]"
+                    icon:
+                      - color: "#fff"
+                      - animation: rotate 4s linear infinite
+              extra_styles: |
+                @keyframes rotate {
+                  from {transform: rotateY(-deg);}
+                  to {transform: rotateY(360deg);}
+                }
+              tap_action:
+                action: call-service
+                service: lock.lock
+                target:
+                  entity_id: "[[[ return entity.entity_id ]]]"
+          item2:
+            card:
+              type: custom:button-card
+              entity: "[[[ return entity.entity_id ]]]"
+              show_name: false
+              show_state: false
+              icon: fas:lock-open
+              styles:
+                icon:
+                  - width: 25px
+                  - color: var(--icon-color)
+                card:
+                  - padding: 10px
+                  - border-radius: 500px
+                  - box-shadow: none
+                  - pointer-events: auto
+                  - background: none
+              state:
+                - value: unlocked
+                  styles:
+                    card:
+                      - background: "[[[ return variables.hc_icon_color ]]]"
+                      - box-shadow: none
+                    icon:
+                      - color: "#fff"
+                      - animation: rotate 4s linear infinite
+                - value: arming
+                  styles:
+                    icon:
+                      - animation: rotate 4s linear infinite
+                    card:
+                      - background: "[[[ return variables.hc_icon_color ]]]"
+                      - animation: flash 2s linear infinite
+                      - box-shadow: none
+              extra_styles: |
+                @keyframes rotate {
+                  from {transform: rotateY(-deg);}
+                  to {transform: rotateY(360deg);}
+                }
+                @keyframes flash {
+                  0% {opacity: 100%;}
+                  50% {opacity: 0%;}
+                  100% {opacity: 100%;}
+                }
+              tap_action:
+                action: call-service
+                service: lock.unlock
+                target:
+                  entity_id: "[[[ return entity.entity_id ]]]"

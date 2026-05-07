@@ -1,0 +1,191 @@
+switch_card_apple:
+  variables:
+    power_entity:
+    power_unit: W
+    graph_color: "120,180,255"
+    show_graph: false
+    show_graph_line: true
+    show_graph_fill: false
+    card_color: "120,180,255"
+  show_state: true
+  styles:
+    grid:
+      - grid-template-areas: |
+          ". i"
+          "n n"
+          "s s"
+          "graph graph"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr
+    card:
+      - padding: 18px
+      - height: 113px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - backdrop-filter: blur(18px)
+      - -webkit-backdrop-filter: blur(18px)
+      - border: none
+      - background: >
+          [[[
+            const glow = variables.card_glow_color || variables.graph_color || "120,180,255";
+            const glass = variables.card_glass_bg || "var(--card-glass-bg)";
+
+            return `
+              radial-gradient(
+                circle at 8% 8%,
+                rgba(${glow},0.55) 0%,
+                rgba(${glow},0.26) 22%,
+                rgba(${glow},0.10) 42%,
+                rgba(${glow},0.04) 58%,
+                transparent 74%
+              ),
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.14),
+                rgba(255,255,255,0.03)
+              ),
+              ${glass}
+            `;
+          ]]]
+      - box-shadow: >
+          [[[
+            const color = variables.card_color || "120,180,255";
+            return entity.state === "on"
+              ? `0 1px 1px rgba(${color},0.24), inset 0 1px 0 rgba(255,255,255,0.08)`
+              : "0 1px 1px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.05)";
+          ]]]
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - font-size: var(--card-glass-font-size-primary)
+      - font-weight: var(--card-glass-font-weight-primary)
+      - color: var(--card-text-color)
+      - z-index: 2
+
+    state:
+      - justify-self: start
+      - align-self: center
+      - text-align: left
+      - font-size: var(--card-glass-font-size-secondary)
+      - font-weight: var(--card-glass-font-weight-secondary)
+      - color: var(--card-text-color)
+      - z-index: 2
+
+    icon:
+      - width: 22px
+      - color: >
+          [[[
+            const color = variables.card_color || "120,180,255";
+            return entity.state === "on"
+              ? `rgba(${color},1)`
+              : "rgba(255,255,255,0.55)";
+          ]]]
+
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - width: 28px
+      - height: 28px
+      - background: transparent
+      - border-radius: 50%
+      - z-index: 2
+
+    custom_fields:
+      graph:
+        - display: >
+            [[[
+              return variables.show_graph && variables.power_entity
+                ? "block"
+                : "none";
+            ]]]
+        - position: absolute
+        - left: 0
+        - bottom: -1px
+        - width: 100%
+        - height: 52px
+        - z-index: 1
+        - pointer-events: none
+        - opacity: 0.85
+
+  state:
+    - value: "on"
+      state_display: |
+        [[[
+          if (variables.power_entity && states[variables.power_entity]) {
+            return "An · " + states[variables.power_entity].state + variables.power_unit;
+          }
+          return "An";
+        ]]]
+
+    - value: "off"
+      state_display: "Aus"
+
+    - value: "unavailable"
+      state_display: "Unknown"
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+        icon:
+          - color: rgba(255,255,255,0.35)
+
+  custom_fields:
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return variables.power_entity ]]]"
+            show_fill: "[[[ return variables.show_graph_fill ]]]"
+            show_line: "[[[ return variables.show_graph_line ]]]"
+        animate: true
+        show:
+          name: false
+          icon: false
+          state: false
+        line_width: 2
+        line_color: |
+          [[[
+            const color = variables.graph_color || variables.card_color || "120,180,255";
+            return `rgba(${color},0.95)`;
+          ]]]
+        hours_to_show: 24
+        card_mod:
+          style: |
+            ha-card {
+              background: none !important;
+              box-shadow: none !important;
+              --ha-card-border-width: 0;
+              border-radius: 0 !important;
+            }
+
+  tap_action:
+    action: toggle
+
+  hold_action:
+    action: more-info
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    ha-card:hover .soft-light {
+      opacity: 5;
+      animation: softLightMove 4.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes softLightMove {
+      0% {
+        transform: translate(-22%, -12%) scale(1);
+      }
+
+      100% {
+        transform: translate(12%, 10%) scale(1.18);
+      }
+    }
