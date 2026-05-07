@@ -47,7 +47,7 @@ home_card_flora_modern_wge:
               url('${variables.image}')
             `;
           ]]]
-      - background-size: 80%
+      - background-size: 70%
       - background-position: center right
       - background-repeat: no-repeat
       #- box-shadow: >
