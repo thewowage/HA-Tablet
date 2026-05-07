@@ -255,7 +255,7 @@ card:
 
                     - service: browser_mod.navigate
                       data:
-                        path: /lovelace-tablet/audio
+                        path: /lovelace-tablet/home
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
