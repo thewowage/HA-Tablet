@@ -78,7 +78,7 @@ Apple Glass:
   paper-slider-container-color: "rgba(255,255,255,0.12)"
   card-slider-height: 10px
 
-  card-border-radius-apple:
+  card-border-radius-apple: 999px
 
   # Karten
   ha-card-border-radius: "22px"
