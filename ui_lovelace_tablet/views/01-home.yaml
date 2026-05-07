@@ -160,6 +160,7 @@ cards:
             name: freddy Mode
             variables:
               room_color: "120,180,255"
+              input_select: input_select.haus_modi
             view_layout:
               grid-area: h_script_2
             tap_action:
@@ -174,6 +175,7 @@ cards:
             name: Nacht
             variables:
               room_color: "120,180,255"
+              input_select: input_select.haus_modi
             view_layout:
               grid-area: h_script_3
             tap_action:
@@ -188,6 +190,7 @@ cards:
             name: Guten Morgen
             variables:
               room_color: "120,180,255"
+              input_select: input_select.guten_morgen_mode_aktiviert
             view_layout:
               grid-area: h_script_4
             tap_action:
