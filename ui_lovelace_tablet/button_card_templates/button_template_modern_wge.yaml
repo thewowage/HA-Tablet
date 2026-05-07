@@ -77,22 +77,6 @@ button_template_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const type = variables.sensor_type;
-            const s = entity.state;
-            const color = variables.card_color || "120,180,255";
-
-            const active =
-              (type === "window" && s === "on") ||
-              (type === "door" && s === "on") ||
-              (type === "motion" && s === "on") ||
-              (type === "lock" && s === "locked");
-
-            return active
-              ? `0 6px 18px rgba(${color},0.22)`
-              : "var(--card-shadow)";
-          ]]]
 
     name:
       - justify-self: start
