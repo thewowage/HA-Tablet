@@ -182,7 +182,7 @@ philips_air_purifier_card_modern_wge:
 
           progress:
             - height: 100%
-            - border-radius: 10px
+            - border-radius: 999px
             - touch-action: pan-y
             - background: >
                 [[[
