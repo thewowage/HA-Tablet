@@ -48,7 +48,7 @@ home_card_flora_modern_wge:
             `;
           ]]]
       - background-size: cover
-      - background-position: right
+      - background-position: center right
       - background-repeat: no-repeat
       #- box-shadow: >
       #    [[[
