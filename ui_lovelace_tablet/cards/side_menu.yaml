@@ -518,7 +518,7 @@ card:
               }
 
           - type: custom:button-card
-            icon: fapro:toggle-on
+            icon: mdi:refresh
             tap_action:
               action: navigate
               navigation_path: /lovelace-tablet/einstellungen
