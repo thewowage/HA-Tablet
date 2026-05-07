@@ -87,7 +87,7 @@ card:
               name:
                 - font-size: 30px
                 - font-weight: 900
-                - color: rgba(255,255,255,0.96)
+                - color: var(--sidebar-time-color)
                 - justify-self: center
                 - text-align: center
 
