@@ -332,7 +332,6 @@ card:
                     - service: browser_mod.navigate
                       data:
                         path: /lovelace-tablet/home
-
             styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
@@ -344,12 +343,10 @@ card:
                       const active =
                         states["input_select.dashboard_auswahl"]?.state === "home" ||
                         location.pathname.includes("/home");
-
                       return active
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
                         : "rgba(255,255,255,0.45)";
                     ]]]
-
               custom_fields:
                 indicator:
                   - grid-area: indicator
@@ -360,10 +357,8 @@ card:
                         const active =
                           states["input_select.dashboard_auswahl"]?.state === "home" ||
                           location.pathname.includes("/home");
-
                         return active ? "block" : "none";
                       ]]]
-
             custom_fields:
               indicator: <div class="side-indicator"></div>
 
