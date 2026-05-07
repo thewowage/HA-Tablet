@@ -111,13 +111,3 @@ Apple Glass:
   app-header-background-color: "var(--primary-background-color)"
   #app-header-text-color: "var(--primary-text-color)"
 
-
-  background-color: "#202631"
-  background-color-2: "#3a3c55"
-  background: "var(--background-color)"
-  primary-background-color: "var(--background-color)"
-  secondary-background-color: "var(--background-color)"
-  markdown-code-background-color: "var(--background-color)"
-  welcome-card-background: "rgba(255,255,255,0.1)"
-  #welcome-screen-img-bg:
-
