@@ -228,13 +228,6 @@ home_card_flora_modern_wge:
             }
 
   extra_styles: |
-    ha-card {
-      border-radius: 26px !important;
-      overflow: hidden;
-      text-align: left !important;
-      transition: transform 0.18s ease, box-shadow 0.25s ease;
-    }
-
     ha-card:active {
       transform: scale(0.97);
     }
