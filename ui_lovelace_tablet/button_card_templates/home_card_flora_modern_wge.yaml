@@ -336,25 +336,23 @@ home_card_flora_modern_wge:
     }
 
     .plant-status-wrap {
-    display:flex;
-    align-items:center;
-    justify-content:center;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
     }
 
     .plant-dot {
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      box-shadow:
-        0 0 10px currentColor,
-        0 0 18px currentColor;
       animation: plantPulse 2s ease-in-out infinite;
     }
 
     @keyframes plantPulse {
       0%,100% {
         transform: scale(1);
-        opacity: .85;
+        opacity: .82;
       }
       50% {
         transform: scale(1.18);
