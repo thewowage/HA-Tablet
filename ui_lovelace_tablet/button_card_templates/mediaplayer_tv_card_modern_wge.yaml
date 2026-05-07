@@ -167,32 +167,6 @@ mediaplayer_tv_card_modern_wge:
               `
               : "var(--ha-card-background)";
           ]]]
-      - box-shadow: >
-          [[[
-            const appId = entity?.attributes?.app_id;
-            const appName = entity?.attributes?.app_name;
-
-            const colors = {
-              "com.google.ios.youtube": "255,59,48",
-              "com.netflix.Netflix": "229,9,20",
-              "com.apple.TVMusic": "255,45,85",
-              "com.apple.TVWatchList": "120,180,255",
-              "com.disney.disneyplus": "80,130,255",
-              "com.amazon.aiv.AIVApp": "0,168,225",
-              "de.telekom.magentatv": "226,0,116"
-            };
-
-            const color =
-              colors[appId] ||
-              (appName === "RTL+" ? "255,120,180" : null) ||
-              variables.card_color ||
-              "120,180,255";
-
-            return `
-              0 6px 18px rgba(${color},0.22),
-              inset 0 1px 0 rgba(255,255,255,0.08)
-            `;
-          ]]]
 
     label:
       - justify-self: start
