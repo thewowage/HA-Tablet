@@ -42,8 +42,8 @@ card:
            background:
               linear-gradient(
                 145deg,
-                rgba(var(--card-color-rgb,120,180,255), var(--sidebar-bg-opacity-strong, 0.14)),
-                rgba(var(--card-color-rgb,120,180,255), var(--sidebar-bg-opacity-soft, 0.04))
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.03)
               ),
               var(--ha-card-background
 
