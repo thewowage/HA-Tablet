@@ -19,16 +19,15 @@ card:
             margin-top: 0 !important;
             margin-left: 0 !important;
 
-            width: var(--sidebar-width, 200px) !important;
+            width: 200px !important;
             height: 100vh !important;
 
             z-index: 9999 !important;
             overflow: hidden !important;
           }
 
-
           ha-card {
-            width: var(--sidebar-width, 200px) !important;
+            width: 200px !important;
             height: 100vh !important;
 
             display: flex;
@@ -37,15 +36,24 @@ card:
 
             padding: 20px 0;
 
-            border-radius: 0 var(--sidebar-radius, 30px) var(--sidebar-radius, 30px) 0;
+            border-radius: 0 30px 30px 0;
 
-           background:
-                linear-gradient(
-                  145deg,
-                  rgba(${color},0.32),
-                  rgba(${color},0.10)
-                ),
-                var(--ha-card-background)
+            background:
+              linear-gradient(
+                145deg,
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.03)
+              ),
+              rgba(32,37,54,0.42);
+
+            backdrop-filter: blur(30px) saturate(170%);
+            -webkit-backdrop-filter: blur(30px) saturate(170%);
+
+            border-right: 1px solid rgba(255,255,255,0.10);
+
+            box-shadow:
+              12px 0 30px rgba(0,0,0,0.25),
+              inset -1px 0 0 rgba(255,255,255,0.06);
 
             overflow: hidden !important;
           }
@@ -77,9 +85,9 @@ card:
                 - box-shadow: none
                 - padding: 0
               name:
-                - font-size: var(--sidebar-time-size, 30px)
-                - font-weight: var(--sidebar-time-weight, 900)
-                - color: var(--primary-text-color)
+                - font-size: 30px
+                - font-weight: 900
+                - color: rgba(255,255,255,0.96)
                 - justify-self: center
                 - text-align: center
 
@@ -100,14 +108,15 @@ card:
                 - background: transparent
                 - box-shadow: none
                 - padding: 0
-                - margin-bottom: 14px
+                - margin-bottom: 18px
               name:
-                - font-size: var(--sidebar-date-size, 14px)
-                - font-weight: var(--sidebar-date-weight, 700)
-                - color: var(--secondary-text-color)
+                - font-size: 14px
+                - font-weight: 700
+                - color: rgba(255,255,255,0.58)
                 - justify-self: center
                 - text-align: center
 
+          # WETTER ICON
           - type: custom:button-card
             entity: weather.forecast_home
             show_name: false
@@ -139,15 +148,16 @@ card:
                 - grid-template-rows: min-content min-content
                 - justify-items: center
                 - align-items: center
+
               card:
-                - width: var(--sidebar-button-width, 108px)
+                - width: 108px
                 - height: 78px
-                - margin: 0 auto 8px auto
-                - border-radius: var(--sidebar-button-radius, 18px)
+                - margin: 0 auto 0 auto
+                - border-radius: 22px
                 - position: relative
                 - overflow: hidden
-                - background: rgba(var(--card-color-rgb,120,180,255),0.08)
-                - box-shadow: var(--card-shadow, 0 3px 10px rgba(0,0,0,0.16))
+                - background: transparent
+
               img_cell:
                 - justify-self: center
                 - align-self: center
@@ -155,15 +165,17 @@ card:
                 - height: 42px
                 - border-radius: 50%
                 - background: transparent
+                - z-index: 2
+
               icon:
                 - width: 34px
                 - color: >
                     [[[
                       const s = entity?.state;
                       if (s === "sunny") return "rgba(255,209,102,1)";
-                      if (s === "rainy" || s === "pouring") return "rgba(var(--card-color-rgb,120,180,255),1)";
+                      if (s === "rainy" || s === "pouring") return "rgba(120,180,255,1)";
                       if (s === "snowy") return "rgba(220,245,255,1)";
-                      return "var(--secondary-text-color)";
+                      return "rgba(255,255,255,0.86)";
                     ]]]
                 - animation: >
                     [[[
@@ -173,61 +185,79 @@ card:
                       if (s === "snowy") return "snowFloat 2.8s ease-in-out infinite";
                       return "none";
                     ]]]
+
               state:
+                - justify-self: center
+                - align-self: center
                 - font-size: 14px
                 - font-weight: 800
-                - color: var(--primary-text-color)
+                - color: rgba(255,255,255,0.82)
+                - z-index: 2
+
             extra_styles: |
+              ha-card {
+                margin-left: auto !important;
+                margin-right: auto !important;
+              }
+
               @keyframes sunGlow {
-                0%, 100% { filter: drop-shadow(0 0 4px rgba(255,209,102,0.45)); transform: scale(1); }
-                50% { filter: drop-shadow(0 0 14px rgba(255,209,102,0.95)); transform: scale(1.08); }
+                0%, 100% {
+                  filter: drop-shadow(0 0 4px rgba(255,209,102,0.45));
+                  transform: scale(1);
+                }
+                50% {
+                  filter: drop-shadow(0 0 14px rgba(255,209,102,0.95));
+                  transform: scale(1.08);
+                }
               }
 
               @keyframes rainBounce {
-                0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 5px rgba(var(--card-color-rgb,120,180,255),0.45)); }
-                50% { transform: translateY(3px); filter: drop-shadow(0 0 12px rgba(var(--card-color-rgb,120,180,255),0.8)); }
+                0%, 100% {
+                  transform: translateY(0);
+                  filter: drop-shadow(0 0 5px rgba(120,180,255,0.45));
+                }
+                50% {
+                  transform: translateY(3px);
+                  filter: drop-shadow(0 0 12px rgba(120,180,255,0.8));
+                }
               }
 
               @keyframes snowFloat {
-                0%, 100% { transform: translateY(0) rotate(0deg); filter: drop-shadow(0 0 6px rgba(220,245,255,0.5)); }
-                50% { transform: translateY(-3px) rotate(4deg); filter: drop-shadow(0 0 14px rgba(220,245,255,0.9)); }
+                0%, 100% {
+                  transform: translateY(0) rotate(0deg);
+                  filter: drop-shadow(0 0 6px rgba(220,245,255,0.5));
+                }
+                50% {
+                  transform: translateY(-3px) rotate(4deg);
+                  filter: drop-shadow(0 0 14px rgba(220,245,255,0.9));
+                }
               }
 
-          - type: custom:button-card
-            color_type: blank-card
-            styles:
-              card:
-                - height: var(--sidebar-button-spacer, 16px)
-                - background: transparent
-                - box-shadow: none
+          #- type: custom:button-card
+          #  color_type: blank-card
+          #  styles:
+          #    card:
+          #      - height: 30px
+          #      - background: transparent
+          #      - box-shadow: none
 
           - type: custom:button-card
             icon: fapro:house-fill
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.sequence
-                data:
-                  sequence:
-                    - service: input_select.select_option
-                      data:
-                        entity_id: input_select.dashboard_auswahl
-                        option: home
-                    - service: browser_mod.navigate
-                      data:
-                        path: /lovelace-tablet/home
-            styles: &sidebar_button
+              action: navigate
+              navigation_path: /lovelace-tablet/home
+            styles:
               grid:
                 - grid-template-areas: '"indicator i spacer"'
                 - grid-template-columns: 22px 1fr 22px
                 - grid-template-rows: 1fr
               card:
-                - width: var(--sidebar-button-width, 108px)
-                - height: var(--sidebar-button-height, 58px)
+                - width: 108px
+                - height: 58px
                 - margin: 8px auto
-                - border-radius: var(--sidebar-button-radius, 18px)
-                - background: rgba(var(--card-color-rgb,120,180,255),0.08)
-                - box-shadow: var(--card-shadow, 0 3px 10px rgba(0,0,0,0.16))
+                - border-radius: 18px
+                - background: rgba(255,255,255,0.06)
+                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
                 - position: relative
               img_cell:
                 - grid-area: i
@@ -237,8 +267,8 @@ card:
                 - height: 100%
                 - margin: 0
               icon:
-                - width: var(--sidebar-icon-size, 28px)
-                - height: var(--sidebar-icon-size, 28px)
+                - width: 28px
+                - height: 28px
                 - justify-self: center
                 - align-self: center
                 - margin: 0
@@ -246,7 +276,7 @@ card:
                     [[[
                       return location.pathname.includes("home")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "var(--secondary-text-color)";
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -255,16 +285,12 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
-            custom_fields: &indicator
+            custom_fields:
               indicator: <div class="side-indicator"></div>
-            extra_styles: &indicator_style |
-              ha-card:active {
-                transform: scale(0.94);
-              }
-
+            extra_styles: |
               .side-indicator {
-                width: var(--sidebar-indicator-width, 5px);
-                height: var(--sidebar-indicator-height, 24px);
+                width: 5px;
+                height: 24px;
                 border-radius: 999px;
                 background: rgba(var(--card-color-rgb,120,180,255),1);
                 box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
@@ -288,15 +314,36 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/audio
             styles:
-              <<: *sidebar_button
+              grid:
+                - grid-template-areas: '"indicator i spacer"'
+                - grid-template-columns: 22px 1fr 22px
+                - grid-template-rows: 1fr
+              card:
+                - width: 108px
+                - height: 58px
+                - margin: 8px auto
+                - border-radius: 18px
+                - background: rgba(255,255,255,0.06)
+                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
+                - position: relative
+              img_cell:
+                - grid-area: i
+                - justify-self: center
+                - align-self: center
+                - width: 100%
+                - height: 100%
+                - margin: 0
               icon:
-                - width: var(--sidebar-icon-size, 28px)
-                - height: var(--sidebar-icon-size, 28px)
+                - width: 28px
+                - height: 28px
+                - justify-self: center
+                - align-self: center
+                - margin: 0
                 - color: >
                     [[[
                       return location.pathname.includes("audio")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "var(--secondary-text-color)";
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -305,8 +352,28 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("audio") ? "block" : "none"; ]]]
-            custom_fields: *indicator
-            extra_styles: *indicator_style
+            custom_fields:
+              indicator: <div class="side-indicator"></div>
+            extra_styles: |
+              .side-indicator {
+                width: 5px;
+                height: 24px;
+                border-radius: 999px;
+                background: rgba(var(--card-color-rgb,120,180,255),1);
+                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+                animation: sidePulse 1.8s ease-in-out infinite;
+              }
+
+              @keyframes sidePulse {
+                0%, 100% {
+                  opacity: 0.55;
+                  transform: scaleY(0.72);
+                }
+                50% {
+                  opacity: 1;
+                  transform: scaleY(1);
+                }
+              }
 
           - type: custom:button-card
             icon: phu:scene-concentrate
@@ -314,15 +381,36 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/szenen
             styles:
-              <<: *sidebar_button
+              grid:
+                - grid-template-areas: '"indicator i spacer"'
+                - grid-template-columns: 22px 1fr 22px
+                - grid-template-rows: 1fr
+              card:
+                - width: 108px
+                - height: 58px
+                - margin: 8px auto
+                - border-radius: 18px
+                - background: rgba(255,255,255,0.06)
+                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
+                - position: relative
+              img_cell:
+                - grid-area: i
+                - justify-self: center
+                - align-self: center
+                - width: 100%
+                - height: 100%
+                - margin: 0
               icon:
-                - width: var(--sidebar-icon-size, 28px)
-                - height: var(--sidebar-icon-size, 28px)
+                - width: 28px
+                - height: 28px
+                - justify-self: center
+                - align-self: center
+                - margin: 0
                 - color: >
                     [[[
                       return location.pathname.includes("szenen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "var(--secondary-text-color)";
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -331,8 +419,28 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("szenen") ? "block" : "none"; ]]]
-            custom_fields: *indicator
-            extra_styles: *indicator_style
+            custom_fields:
+              indicator: <div class="side-indicator"></div>
+            extra_styles: |
+              .side-indicator {
+                width: 5px;
+                height: 24px;
+                border-radius: 999px;
+                background: rgba(var(--card-color-rgb,120,180,255),1);
+                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+                animation: sidePulse 1.8s ease-in-out infinite;
+              }
+
+              @keyframes sidePulse {
+                0%, 100% {
+                  opacity: 0.55;
+                  transform: scaleY(0.72);
+                }
+                50% {
+                  opacity: 1;
+                  transform: scaleY(1);
+                }
+              }
 
           - type: custom:button-card
             icon: fapro:toggle-on
@@ -340,15 +448,36 @@ card:
               action: navigate
               navigation_path: /lovelace-tablet/einstellungen
             styles:
-              <<: *sidebar_button
+              grid:
+                - grid-template-areas: '"indicator i spacer"'
+                - grid-template-columns: 22px 1fr 22px
+                - grid-template-rows: 1fr
+              card:
+                - width: 108px
+                - height: 58px
+                - margin: 8px auto
+                - border-radius: 18px
+                - background: rgba(255,255,255,0.06)
+                - box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
+                - position: relative
+              img_cell:
+                - grid-area: i
+                - justify-self: center
+                - align-self: center
+                - width: 100%
+                - height: 100%
+                - margin: 0
               icon:
-                - width: var(--sidebar-icon-size, 28px)
-                - height: var(--sidebar-icon-size, 28px)
+                - width: 28px
+                - height: 28px
+                - justify-self: center
+                - align-self: center
+                - margin: 0
                 - color: >
                     [[[
                       return location.pathname.includes("einstellungen")
                         ? "rgba(var(--card-color-rgb,120,180,255),1)"
-                        : "var(--secondary-text-color)";
+                        : "rgba(255,255,255,0.45)";
                     ]]]
               custom_fields:
                 indicator:
@@ -357,5 +486,25 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
-            custom_fields: *indicator
-            extra_styles: *indicator_style
+            custom_fields:
+              indicator: <div class="side-indicator"></div>
+            extra_styles: |
+              .side-indicator {
+                width: 5px;
+                height: 24px;
+                border-radius: 999px;
+                background: rgba(var(--card-color-rgb,120,180,255),1);
+                box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
+                animation: sidePulse 1.8s ease-in-out infinite;
+              }
+
+              @keyframes sidePulse {
+                0%, 100% {
+                  opacity: 0.55;
+                  transform: scaleY(0.72);
+                }
+                50% {
+                  opacity: 1;
+                  transform: scaleY(1);
+                }
+              }
