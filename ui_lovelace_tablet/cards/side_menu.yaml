@@ -252,7 +252,6 @@ card:
                       data:
                         entity_id: input_select.dashboard_auswahl
                         option: home
-
                     - service: browser_mod.navigate
                       data:
                         path: /lovelace-tablet/home
@@ -306,7 +305,6 @@ card:
                 box-shadow: 0 0 12px rgba(var(--card-color-rgb,120,180,255),0.75);
                 animation: sidePulse 1.8s ease-in-out infinite;
               }
-
               @keyframes sidePulse {
                 0%, 100% {
                   opacity: 0.55;
