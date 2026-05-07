@@ -142,10 +142,18 @@ light_card_modern_wge:
             - background: >
                 [[[
                   let r = 255, g = 209, b = 102;
-                  if (entity.attributes.rgb_color) [r, g, b] = entity.attributes.rgb_color;
+
+                  if (entity.attributes.rgb_color) {
+                    [r, g, b] = entity.attributes.rgb_color;
+                  }
 
                   return entity.state === "on"
-                    ? `rgba(${r},${g},${b},0.95)`
+                    ? `linear-gradient(
+                        135deg,
+                        rgba(${r},${g},${b},1) 0%,
+                        rgba(${r},${g},${b},0.82) 45%,
+                        rgba(${r},${g},${b},0.55) 100%
+                      )`
                     : "transparent";
                 ]]]
 
