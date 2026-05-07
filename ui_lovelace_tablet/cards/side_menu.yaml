@@ -297,6 +297,11 @@ card:
             styles:
               <<: *sidebar_button
               icon:
+                - width: 34px
+                - height: 34px
+                - justify-self: center
+                - align-self: center
+                - margin: 0
                 - color: >
                     [[[
                       return location.pathname.includes("audio")
