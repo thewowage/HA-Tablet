@@ -74,7 +74,7 @@ Apple Glass:
   app-header-text-color: "var(--primary-text-color)"
 
   paper-item-icon-color: "var(--secondary-text-color)"
-  paper-item-icon-active-color: "rgba(var(--apple-card-glow-rgb),1)"
+  #paper-item-icon-active-color: "rgba(var(--apple-card-glow-rgb),1)"
   paper-item-icon-active-color: rgba(120,180,255,1)
 
   paper-slider-active-color: "rgba(var(--apple-card-glow-rgb),0.95)"
