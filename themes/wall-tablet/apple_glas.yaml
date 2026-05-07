@@ -143,3 +143,6 @@ Apple Glass:
   sidebar-indicator-width: 5px
   sidebar-indicator-height: 24px
 
+  # Plant Background
+  plant-bg-monstera-deliciosa: /local/images/plant/monstera_deliciosa_plant_bg.png
+
