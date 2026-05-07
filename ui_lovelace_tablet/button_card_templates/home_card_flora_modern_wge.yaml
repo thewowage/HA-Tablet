@@ -209,11 +209,11 @@ home_card_flora_modern_wge:
             days: Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0)
           },
           {
-            moisture: states["sensor.monstera_feuchtigkeit"]?.state,
+            moisture: states["sensor.mangobaum_feuchtigkeit"]?.state,
             days: Number(states["sensor.monstera_tage_seit_giessen"]?.state || 0)
           },
           {
-            moisture: states["sensor.alocasia_feuchtigkeit"]?.state,
+            moisture: states["sensor.mangobaum_feuchtigkeit"]?.state,
             days: Number(states["sensor.alocasia_tage_seit_giessen"]?.state || 0)
           }
         ];
