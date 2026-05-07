@@ -39,11 +39,6 @@ home_card_flora_modern_wge:
                 rgba(18,22,30,0.44) 80%,
                 rgba(18,22,30,0.12) 100%
               ),
-              radial-gradient(
-                circle at 18% 22%,
-                rgba(${color},0.22),
-                transparent 44%
-              ),
               url('${variables.image}')
             `;
           ]]]
