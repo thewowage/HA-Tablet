@@ -68,7 +68,7 @@ home_card_flora_status_wge:
           const code = p?.attributes?.problem_code || "";
           const problem = p?.attributes?.problem || "";
 
-          const dry = code.includes("moisture");
+          const dry = code.includes("feuchtigkeit");
           const warning =
             code &&
             code !== "none" &&
