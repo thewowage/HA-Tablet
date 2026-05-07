@@ -198,13 +198,6 @@ philips_air_purifier_card_modern_wge:
                     ? `rgba(${color},1)`
                     : "transparent";
                 ]]]
-            - box-shadow: >
-                [[[
-                  const color = variables.card_color || "120,180,255";
-                  return entity.state === "on"
-                    ? `0 0 10px rgba(${color},0.75), 0 2px 6px rgba(0,0,0,0.25)`
-                    : "none";
-                ]]]
 
     auto_icon:
       card:
