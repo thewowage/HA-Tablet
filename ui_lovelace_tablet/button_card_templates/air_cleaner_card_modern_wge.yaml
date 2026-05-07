@@ -267,3 +267,11 @@ air_cleaner_card_modern_wge:
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
+      
+    my-slider-v2:active {
+      transform: scaleY(1.18);
+    }
+
+    my-slider-v2:active * {
+      transition: all 0.16s cubic-bezier(.2,.8,.2,1) !important;
+    }
