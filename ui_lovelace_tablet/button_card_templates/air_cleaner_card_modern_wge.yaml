@@ -132,7 +132,7 @@ air_cleaner_card_modern_wge:
             - touch-action: pan-y
 
           progress:
-            - height: 50%
+            - height: 10%
             - border-radius: 10px
             - touch-action: pan-y
             - background: >
