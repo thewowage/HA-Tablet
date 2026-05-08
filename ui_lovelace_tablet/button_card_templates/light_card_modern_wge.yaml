@@ -287,10 +287,11 @@ light_card_modern_wge:
               card_mod:
                 style: |
                   ha-card {
-                    width: 120px !important;
-                    margin: 0 auto !important;
+                    width: 120px !important; # Feste Breite für die 2 Spalten
+                    margin: 0 auto !important; # Zentriert das Grid im Stack
                     background: transparent !important;
                     box-shadow: none !important;
+                    display: block !important;
                   }
               cards:
                 - type: custom:button-card
