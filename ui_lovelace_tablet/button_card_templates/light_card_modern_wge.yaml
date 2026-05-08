@@ -281,6 +281,14 @@ light_card_modern_wge:
             - type: grid
               columns: 2
               square: false
+              card_mod:
+                style: |
+                  ha-card {
+                    width: 120px !important;
+                    margin: 0 auto !important;
+                    background: transparent !important;
+                    box-shadow: none !important;
+                  }
               cards:
                 - type: custom:button-card
                   show_icon: false
