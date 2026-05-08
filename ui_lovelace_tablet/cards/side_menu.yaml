@@ -40,20 +40,6 @@ card:
             background: var(--sidebar-bg);
           }
 
-          *:hover {
-            transform: none !important;
-            box-shadow: none !important;
-            filter: none !important;
-            background: inherit !important;
-          }
-
-          ha-card:hover {
-            transform: none !important;
-            box-shadow: none !important;
-            filter: none !important;
-            background: inherit !important;
-          }
-
           /* verhindert JEGLICHES Scrollen im Menü */
           #root,
           #container,
