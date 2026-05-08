@@ -210,8 +210,7 @@ light_card_modern_wge:
       popup_height: 90
       alignment: center
       transparent_background: false
-      theme: "Material Darker"
       view: lovelace/calendar
       displays:
-        device_id: person.batman
+        device_id: person.wowa
       title: Calendar
