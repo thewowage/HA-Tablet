@@ -199,4 +199,70 @@ light_card_modern_wge:
     action: toggle
 
   hold_action:
-    action: more-info
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.popup
+      data:
+        title: "[[[ return entity.attributes.friendly_name || entity.entity_id; ]]]"
+        content:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-light-card
+              entity: "[[[ return entity.entity_id ]]]"
+              show_brightness_control: true
+              show_color_temp_control: true
+              show_color_control: true
+              use_light_color: true
+              collapsible_controls: false
+              tap_action:
+                action: toggle
+
+            - type: custom:my-slider-v2
+              entity: "[[[ return entity.entity_id ]]]"
+              mode: brightness
+              styles:
+                card:
+                  - height: 34px
+                  - border-radius: 999px
+                  - background: rgba(255,255,255,0.08)
+                  - box-shadow: none
+                progress:
+                  - border-radius: 999px
+                  - background: >
+                      [[[
+                        let r = 255, g = 209, b = 102;
+                        if (entity.attributes.rgb_color) [r, g, b] = entity.attributes.rgb_color;
+
+                        return entity.state === "on"
+                          ? `linear-gradient(
+                              90deg,
+                              rgba(${r},${g},${b},0.75),
+                              rgba(${r},${g},${b},1)
+                            )`
+                          : "transparent";
+                      ]]]
+                track:
+                  - border-radius: 999px
+                  - background: rgba(255,255,255,0.08)
+                thumb:
+                  - width: 4px
+                  - height: 40%
+                  - top: 10px
+                  - background: var(--primary-text-color)
+
+        card_mod:
+          style:
+            ha-dialog$: |
+              .mdc-dialog__surface {
+                border-radius: 28px !important;
+                background:
+                  linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.12),
+                    rgba(255,255,255,0.03)
+                  ),
+                  var(--ha-card-background) !important;
+                backdrop-filter: blur(28px) saturate(160%);
+                -webkit-backdrop-filter: blur(28px) saturate(160%);
+                box-shadow: 0 20px 60px rgba(0,0,0,0.35) !important;
+              }
