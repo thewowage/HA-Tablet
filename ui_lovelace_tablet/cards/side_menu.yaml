@@ -375,3 +375,16 @@ card:
                       [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
             custom_fields: *indicator
             extra_styles: *indicator_style
+extra_styles: |
+  [[[
+    if (variables.disable_hover) {
+      return `
+        ha-card:hover {
+          transform: none !important;
+          box-shadow: inherit !important;
+          filter: none !important;
+        }
+      `;
+    }
+    return '';
+  ]]]
