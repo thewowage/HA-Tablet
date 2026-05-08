@@ -198,17 +198,5 @@ light_card_modern_wge:
   tap_action:
     action: toggle
 
-  #hold_action:
-  #  action: more-info
-
   hold_action:
-    action: popup_view.open
-    data:
-      animation_speed: 300
-      auto_close: 0
-      background_blur: true
-      popup_height: 90
-      alignment: center
-      transparent_background: false
-      view: lovelace/calendar
-      title: Calendar
+    action: more-info
