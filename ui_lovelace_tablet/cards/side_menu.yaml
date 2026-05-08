@@ -5,7 +5,6 @@ conditions:
 card:
   type: horizontal-stack
   cards:
-
     - type: custom:mod-card
       view_layout:
         grid-area: side_menu
@@ -242,6 +241,8 @@ card:
                 - background: transparent
                 #- box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
                 - position: relative
+                - transition: none
+                - transform: none
               img_cell:
                 - grid-area: i
                 - justify-self: center
