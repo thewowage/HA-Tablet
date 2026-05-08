@@ -283,10 +283,10 @@ light_card_modern_wge:
                   value_template: >
                     {{ state_attr(config.entity, 'supported_color_modes') | string is search('rgb|hs|xy') }}
               card:
-                type: grid
-                columns: 2
-                square: false
-                cards:
+            type: grid
+            columns: 2
+            square: false
+            cards:
                   - type: custom:button-card
                     icon: mdi:circle
                     tap_action:
