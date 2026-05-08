@@ -199,7 +199,6 @@ light_card_modern_wge:
     action: toggle
 
   hold_action:
-  double_tap_action:
     action: fire-dom-event
     browser_mod:
       service: browser_mod.popup
