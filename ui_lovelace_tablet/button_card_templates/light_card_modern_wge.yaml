@@ -211,5 +211,4 @@ light_card_modern_wge:
       alignment: center
       transparent_background: false
       view: lovelace/calendar
-
       title: Calendar
