@@ -49,7 +49,11 @@ card:
             overflow: hidden !important;
           }
 
-          
+          *:hover {
+            transform: none !important;
+            box-shadow: none !important;
+            filter: none !important;
+          }
 
       card:
         type: vertical-stack
