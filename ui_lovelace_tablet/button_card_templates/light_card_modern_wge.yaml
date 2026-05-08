@@ -353,17 +353,33 @@ light_card_modern_wge:
         card_mod:
           style:
             ha-dialog$: |
+              .mdc-dialog__container {
+                align-items: center !important;
+                justify-content: center !important;
+              }
+
               .mdc-dialog__surface {
                 width: 278px !important;
+                min-width: 278px !important;
                 max-width: 278px !important;
+                height: auto !important;
+                max-height: 520px !important;
+
                 border-radius: 8px !important;
-                background: rgba(24,30,31,0.94) !important;
+                background: rgba(24,30,31,0.96) !important;
                 backdrop-filter: blur(28px) saturate(160%);
                 -webkit-backdrop-filter: blur(28px) saturate(160%);
                 overflow: hidden !important;
               }
+
+              .mdc-dialog__content {
+                padding: 0 0 18px 0 !important;
+                overflow: hidden !important;
+              }
+
             .: |
               ha-dialog {
-                --mdc-dialog-min-width: 278px;
-                --mdc-dialog-max-width: 278px;
+                --mdc-dialog-min-width: 278px !important;
+                --mdc-dialog-max-width: 278px !important;
+                --dialog-surface-width: 278px !important;
               }
