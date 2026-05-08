@@ -201,156 +201,156 @@ light_card_modern_wge:
   #hold_action:
   #  action: more-info
 
-hold_action:
-  action: fire-dom-event
-  browser_mod:
-    service: browser_mod.popup
-    data:
-      title: Beleuchtung
-      content:
-        type: custom:button-card
-        entity: "[[[ return entity.entity_id ]]]"
-        show_icon: false
-        show_name: false
-        show_state: false
-
-        custom_fields:
-          percent: |
-            [[[
-              const b = entity.attributes.brightness
-                ? Math.round(entity.attributes.brightness / 2.55)
-                : 0;
-              return `${b}%`;
-            ]]]
-
-          slider:
-            card:
-              type: custom:my-slider-v2
-              entity: "[[[ return entity.entity_id ]]]"
-              mode: brightness
-              styles:
-                card:
-                  - height: 92px
-                  - width: 250px
-                  - box-shadow: none
-                  - padding: 0
-                  - background: rgba(255,255,255,0.10)
-                  - border-radius: 18px
-                  - transform: rotate(-90deg)
-                  - transform-origin: center
-                progress:
-                  - height: 100%
-                  - border-radius: 18px
-                  - background: >
-                      [[[
-                        let r = 255, g = 209, b = 102;
-                        if (entity.attributes.rgb_color) [r,g,b] = entity.attributes.rgb_color;
-
-                        return entity.state === "on"
-                          ? `linear-gradient(
-                              90deg,
-                              rgba(${r},${g},${b},0.70),
-                              rgba(${r},${g},${b},1)
-                            )`
-                          : "transparent";
-                      ]]]
-                track:
-                  - border-radius: 18px
-                  - background: rgba(255,255,255,0.10)
-                thumb:
-                  - width: 28px
-                  - height: 4px
-                  - border-radius: 999px
-                  - background: rgba(255,255,255,0.45)
-
-          colors: |
-            [[[
-              const id = entity.entity_id;
-
-              return `
-                <div class="color-grid">
-                  <div class="color-dot cold" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[225,226,236]})"></div>
-                  <div class="color-dot warm" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[229,188,148]})"></div>
-                  <div class="color-dot amber" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[224,157,65]})"></div>
-                  <div class="color-dot rainbow" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[255,0,180]})"></div>
-                </div>
-              `;
-            ]]]
-
-        styles:
-          card:
-            - width: 278px
-            - height: 430px
-            - padding: 18px
-            - border-radius: 0
-            - background: transparent
-            - box-shadow: none
+  hold_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.popup
+      data:
+        title: Beleuchtung
+        content:
+          type: custom:button-card
+          entity: "[[[ return entity.entity_id ]]]"
+          show_icon: false
+          show_name: false
+          show_state: false
 
           custom_fields:
-            percent:
-              - justify-self: center
-              - font-size: 15px
-              - font-weight: 600
-              - color: var(--primary-text-color)
-              - margin-bottom: 22px
+            percent: |
+              [[[
+                const b = entity.attributes.brightness
+                  ? Math.round(entity.attributes.brightness / 2.55)
+                  : 0;
+                return `${b}%`;
+              ]]]
 
             slider:
-              - justify-self: center
-              - height: 250px
-              - width: 92px
-              - display: flex
-              - align-items: center
-              - justify-content: center
+              card:
+                type: custom:my-slider-v2
+                entity: "[[[ return entity.entity_id ]]]"
+                mode: brightness
+                styles:
+                  card:
+                    - height: 92px
+                    - width: 250px
+                    - box-shadow: none
+                    - padding: 0
+                    - background: rgba(255,255,255,0.10)
+                    - border-radius: 18px
+                    - transform: rotate(-90deg)
+                    - transform-origin: center
+                  progress:
+                    - height: 100%
+                    - border-radius: 18px
+                    - background: >
+                        [[[
+                          let r = 255, g = 209, b = 102;
+                          if (entity.attributes.rgb_color) [r,g,b] = entity.attributes.rgb_color;
 
-            colors:
-              - justify-self: center
-              - margin-top: 12px
+                          return entity.state === "on"
+                            ? `linear-gradient(
+                                90deg,
+                                rgba(${r},${g},${b},0.70),
+                                rgba(${r},${g},${b},1)
+                              )`
+                            : "transparent";
+                        ]]]
+                  track:
+                    - border-radius: 18px
+                    - background: rgba(255,255,255,0.10)
+                  thumb:
+                    - width: 28px
+                    - height: 4px
+                    - border-radius: 999px
+                    - background: rgba(255,255,255,0.45)
 
-        extra_styles: |
-          .color-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 52px);
-            gap: 10px;
-            justify-content: center;
-          }
+            colors: |
+              [[[
+                const id = entity.entity_id;
 
-          .color-dot {
-            width: 48px;
-            height: 48px;
-            border-radius: 999px;
-            cursor: pointer;
-          }
+                return `
+                  <div class="color-grid">
+                    <div class="color-dot cold" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[225,226,236]})"></div>
+                    <div class="color-dot warm" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[229,188,148]})"></div>
+                    <div class="color-dot amber" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[224,157,65]})"></div>
+                    <div class="color-dot rainbow" onclick="hass.callService('light','turn_on',{entity_id:'${id}',rgb_color:[255,0,180]})"></div>
+                  </div>
+                `;
+              ]]]
 
-          .cold {
-            background: rgb(225,226,236);
-          }
+          styles:
+            card:
+              - width: 278px
+              - height: 430px
+              - padding: 18px
+              - border-radius: 0
+              - background: transparent
+              - box-shadow: none
 
-          .warm {
-            background: rgb(229,188,148);
-          }
+            custom_fields:
+              percent:
+                - justify-self: center
+                - font-size: 15px
+                - font-weight: 600
+                - color: var(--primary-text-color)
+                - margin-bottom: 22px
 
-          .amber {
-            background: rgb(224,157,65);
-          }
+              slider:
+                - justify-self: center
+                - height: 250px
+                - width: 92px
+                - display: flex
+                - align-items: center
+                - justify-content: center
 
-          .rainbow {
-            background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.75);
-          }
+              colors:
+                - justify-self: center
+                - margin-top: 12px
 
-      card_mod:
-        style:
-          ha-dialog$: |
-            .mdc-dialog__surface {
-              width: 278px !important;
-              border-radius: 8px !important;
-              background: rgba(24,30,31,0.94) !important;
-              backdrop-filter: blur(28px) saturate(160%);
-              -webkit-backdrop-filter: blur(28px) saturate(160%);
-              overflow: hidden !important;
+          extra_styles: |
+            .color-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 52px);
+              gap: 10px;
+              justify-content: center;
             }
-          .: |
-            ha-dialog {
-              --mdc-dialog-min-width: 278px;
-              --mdc-dialog-max-width: 278px;
+
+            .color-dot {
+              width: 48px;
+              height: 48px;
+              border-radius: 999px;
+              cursor: pointer;
             }
+
+            .cold {
+              background: rgb(225,226,236);
+            }
+
+            .warm {
+              background: rgb(229,188,148);
+            }
+
+            .amber {
+              background: rgb(224,157,65);
+            }
+
+            .rainbow {
+              background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+              box-shadow: 0 0 0 2px rgba(255,255,255,0.75);
+            }
+
+        card_mod:
+          style:
+            ha-dialog$: |
+              .mdc-dialog__surface {
+                width: 278px !important;
+                border-radius: 8px !important;
+                background: rgba(24,30,31,0.94) !important;
+                backdrop-filter: blur(28px) saturate(160%);
+                -webkit-backdrop-filter: blur(28px) saturate(160%);
+                overflow: hidden !important;
+              }
+            .: |
+              ha-dialog {
+                --mdc-dialog-min-width: 278px;
+                --mdc-dialog-max-width: 278px;
+              }
