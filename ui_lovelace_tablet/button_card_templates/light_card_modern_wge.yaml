@@ -230,14 +230,12 @@ light_card_modern_wge:
                     mode: brightness
                     styles:
                       card:
-                        - width: 100% # Auf 100% ändern, damit das Grid innen zentriert werden kann
-                        - height: 340px
-                        - background: transparent
+                        - width: 92px
+                        - height: 250px
                         - box-shadow: none
-                        - padding: 10px 0 0 0
-                        - display: flex
-                        - align-items: center
-                        - justify-content: center
+                        - padding: 0
+                        - background: rgba(255,255,255,0.10)
+                        - border-radius: 18px
                       progress:
                         - width: 100%
                         - border-radius: 18px
@@ -266,11 +264,14 @@ light_card_modern_wge:
                   - grid-template-columns: 1fr
                   - grid-template-rows: min-content 1fr
                 card:
-                  - width: 278px
+                  - width: 100% # Auf 100% ändern, damit das Grid innen zentriert werden kann
                   - height: 340px
                   - background: transparent
                   - box-shadow: none
                   - padding: 10px 0 0 0
+                  - display: flex
+                  - align-items: center
+                  - justify-content: center
                 custom_fields:
                   percent:
                     - justify-self: center
