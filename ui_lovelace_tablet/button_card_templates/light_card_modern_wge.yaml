@@ -201,197 +201,182 @@ light_card_modern_wge:
   #hold_action:
   #  action: more-info
 
-  hold_action:
-    action: fire-dom-event
-    browser_mod:
-      service: browser_mod.popup
-      data:
-        title: Beleuchtung
-        content:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              entity: "[[[ return entity.entity_id ]]]"
-              show_icon: false
-              show_name: false
-              show_state: false
-              custom_fields:
-                percent: |
-                  [[[
-                    const b = entity.attributes.brightness
-                      ? Math.round(entity.attributes.brightness / 2.55)
-                      : 0;
-                    return `${b}%`;
-                  ]]]
-                slider:
-                  card:
-                    type: custom:my-slider-v2
-                    entity: "[[[ return entity.entity_id ]]]"
-                    mode: brightness
-                    styles:
-                      card:
-                        - width: 92px
-                        - height: 250px
-                        - box-shadow: none
-                        - padding: 0
-                        - background: rgba(255,255,255,0.10)
-                        - border-radius: 18px
-                      progress:
-                        - width: 100%
-                        - border-radius: 18px
-                        - background: >
-                            [[[
-                              let r = 255, g = 209, b = 102;
-                              if (entity.attributes.rgb_color) [r,g,b] = entity.attributes.rgb_color;
-                              return entity.state === "on"
-                                ? `rgba(${r},${g},${b},0.95)`
-                                : "rgba(255,255,255,0.18)";
-                            ]]]
-                      track:
-                        - background: rgba(255,255,255,0.10)
-                        - border-radius: 18px
-                      thumb:
-                        - width: 40%
-                        - height: 4px
-                        - border-radius: 999px
-                        - background: rgba(255,255,255,0.55)
-
-              styles:
-                grid:
-                  - grid-template-areas: |
-                      "percent"
-                      "slider"
-                  - grid-template-columns: 1fr
-                  - grid-template-rows: min-content 1fr
+hold_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      title: Beleuchtung
+      content:
+        type: vertical-stack
+        cards:
+          - type: custom:button-card
+            entity: "[[[ return entity.entity_id ]]]"
+            show_icon: false
+            show_name: false
+            show_state: false
+            custom_fields:
+              percent: |
+                [[[
+                  const b = entity.attributes.brightness
+                    ? Math.round(entity.attributes.brightness / 2.55)
+                    : 0;
+                  return `${b}%`;
+                ]]]
+              slider:
                 card:
-                  - width: 100% # Auf 100% ändern, damit das Grid innen zentriert werden kann
-                  - height: 340px
-                  - background: transparent
-                  - box-shadow: none
-                  - padding: 10px 0 0 0
-                  - display: flex
-                  - align-items: center
-                  - justify-content: center
-                custom_fields:
-                  percent:
-                    - justify-self: center
-                    - font-size: 15px
-                    - font-weight: 700
-                    - margin-bottom: 16px
-                  slider:
-                    - justify-self: center
-
-            - type: grid
-              columns: 2
-              square: false
-              card_mod:
-                style: |
-                  ha-card {
-                    width: 120px !important; # Feste Breite für die 2 Spalten
-                    margin: 0 auto !important; # Zentriert das Grid im Stack
-                    background: transparent !important;
-                    box-shadow: none !important;
-                    display: block !important;
-                  }
-              cards:
-                - type: custom:button-card
-                  show_icon: false
-                  tap_action:
-                    action: call-service
-                    service: light.turn_on
-                    target:
-                      entity_id: "[[[ return entity.entity_id ]]]"
-                    data:
-                      rgb_color: [225, 226, 236]
-                  styles: &color_dot
+                  type: custom:my-slider-v2
+                  entity: "[[[ return entity.entity_id ]]]"
+                  mode: brightness
+                  styles:
                     card:
-                      - width: 48px
-                      - height: 48px
-                      - border-radius: 999px
-                      - margin: 4px auto
-                      - background: rgb(225,226,236)
+                      - width: 92px
+                      - height: 250px
                       - box-shadow: none
-
-                - type: custom:button-card
-                  show_icon: false
-                  tap_action:
-                    action: call-service
-                    service: light.turn_on
-                    target:
-                      entity_id: "[[[ return entity.entity_id ]]]"
-                    data:
-                      rgb_color: [229, 188, 148]
-                  styles:
-                    <<: *color_dot
-                    card:
-                      - width: 48px
-                      - height: 48px
+                      - padding: 0
+                      - background: rgba(255,255,255,0.10)
+                      - border-radius: 18px
+                    progress:
+                      - width: 100%
+                      - border-radius: 18px
+                      - background: >
+                          [[[
+                            let r = 255, g = 209, b = 102;
+                            if (entity.attributes.rgb_color) [r,g,b] = entity.attributes.rgb_color;
+                            return entity.state === "on"
+                              ? `rgba(${r},${g},${b},0.95)`
+                              : "rgba(255,255,255,0.18)";
+                          ]]]
+                    track:
+                      - background: rgba(255,255,255,0.10)
+                      - border-radius: 18px
+                    thumb:
+                      - width: 40%
+                      - height: 4px
                       - border-radius: 999px
-                      - margin: 4px auto
-                      - background: rgb(229,188,148)
+                      - background: rgba(255,255,255,0.55)
+            styles:
+              grid:
+                - grid-template-areas: |
+                    "percent"
+                    "slider"
+                - grid-template-columns: 1fr
+                - grid-template-rows: min-content 1fr
+              card:
+                - width: 278px
+                - height: 340px
+                - background: transparent
+                - box-shadow: none
+                - padding: 10px 0 0 0
+                - margin: 0 auto
+              custom_fields:
+                percent:
+                  - justify-self: center
+                  - font-size: 15px
+                  - font-weight: 700
+                  - margin-bottom: 16px
+                slider:
+                  - justify-self: center
 
-                - type: custom:button-card
-                  show_icon: false
-                  tap_action:
-                    action: call-service
-                    service: light.turn_on
-                    target:
-                      entity_id: "[[[ return entity.entity_id ]]]"
-                    data:
-                      rgb_color: [224, 157, 65]
-                  styles:
-                    <<: *color_dot
-                    card:
-                      - width: 48px
-                      - height: 48px
-                      - border-radius: 999px
-                      - margin: 4px auto
-                      - background: rgb(224,157,65)
+          - type: grid
+            columns: 2
+            square: false
+            card_mod:
+              style: |
+                ha-card {
+                  width: 120px !important;
+                  margin: -20px auto 0 auto !important; /* Negativer Margin oben, um näher am Slider zu sein */
+                  background: transparent !important;
+                  box-shadow: none !important;
+                }
+            cards:
+              - type: custom:button-card
+                show_icon: false
+                tap_action:
+                  action: call-service
+                  service: light.turn_on
+                  target:
+                    entity_id: "[[[ return entity.entity_id ]]]"
+                  data:
+                    rgb_color: [225, 226, 236]
+                styles: &color_dot
+                  card:
+                    - width: 48px
+                    - height: 48px
+                    - border-radius: 999px
+                    - margin: 4px auto
+                    - background: rgb(225,226,236)
+                    - box-shadow: none
 
-                - type: custom:button-card
-                  show_icon: false
-                  tap_action:
-                    action: more-info
-                  styles:
-                    <<: *color_dot
-                    card:
-                      - width: 48px
-                      - height: 48px
-                      - border-radius: 999px
-                      - margin: 4px auto
-                      - background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red)
-                      - box-shadow: 0 0 0 2px rgba(255,255,255,0.75)
+              - type: custom:button-card
+                show_icon: false
+                tap_action:
+                  action: call-service
+                  service: light.turn_on
+                  target:
+                    entity_id: "[[[ return entity.entity_id ]]]"
+                  data:
+                    rgb_color: [229, 188, 148]
+                styles:
+                  <<: *color_dot
+                  card:
+                    - background: rgb(229,188,148)
 
-        card_mod:
-          style:
-            ha-dialog$: |
-              .mdc-dialog__container {
-                align-items: center !important;
-                justify-content: center !important;
-              }
+              - type: custom:button-card
+                show_icon: false
+                tap_action:
+                  action: call-service
+                  service: light.turn_on
+                  target:
+                    entity_id: "[[[ return entity.entity_id ]]]"
+                  data:
+                    rgb_color: [224, 157, 65]
+                styles:
+                  <<: *color_dot
+                  card:
+                    - background: rgb(224,157,65)
 
-              .mdc-dialog__surface {
-                width: 278px !important;
-                min-width: 278px !important;
-                max-width: 278px !important;
-                height: auto !important;
-                max-height: 520px !important;
+              - type: custom:button-card
+                show_icon: false
+                tap_action:
+                  action: more-info
+                styles:
+                  <<: *color_dot
+                  card:
+                    - background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red)
+                    - box-shadow: 0 0 0 2px rgba(255,255,255,0.75)
 
-                border-radius: 8px !important;
-                background: rgba(24,30,31,0.96) !important;
-                backdrop-filter: blur(28px) saturate(160%);
-                -webkit-backdrop-filter: blur(28px) saturate(160%);
-                overflow: hidden !important;
-              }
+      card_mod:
+        style:
+          ha-dialog$: |
+            .mdc-dialog__container {
+              align-items: center !important;
+              justify-content: center !important;
+            }
+            .mdc-dialog__surface {
+              width: 278px !important;
+              min-width: 278px !important;
+              max-width: 278px !important;
+              height: auto !important;
+              max-height: 550px !important;
+              border-radius: 12px !important;
+              background: rgba(24,30,31,0.96) !important;
+              backdrop-filter: blur(28px) saturate(160%);
+              -webkit-backdrop-filter: blur(28px) saturate(160%);
+              overflow: hidden !important;
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
+            }
+            .mdc-dialog__content {
+              padding: 0 0 20px 0 !important;
+              width: 100% !important;
+              display: flex !important;
+              justify-content: center !important;
+            }
+          .: |
+            ha-dialog {
+              --mdc-dialog-min-width: 278px !important;
+              --mdc-dialog-max-width: 278px !important;
+            }
 
-              .mdc-dialog__content {
-                padding: 0 0 18px 0 !important;
-                overflow: hidden !important;
-              }
-
-            .: |
-              ha-dialog {
-                --mdc-dialog-min-width: 278px !important;
-                --mdc-dialog-max-width: 278px !important;
-                --dialog-surface-width: 278px !important;
-              }
