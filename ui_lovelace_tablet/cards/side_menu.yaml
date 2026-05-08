@@ -241,8 +241,6 @@ card:
                 - background: transparent
                 #- box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.16)
                 - position: relative
-
-                
               img_cell:
                 - grid-area: i
                 - justify-self: center
@@ -269,6 +267,8 @@ card:
                   - align-self: center
                   - display: >
                       [[[ return location.pathname.includes("home") ? "block" : "none"; ]]]
+                      
+                      
             custom_fields: &indicator
               indicator: <div class="side-indicator"></div>
             extra_styles: &indicator_style |
