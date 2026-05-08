@@ -40,11 +40,6 @@ card:
             background: var(--sidebar-bg);
           }
 
-          * {
-            transition: none !important;
-            animation: none !important;
-          }
-
           *:hover {
             transform: none !important;
             box-shadow: none !important;
@@ -394,4 +389,3 @@ card:
                       [[[ return location.pathname.includes("einstellungen") ? "block" : "none"; ]]]
             custom_fields: *indicator
             extra_styles: *indicator_style
-
