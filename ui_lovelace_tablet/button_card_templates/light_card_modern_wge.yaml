@@ -198,5 +198,181 @@ light_card_modern_wge:
   tap_action:
     action: toggle
 
-  hold_action:
-    action: more-info
+  #hold_action:
+  #  action: more-info
+
+hold_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      title: Beleuchtung
+      content:
+        type: vertical-stack
+        cards:
+          - type: custom:button-card
+            entity: "[[[ return entity.entity_id ]]]"
+            show_icon: false
+            show_name: false
+            show_state: false
+            custom_fields:
+              percent: |
+                [[[
+                  const b = entity.attributes.brightness
+                    ? Math.round(entity.attributes.brightness / 2.55)
+                    : 0;
+                  return `${b}%`;
+                ]]]
+              slider:
+                card:
+                  type: custom:my-slider-v2
+                  entity: "[[[ return entity.entity_id ]]]"
+                  mode: brightness
+                  vertical: true
+                  styles:
+                    card:
+                      - width: 90px
+                      - height: 250px
+                      - border-radius: 18px
+                      - background: rgba(0,0,0,0.42)
+                      - box-shadow: none
+                      - overflow: hidden
+                    progress:
+                      - width: 100%
+                      - border-radius: 0 0 18px 18px
+                      - background: >
+                          [[[
+                            let r = 255, g = 209, b = 102;
+                            if (entity.attributes.rgb_color) [r,g,b] = entity.attributes.rgb_color;
+
+                            return entity.state === "on"
+                              ? `linear-gradient(
+                                  180deg,
+                                  rgba(${r},${g},${b},0.95),
+                                  rgba(${r},${g},${b},0.70)
+                                )`
+                              : "rgba(255,255,255,0.18)";
+                          ]]]
+                    track:
+                      - background: rgba(255,255,255,0.12)
+                    thumb:
+                      - width: 28px
+                      - height: 4px
+                      - border-radius: 999px
+                      - background: rgba(255,255,255,0.45)
+                      - left: 31px
+            styles:
+              card:
+                - height: 330px
+                - background: transparent
+                - box-shadow: none
+                - padding: 16px 0 0 0
+              custom_fields:
+                percent:
+                  - justify-self: center
+                  - color: var(--primary-text-color)
+                  - font-size: 15px
+                  - font-weight: 500
+                  - margin-bottom: 16px
+                slider:
+                  - justify-self: center
+
+          - type: conditional
+            conditions:
+              - condition: template
+                value_template: >
+                  {{ state_attr(config.entity, 'supported_color_modes') | string is search('rgb|hs|xy') }}
+            card:
+              type: grid
+              columns: 2
+              square: false
+              cards:
+                - type: custom:button-card
+                  icon: mdi:circle
+                  tap_action:
+                    action: call-service
+                    service: light.turn_on
+                    target:
+                      entity_id: "[[[ return entity.entity_id ]]]"
+                    data:
+                      rgb_color: [225, 226, 236]
+                  styles: &color_button
+                    card:
+                      - width: 48px
+                      - height: 48px
+                      - border-radius: 999px
+                      - margin: 4px auto
+                      - background: rgb(225,226,236)
+                      - box-shadow: none
+                    icon:
+                      - color: transparent
+
+                - type: custom:button-card
+                  icon: mdi:circle
+                  tap_action:
+                    action: call-service
+                    service: light.turn_on
+                    target:
+                      entity_id: "[[[ return entity.entity_id ]]]"
+                    data:
+                      rgb_color: [229, 188, 148]
+                  styles:
+                    <<: *color_button
+                    card:
+                      - width: 48px
+                      - height: 48px
+                      - border-radius: 999px
+                      - margin: 4px auto
+                      - background: rgb(229,188,148)
+
+                - type: custom:button-card
+                  icon: mdi:circle
+                  tap_action:
+                    action: call-service
+                    service: light.turn_on
+                    target:
+                      entity_id: "[[[ return entity.entity_id ]]]"
+                    data:
+                      rgb_color: [224, 157, 65]
+                  styles:
+                    <<: *color_button
+                    card:
+                      - width: 48px
+                      - height: 48px
+                      - border-radius: 999px
+                      - margin: 4px auto
+                      - background: rgb(224,157,65)
+
+                - type: custom:button-card
+                  icon: mdi:palette
+                  tap_action:
+                    action: more-info
+                  styles:
+                    card:
+                      - width: 48px
+                      - height: 48px
+                      - border-radius: 999px
+                      - margin: 4px auto
+                      - background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red)
+                      - box-shadow: 0 0 0 2px rgba(255,255,255,0.75)
+                    icon:
+                      - color: white
+                      - width: 22px
+
+      card_mod:
+        style:
+          ha-dialog$: |
+            .mdc-dialog__surface {
+              width: 278px !important;
+              border-radius: 8px !important;
+              background: rgba(24,30,31,0.92) !important;
+              backdrop-filter: blur(28px) saturate(160%);
+              -webkit-backdrop-filter: blur(28px) saturate(160%);
+              box-shadow: 0 20px 70px rgba(0,0,0,0.45) !important;
+              overflow: hidden !important;
+            }
+          .: |
+            ha-dialog {
+              --mdc-dialog-min-width: 278px;
+              --mdc-dialog-max-width: 278px;
+            }
