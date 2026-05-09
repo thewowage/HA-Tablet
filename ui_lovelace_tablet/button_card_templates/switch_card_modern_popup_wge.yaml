@@ -146,4 +146,33 @@ switch_card_modern_group_wge:
     action: toggle
 
   tap_action:
-    action: more-info
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.popup
+      data:
+        title: Beleuchtung
+        content:
+
+          - type: "custom:button-card"
+            entity: switch.steckdosenleiste_kinderzimmer_stecker1
+            template: switch_card_modern_wge
+            name: Tisch 1
+            icon: fapro:plug
+            view_layout:
+              grid-area: kz_switch_2
+
+          - type: "custom:button-card"
+            entity: switch.steckdosenleiste_kinderzimmer_stecker2
+            template: switch_card_modern_wge
+            name: Tisch 2
+            icon: fapro:plug
+            view_layout:
+              grid-area: kz_switch_3
+
+          - type: "custom:button-card"
+            entity: switch.steckdosenleiste_kinderzimmer_stecker3
+            template: switch_card_modern_wge
+            name: Tisch 3
+            icon: fapro:plug
+            view_layout:
+              grid-area: kz_switch_4
