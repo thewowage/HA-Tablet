@@ -18,9 +18,9 @@ sensor_graph_card_modern_wge:
       const value = states[entity.entity_id]?.state ?? "-";
       if (value === "unknown" || value === "unavailable") return "-";
 
-      if (variables.label_icon === "percent") return fapro:humidity;
-      if (variables.label_icon === "celsius") return fapro:thermometer;
-      if (variables.label_icon === "lux") return fapro:sun;
+      if (variables.label_icon === "percent") return "fapro:humidity";
+      if (variables.label_icon === "celsius") return "fapro:thermometer";
+      if (variables.label_icon === "lux") return "fapro:sun";
       if (variables.label_icon === "on_off") {
         if (value === "on") return "fapro:water-alert";
         if (value === "off") return "AUS";
