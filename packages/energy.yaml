@@ -1,0 +1,225 @@
+utility_meter:
+  shelly_consumption_daily_kwh:
+    source: sensor.shelly_current_consumption_kwh
+    cycle: daily
+
+  shelly_consumption_weekly_kwh:
+    source: sensor.shelly_current_consumption_kwh
+    cycle: weekly
+
+  shelly_consumption_monthly_kwh:
+    source: sensor.shelly_current_consumption_kwh
+    cycle: monthly
+
+  shelly_consumption_yearly_kwh:
+    source: sensor.shelly_current_consumption_kwh
+    cycle: yearly
+
+  light_consumption_daily_kwh:
+    source: sensor.light_current_consumption_kwh
+    cycle: daily
+
+  light_consumption_weekly_kwh:
+    source: sensor.light_current_consumption_kwh
+    cycle: weekly
+
+  light_consumption_monthly_kwh:
+    source: sensor.light_current_consumption_kwh
+    cycle: monthly
+
+  light_consumption_yearly_kwh:
+    source: sensor.light_current_consumption_kwh
+    cycle: yearly
+
+  washing_machine_consumption_daily_kwh:
+    source: sensor.washing_machine_current_consumption_kwh
+    cycle: daily
+
+  washing_machine_consumption_weekly_kwh:
+    source: sensor.washing_machine_current_consumption_kwh
+    cycle: weekly
+
+  washing_machine_consumption_monthly_kwh:
+    source: sensor.washing_machine_current_consumption_kwh
+    cycle: monthly
+
+  washing_machine_consumption_yearly_kwh:
+    source: sensor.washing_machine_current_consumption_kwh
+    cycle: yearly
+
+group:
+  ## LICHT POWER SENSOR ###################################################
+  #########################################################################
+  all_light_power_sensors:
+    name: Licht Power Sensoren
+    all: true
+    icon: mdi:lightning-bolt
+    entities:
+      - sensor.ambiente_power
+      - sensor.deckenlicht_flur_power
+      - sensor.deckenlicht_kinderzimmer_power
+      - sensor.deckenlicht_kuche_power
+      - sensor.deckenlicht_schlafzimmer_power
+      - sensor.deckenlicht_wohnzimmer_1_power
+      - sensor.deckenlicht_wohnzimmer_2_power
+      - sensor.deckenlicht_wohnzimmer_3_power
+      - sensor.deckenlicht_wohnzimmer_4_power
+      - sensor.spots_badezimmer_device_power
+
+  all_shelly_devices_power_sensors:
+    name: Shelly Steckdosen Power Sensoren
+    all: true
+    icon: mdi:power-socket-eu
+    entities:
+      - sensor.shellyplug_s_b49a1d_power # Fahrrad Keller
+      - sensor.shellyplusplugs_e465b8451910_switch_0_power # Küchlschrank Küche
+      - sensor.shellyplusplugs_e465b860bbb8_switch_0_power # Wohnwand Wohnzimmer
+      - sensor.shellyplusplugs_e465b8b49ef4_switch_0_power # Sofa Wohnzimmer
+      - sensor.shellyazplug_5432046783f0_switch_0_power # Computertisch Wohnzimmer
+      - sensor.shellyazplug_5432046783f8_switch_0_power # Multimedia Kinderzimmer
+      - sensor.shellyazplug_543204663e38_switch_0_energy # Kaffeemaschine Küche
+
+sensor:
+  - platform: integration
+    source: sensor.shelly_current_consumption
+    name: shelly_current_consumption_kwh
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.light_current_consumption
+    name: light_current_consumption_kwh
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+  - platform: integration
+    source: sensor.socket_washing_machine_derzeitiger_verbrauch
+    name: washing_machine_current_consumption_kwh
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+template:
+  #+----------------------------------------------------------------------------+
+  #| ENERGY Sensor                                                              |
+  #+----------------------------------------------------------------------------+
+  - sensor:
+      - name: "shelly_current_consumption"
+        unique_id: shelly_current_consumption_total
+        default_entity_id: sensor.shelly_current_consumption
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {% set shellys = states.sensor
+            | selectattr('entity_id', 'match', '^sensor\\.shelly.*_power$')
+            | map(attribute='state')
+            | map('float', 0)
+            | list
+          %}
+          {{ shellys | sum | round(2) }}
+
+  - sensor:
+      - name: "Stromverbrauch Licht gesamt"
+        unique_id: stromverbrauch_licht_gesamt # optional, für UI-Anpassung
+        default_entity_id: sensor.light_current_consumption
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ expand('group.all_light_power_sensors')
+            | map(attribute='state')
+            | map('float', 0)
+            | sum
+          }}
+  # +----------------------------------------------------------------------------+
+  # | ENERGY Title Sensor                                                        |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - default_entity_id: sensor.energy_consumption_weekly_title
+        name: Energy Consumption Weekly Title
+        state: >
+          {% set energy = states('sensor.energy_consumption_weekly') | float(0) %}
+          {% if energy < 20 %}
+            Normaler Verbrauch {{ energy }}
+          {% else %}
+            Verbrauch erhöht! {{ energy }}
+          {% endif %}
+
+  - sensor:
+      - default_entity_id: sensor.energy_consumption_current_title
+        name: Energy Consumption Current Title
+        state: >
+          {% set energy = states('sensor.electric_home_total_power') | float(0) %}
+          {% if energy < 350 %}
+            Normaler Verbrauch {{ energy }}
+          {% else %}
+            Verbrauch erhöht! {{ energy }}
+          {% endif %}
+
+  - trigger:
+      # NOTE - This approach does somewhat impact the accuracy of your data since it is not averaging the data in
+      # between the time periods, but it will still end up being relatively close and give you a good data
+      # about energy usage
+      - trigger: time_pattern
+        seconds: "/5" #Only pull electric data every 5 seconds to minimize data / performance impact
+      - trigger: homeassistant
+        event: start
+      - trigger: event
+        event_type: "call_service"
+        event_data:
+          domain: "template"
+          service: "reload"
+
+    sensor:
+      ################  Electrical Whole Home Power ###############
+      - name: electric_home_total_power
+        state: "{{ (states('sensor.gosund_sp111_couch_energy_power') | float(0)
+          + states('sensor.gosund_sp111_verteiler_energy_power') | float(0)
+          + states('sensor.gosund_sp112_bedroom_energy_power') | float(0)
+          + states('sensor.gosund_sp112_nursery_energy_power') | float(0)
+          + states('sensor.gosund_sp111_verteiler_energy_today') | float(0)
+          + states('sensor.light_current_consumption') | float(0)
+          + states('sensor.shelly_current_consumption') | float(0)
+          + states('sensor.steckdosenleiste_kinderzimmer_energy_power') | float(0)
+          + states('sensor.sensor.socket_washing_machine_derzeitiger_verbrauch') | float(0)) | round(1)}}"
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+
+      - name: Energy Consumption Daily
+        unique_id: energy_consumption_daily
+        unit_of_measurement: "kWh"
+        state: '{{ (states("sensor.light_consumption_daily_kwh") | float(0)
+          + states("sensor.shelly_consumption_daily_kwh") | float(0)
+          + states("sensor.washing_machine_consumption_daily_kwh") | float(0)) | round(2) }}'
+        device_class: energy
+
+      - name: Energy Consumption Weekly
+        unique_id: energy_consumption_wonthly
+        unit_of_measurement: "kWh"
+        state: '{{ (states("sensor.light_consumption_weekly_kwh") | float(0)
+          + states("sensor.shelly_consumption_weekly_kwh") | float(0)
+          + states("sensor.washing_machine_consumption_weekly_kwh") | float(0)) | round(2) }}'
+        device_class: energy
+
+      - name: Energy Consumption Monthly
+        unique_id: energy_consumption_monthly
+        unit_of_measurement: "kWh"
+        state: '{{ (states("sensor.light_consumption_monthly_kwh") | float(0)
+          + states("sensor.shelly_consumption_monthly_kwh") | float(0)
+          + states("sensor.washing_machine_consumption_monthly_kwh") | float(0)) | round(2) }}'
+        device_class: energy
+
+      - name: Energy Consumption Yearly
+        unique_id: energy_consumption_yearly
+        unit_of_measurement: "kWh"
+        state: '{{ (states("sensor.light_consumption_yearly_kwh") | float(0)
+          + states("sensor.shelly_consumption_yearly_kwh") | float(0)
+          + states("sensor.washing_machine_consumption_yearly_kwh") | float(0)) | round(2) }}'
+        device_class: energy

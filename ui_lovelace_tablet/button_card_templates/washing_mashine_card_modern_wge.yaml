@@ -1,0 +1,233 @@
+washing_mashine_card_modern_wge:
+  template:
+    - responsive_card_base
+
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+
+  variables:
+    card_color: "120,180,255"
+    done_color: "120,255,180"
+    warning_color: "255,209,102"
+
+  tap_action:
+    action: more-info
+
+  hold_action:
+    action: more-info
+
+  icon: |
+    [[[
+      const state = states["input_select.washing_machine_state"]?.state;
+      if (state === "arbeitet") return "mdi:washing-machine";
+      if (state === "fertig") return "mdi:check-circle-outline";
+      return "mdi:washing-machine-off";
+    ]]]
+
+  label: |
+    [[[
+      const state = states["input_select.washing_machine_state"]?.state;
+      if (state === "arbeitet") return "Wäscht";
+      if (state === "fertig") return "Fertig";
+      return "Aus";
+    ]]]
+
+  custom_fields:
+    rem: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+        const remaining = states["sensor.waschmaschine_timer"]?.attributes?.remaining;
+
+        if (state !== "arbeitet") return "";
+        return `<div class="remaining">Restlaufzeit · ${remaining || "-"}</div>`;
+      ]]]
+
+    bar: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+        const remainingPerc = Number(states["sensor.waschmaschine_timer"]?.attributes?.remaining_perc ?? 100);
+        const progress = Math.max(0, Math.min(100, 100 - remainingPerc));
+
+        if (state === "aus") return "";
+
+        let color = variables.card_color || "120,180,255";
+        if (state === "fertig") color = variables.done_color || "120,255,180";
+        else if (progress < 25) color = "236,99,55";
+        else if (progress < 60) color = variables.warning_color || "255,209,102";
+
+        return `
+          <div class="progress-wrap">
+            <div class="progress-fill" style="width:${progress}%; background:rgba(${color},0.95);"></div>
+          </div>
+        `;
+      ]]]
+
+    switch: |
+      [[[
+        const state = states["input_select.washing_machine_state"]?.state;
+
+        if (state === "arbeitet") {
+          return `<ha-icon icon="mdi:timer-sand" class="status-icon working"></ha-icon>`;
+        }
+
+        if (state === "fertig") {
+          return `<ha-icon icon="mdi:check-circle" class="status-icon done"></ha-icon>`;
+        }
+
+        return `<ha-icon icon="mdi:power" class="status-icon off"></ha-icon>`;
+      ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "n switch"
+          "l switch"
+          "rem rem"
+          "bar bar"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr min-content
+      - row-gap: 5px
+
+    card:
+      - background: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+
+            let color = variables.card_color || "120,180,255";
+            if (state === "fertig") color = variables.done_color || "120,255,180";
+
+            return state !== "aus"
+              ? `
+                linear-gradient(
+                  145deg,
+                  rgba(${color},0.32),
+                  rgba(${color},0.10)
+                ),
+                var(--ha-card-background)
+              `
+              : "var(--ha-card-background)";
+          ]]]
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - z-index: 2
+
+    label:
+      - justify-self: start
+      - align-self: start
+      - text-align: left
+      - color: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+
+            if (state === "fertig") return "rgba(120,255,180,0.95)";
+            if (state === "arbeitet") return "rgba(120,180,255,0.95)";
+            return "var(--secondary-text-color)";
+          ]]]
+      - z-index: 2
+
+    icon:
+      - position: absolute
+      - right: -22px
+      - top: -30px
+      - width: 130px
+      - height: 130px
+      - opacity: 0.10
+      - color: var(--primary-text-color)
+      - transform: rotate(-18deg)
+      - animation: >
+          [[[
+            const state = states["input_select.washing_machine_state"]?.state;
+
+            if (state === "arbeitet") return "washingSpin 2.2s linear infinite";
+            if (state === "fertig") return "washingPulse 1.6s ease-in-out infinite";
+            return "none";
+          ]]]
+      - z-index: 1
+
+    img_cell:
+      - position: absolute
+      - right: 0
+      - top: 0
+      - width: 0
+      - height: 0
+      - overflow: visible
+      - z-index: 1
+
+    custom_fields:
+      switch:
+        - justify-self: end
+        - align-self: start
+        - width: 38px
+        - height: 38px
+        - z-index: 3
+
+      rem:
+        - justify-self: start
+        - align-self: end
+        - z-index: 3
+
+      bar:
+        - justify-self: start
+        - width: 100%
+        - z-index: 3
+
+  extra_styles: |
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      padding: 4px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.08);
+      color: var(--secondary-text-color);
+      box-shadow: none;
+    }
+
+    .status-icon.working {
+      color: rgba(120,180,255,1);
+    }
+
+    .status-icon.done {
+      color: rgba(120,255,180,1);
+      filter: drop-shadow(0 0 8px rgba(120,255,180,0.45));
+    }
+
+    .remaining {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--secondary-text-color);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    @keyframes washingSpin {
+      from { transform: rotate(-18deg); }
+      to { transform: rotate(342deg); }
+    }
+
+    @keyframes washingPulse {
+      0%, 100% {
+        opacity: 0.10;
+        transform: rotate(-18deg) scale(1);
+      }
+      50% {
+        opacity: 0.18;
+        transform: rotate(-18deg) scale(1.06);
+      }
+    }

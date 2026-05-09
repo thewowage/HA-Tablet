@@ -1,0 +1,401 @@
+template:
+  - sensor:
+      - unique_id: sensor.number_of_windows_opened
+        unit_of_measurement: "on"
+        default_entity_id: sensor.number_of_windows_opened
+        icon: mdi:window-close
+        name: Number of Windows opended
+        state:
+          "{{ expand(states.group.all_windows) | selectattr( 'state', 'eq', 'on')
+          | list | count }}"
+
+  - sensor:
+      - unique_id: sensor.number_of_doors_opened
+        unit_of_measurement: "on"
+        default_entity_id: sensor.number_of_doors_opened
+        icon: mdi:power-socket-eu
+        name: Number of Doors opended
+        state:
+          "{{ expand(states.group.all_doors) | selectattr( 'state', 'eq', 'on')
+          | list | count }}"
+
+  - sensor:
+      - unique_id: sensor.number_of_lights_on
+        unit_of_measurement: "on"
+        default_entity_id: sensor.number_of_lights_on
+        icon: mdi:lightbulb-group-outline
+        name: Lichter
+        state:
+          "{{ expand(states.group.all_lights) | selectattr( 'state', 'eq', 'on')
+          | list | count }}"
+
+  - sensor:
+      - unique_id: sensor.number_of_devices_on
+        unit_of_measurement: "on"
+        default_entity_id: sensor.number_of_devices_on
+        icon: mdi:power-socket-eu
+        name: Number of Devices on
+        state:
+          "{{ expand(states.group.all_devices) | selectattr( 'state', 'eq', 'on')
+          | list | count }}"
+
+  # +----------------------------------------------------------------------------+
+  # | BEGRÜSSUNG Sensor                                                          |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - default_entity_id: sensor.welcome_begruessung
+        name: welcome_begruessung
+        state:
+          "{% if now().hour  < 5 %} GUTE NACHT {% elif now().hour < 12 %} GUTEN MORGEN
+          {% elif now().hour < 18 %} GUTEN TAG {% else %} GUTEN ABEND {% endif %}"
+
+  # +----------------------------------------------------------------------------+
+  # | HOME ASSISTANT Sensors                                                     |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - default_entity_id: sensor.home_assistant_memory_mb
+        name: Home Assistant RAM Auslastung MB
+        state: "{{ states('sensor.system_monitor_speicherauslastung') | round(0) }}"
+
+  - sensor:
+      - name: "HA letzter Neustart"
+        unique_id: ha_last_restart_from_uptime
+        device_class: timestamp
+        state: >
+          {% set up_hours = states('sensor.uptime') | float(0) %}
+          {% if up_hours == 0 %}
+            {{ none }}
+          {% else %}
+            {{ (now() - timedelta(hours=up_hours)) | as_datetime | as_local }}
+          {% endif %}
+        attributes:
+          source: "sensor.uptime"
+          uptime_raw: "{{ states('sensor.uptime') }}"
+
+  # +----------------------------------------------------------------------------+
+  # | SYSTEM Sensor                                                              |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - unit_of_measurement: °C
+        default_entity_id: sensor.unifi_dream_router_unifi_dream_router_cpu_temperature_decimal
+        icon: mdi:cpu-64-bit
+        state:
+          '{{ states("sensor.unifi_dream_router_unifi_dream_router_cpu_temperature")
+          | round(1) | float }}'
+        name: unifi_dream_router_unifi_dream_router_cpu_temperature_decimal
+
+  # +----------------------------------------------------------------------------+
+  # | MONITORING Sensors                                                         |
+  # +----------------------------------------------------------------------------+
+  - binary_sensor:
+      - name: "Monitored Entities"
+        unique_id: sensor_watchdog_group_stale
+        device_class: problem
+        state: >
+          {% set members = expand('group.sensor_monitor_targets') %}
+          {% set max_age_min = 120 %}
+          {% set now_ts = as_timestamp(now()) %}
+          {% for s in members %}
+            {% set unavail = s.state in ['unknown','unavailable','none'] %}
+            {% set age = (now_ts - as_timestamp(s.last_changed)) / 60 %}
+            {% if unavail or age > max_age_min %}
+              {{ true }}
+            {% endif %}
+          {% endfor %}
+          {{ false }}
+        attributes:
+          offenders: >
+            {% set members = expand('group.sensor_monitor_targets') %}
+            {% set max_age_min = 120 %}
+            {% set now_ts = as_timestamp(now()) %}
+            {% set out = [] %}
+            {% for s in members %}
+              {% set unavail = s.state in ['unknown','unavailable','none'] %}
+              {% set age = (now_ts - as_timestamp(s.last_changed)) / 60 %}
+              {% if unavail or age > max_age_min %}
+                {% set out = out + [ {'entity_id': s.entity_id, 'age_min': age|round(0), 'state': s.state} ] %}
+              {% endif %}
+            {% endfor %}
+            {{ out }}
+
+  # +----------------------------------------------------------------------------+
+  # | NEXTDNS SENSOR                                                             |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - name: "NextDNS Blockierte DNS Abfragen"
+        state: |
+          {{ ("{0:_.0f}".format(states('sensor.mein_erstes_profil_blockierte_dns_abfragen') | int) | replace("_", ".") )| string  }}
+        unique_id: nextdns_blockierte_dns_abfragen
+
+  - sensor:
+      - name: "NextDNS DNS Abfragen"
+        state: |
+          {{ ("{0:_.0f}".format(states('sensor.mein_erstes_profil_dns_abfragen') | int) | replace("_", ".") )| string  }}
+        unique_id: nextdns_dns_abfragen
+
+  # +----------------------------------------------------------------------------+
+  # | UNIFI SENSORS                                                              |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      # Menschlich lesbar, z.B. "2d 03h 15m"
+      - name: "Access Point AC Light Uptime Duration"
+        unique_id: access_point_ac_lite_uptime_duration
+        icon: mdi:timer-sand
+        state: >
+          {% set ts = states('sensor.access_point_ac_lite_uptime') %}
+          {% if ts in ['unknown','unavailable','none',''] %}
+            unknown
+          {% else %}
+            {% set diff = now() - as_datetime(ts) %}
+            {% set d = diff.days %}
+            {% set h = (diff.seconds // 3600) %}
+            {% set m = ((diff.seconds % 3600) // 60) %}
+            {% set s = (diff.seconds % 60) %}
+            {% if d > 0 %}{{ d }}t {{ '%02d'|format(h) }}h {{ '%02d'|format(m) }}m
+            {% elif h > 0 %}{{ h }}h {{ '%02d'|format(m) }}m
+            {% else %}{{ m }}m {{ '%02d'|format(s) }}s
+            {% endif %}
+          {% endif %}
+
+  - sensor:
+      # Menschlich lesbar, z.B. "2d 03h 15m"
+      - name: "U6 Mesh Uptime Duration"
+        unique_id: u6_mesh_uptime_duration
+        icon: mdi:timer-sand
+        state: >
+          {% set ts = states('sensor.u6_mesh_uptime') %}
+          {% if ts in ['unknown','unavailable','none',''] %}
+            unknown
+          {% else %}
+            {% set diff = now() - as_datetime(ts) %}
+            {% set d = diff.days %}
+            {% set h = (diff.seconds // 3600) %}
+            {% set m = ((diff.seconds % 3600) // 60) %}
+            {% set s = (diff.seconds % 60) %}
+            {% if d > 0 %}{{ d }}t {{ '%02d'|format(h) }}h {{ '%02d'|format(m) }}m
+            {% elif h > 0 %}{{ h }}h {{ '%02d'|format(m) }}m
+            {% else %}{{ m }}m {{ '%02d'|format(s) }}s
+            {% endif %}
+          {% endif %}
+
+  - sensor:
+      # Menschlich lesbar, z.B. "2d 03h 15m"
+      - name: "USW-Flex-Mini Uptime Duration"
+        unique_id: usw_flex_mini_uptime_duration
+        icon: mdi:timer-sand
+        state: >
+          {% set ts = states('sensor.usw_flex_mini_uptime') %}
+          {% if ts in ['unknown','unavailable','none',''] %}
+            unknown
+          {% else %}
+            {% set diff = now() - as_datetime(ts) %}
+            {% set d = diff.days %}
+            {% set h = (diff.seconds // 3600) %}
+            {% set m = ((diff.seconds % 3600) // 60) %}
+            {% set s = (diff.seconds % 60) %}
+            {% if d > 0 %}{{ d }}t {{ '%02d'|format(h) }}h {{ '%02d'|format(m) }}m
+            {% elif h > 0 %}{{ h }}h {{ '%02d'|format(m) }}m
+            {% else %}{{ m }}m {{ '%02d'|format(s) }}s
+            {% endif %}
+          {% endif %}
+
+  - sensor:
+      # Menschlich lesbar, z.B. "2d 03h 15m"
+      - name: "USW-Flex-Mini Uptime 2 Duration"
+        unique_id: usw_flex_mini_uptime_2_duration
+        icon: mdi:timer-sand
+        state: >
+          {% set ts = states('sensor.usw_flex_mini_uptime_2') %}
+          {% if ts in ['unknown','unavailable','none',''] %}
+            unknown
+          {% else %}
+            {% set diff = now() - as_datetime(ts) %}
+            {% set d = diff.days %}
+            {% set h = (diff.seconds // 3600) %}
+            {% set m = ((diff.seconds % 3600) // 60) %}
+            {% set s = (diff.seconds % 60) %}
+            {% if d > 0 %}{{ d }}t {{ '%02d'|format(h) }}h {{ '%02d'|format(m) }}m
+            {% elif h > 0 %}{{ h }}h {{ '%02d'|format(m) }}m
+            {% else %}{{ m }}m {{ '%02d'|format(s) }}s
+            {% endif %}
+          {% endif %}
+
+  # +----------------------------------------------------------------------------+
+  # | UPDATE Sensor Package                                                      |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - unique_id: sensor.number_of_updates
+        unit_of_measurement: "on"
+        default_entity_id: sensor.number_of_updates
+        name: Number of Updates
+        state:
+          "{{ expand(states.group.all_updates) | selectattr( 'state', 'eq', 'on')
+          | list | count }}"
+
+  - sensor:
+      - default_entity_id: sensor.unifi_dream_router_update
+        name: Unifi Dream Router Update
+        state:
+          "{% set installed = state_attr('update.unifi_dream_router', 'installed_version')
+          %} {% set latest = state_attr('update.unifi_dream_router', 'latest_version')
+          %} {% if installed != latest %}\n  {{ \"Update verfügbar!\"}}\n{% else %}\n
+          \ {{ \"Aktuelle Version\"}}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.unifi_dream_router_update_version
+        name: Unifi Dream Router Update Version
+        state:
+          "{% set installed = state_attr('update.unifi_dream_router', 'installed_version')
+          %} {% set latest = state_attr('update.unifi_dream_router', 'latest_version')
+          %} {% if installed != latest %}\n  {{ \"Update verfügbar! \" + latest }}\n{%
+          else %}\n  {{ \"Aktuelle Version: \" + installed }}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.access_point_ac_lite_update
+        name: Access Point AC Lite Update
+        state:
+          "{% set installed = state_attr('update.access_point_ac_lite', 'installed_version')
+          %} {% set latest = state_attr('update.access_point_ac_lite', 'latest_version')
+          %} {% if installed != latest %}\n  {{ \"Update verfügbar!\"}}\n{% else %}\n
+          \ {{ \"Aktuelle Version\"}}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.access_point_ac_lite_update_version
+        name: Access Point AC Lite Update Version
+        state:
+          "{% set installed = state_attr('update.access_point_ac_lite', 'installed_version')
+          %} {% set latest = state_attr('update.access_point_ac_lite', 'latest_version')
+          %} {% if installed != latest %}\n  {{ \"Update verfügbar! \" + latest }}\n{%
+          else %}\n  {{ \"Aktuelle Version: \" + installed }}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.usw_flex_mini_1_update
+        name: USW Flex Mini 1 Update
+        state:
+          "{% set installed = state_attr('update.usw_flex_mini', 'installed_version')
+          %} {% set latest = state_attr('update.usw_flex_mini', 'latest_version') %} {%
+          if installed != latest %}\n  {{ \"Update verfügbar!\"}}\n{% else %}\n  {{ \"Aktuelle
+          Version\"}}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.usw_flex_mini_1_update_version
+        name: USW Flex Mini 1 Update Version
+        state:
+          "{% set installed = state_attr('update.usw_flex_mini', 'installed_version')
+          %} {% set latest = state_attr('update.usw_flex_mini', 'latest_version') %} {%
+          if installed != latest %}\n  {{ \"Update verfügbar! \" + latest }}\n{% else
+          %}\n  {{ \"Aktuelle Version: \" + installed }}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.usw_flex_mini_2_update
+        name: USW Flex Mini 2 Update Version
+        state:
+          "{% set installed = state_attr('update.usw_flex_mini_2', 'installed_version')
+          %} {% set latest = state_attr('update.usw_flex_mini_2', 'latest_version') %}
+          {% if installed != latest %}\n  {{ \"Update verfügbar!\"}}\n{% else %}\n  {{
+          \"Aktuelle Version\"}}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.usw_flex_mini_2_update_version
+        name: USW Flex Mini 2 Update Version
+        state:
+          "{% set installed = state_attr('update.usw_flex_mini_2', 'installed_version')
+          %} {% set latest = state_attr('update.usw_flex_mini_2', 'latest_version') %}
+          {% if installed != latest %}\n  {{ \"Update verfügbar! \" + latest }}\n{% else
+          %}\n  {{ \"Aktuelle Version: \" + installed }}\n{% endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.u6_mesh_update
+        name: U6 Mesh Update
+        state:
+          "{% set installed = state_attr('update.u6_mesh', 'installed_version') %}
+          {% set latest = state_attr('update.u6_mesh', 'latest_version') %} {% if installed
+          != latest %}\n  {{ \"Update verfügbar!\"}}\n{% else %}\n  {{ \"Aktuelle Version\"}}\n{%
+          endif %}"
+
+  - sensor:
+      - default_entity_id: sensor.u6_mesh_update_version
+        name: U6 Mesh Update Verson
+        state:
+          "{% set installed = state_attr('update.u6_mesh', 'installed_version') %}
+          {% set latest = state_attr('update.u6_mesh', 'latest_version') %} {% if installed
+          != latest %}\n  {{ \"Update verfügbar! \" + latest }}\n{% else %}\n  {{ \"Aktuelle
+          Version: \" + installed }}\n{% endif %}"
+
+sensor:
+  # +----------------------------------------------------------------------------+
+  # | MIN - MAX Temperature - Humidity                                           |
+  # +----------------------------------------------------------------------------+
+  - platform: min_max
+    name: temperature_min
+    type: min
+    entity_ids:
+      - sensor.multisensor_badezimmer_temperatur
+      - sensor.multisensor_kinderzimmer_temperatur
+      - sensor.multisensor_kuche_temperatur
+      - sensor.multisensor_wohnzimmer_temperatur
+      - sensor.multisensor_schlafzimmer_temperatur
+      - sensor.hue_bewegungssensor_flur_temperature
+
+  - platform: min_max
+    name: temperature_max
+    type: max
+    entity_ids:
+      - sensor.multisensor_badezimmer_temperatur
+      - sensor.multisensor_kinderzimmer_temperatur
+      - sensor.multisensor_kuche_temperatur
+      - sensor.multisensor_wohnzimmer_temperatur
+      - sensor.multisensor_schlafzimmer_temperatur
+      - sensor.hue_bewegungssensor_flur_temperature
+
+  # +----------------------------------------------------------------------------+
+  # | MIN - MAX Humidity                                                         |
+  # +----------------------------------------------------------------------------+
+  - platform: min_max
+    name: humidity_min
+    type: min
+    entity_ids:
+      - sensor.multisensor_badezimmer_luftfeuchtigkeit
+      - sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+      - sensor.multisensor_kuche_luftfeuchtigkeit
+      - sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+      - sensor.multisensor_schlafzimmer_luftfeuchtigkeit
+
+  - platform: min_max
+    name: humidity_max
+    type: max
+    entity_ids:
+      - sensor.multisensor_badezimmer_luftfeuchtigkeit
+      - sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+      - sensor.multisensor_kuche_luftfeuchtigkeit
+      - sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+      - sensor.multisensor_schlafzimmer_luftfeuchtigkeit
+
+  # +----------------------------------------------------------------------------+
+  # | Average Temperature                                                        |
+  # +----------------------------------------------------------------------------+
+  - platform: min_max
+    name: Average Home Temperature
+    type: mean
+    round_digits: 1
+    entity_ids:
+      - sensor.multisensor_badezimmer_temperatur
+      - sensor.multisensor_kinderzimmer_temperatur
+      - sensor.multisensor_kuche_temperatur
+      - sensor.multisensor_wohnzimmer_temperatur
+      - sensor.multisensor_schlafzimmer_temperatur
+      - sensor.hue_bewegungssensor_flur_temperature
+
+  # +----------------------------------------------------------------------------+
+  # | Average Humidity                                                           |
+  # +----------------------------------------------------------------------------+
+  - platform: min_max
+    name: Average Home Humidity
+    type: mean
+    round_digits: 1
+    entity_ids:
+      - sensor.multisensor_badezimmer_luftfeuchtigkeit
+      - sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+      - sensor.multisensor_kuche_luftfeuchtigkeit
+      - sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+      - sensor.multisensor_schlafzimmer_luftfeuchtigkeit

@@ -1,0 +1,62 @@
+# Home Assistant
+.HA_VERSION
+.ha_run.lock
+.storage/
+.cloud/
+.cache/
+tts/
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+pyozw.sqlite
+
+# Logs
+*.log
+*.log.fault
+
+# Python
+__pycache__/
+deps/
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+._*
+
+# NFS
+.nfs*
+
+# Trash
+.Trash-0/
+
+# Secrets and credentials
+secrets.yaml
+
+# UI-Files
+ui-hacasa.yaml
+ui_lovelace_tablet/button_card_templates/new_apple_templates
+ui_lovelace_tablet/button_card_templates/old_not_finished
+
+# Themes
+themes/HaCasa
+
+# HACS
+custom_components/
+
+# Folders
+.storage
+.cloud
+.google.token
+.vscode
+ui_lovelace_hacasa
+pyscript
+image
+blueprints
+custom_icons
+www
+esphome
+simple_plant

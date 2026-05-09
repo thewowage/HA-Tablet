@@ -1,0 +1,131 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# HOME ASSISTANT
+homeassistant:
+  name: Home
+  latitude: !secret homeassistant_latitude
+  longitude: !secret homeassistant_longitude
+  elevation: !secret homeassistant_elevation
+  unit_system: metric
+  temperature_unit: C
+  time_zone: Europe/Berlin
+  currency: EUR
+  country: DE
+  packages: !include_dir_named packages
+  customize_domain:
+    automation:
+      initial_state: true
+  allowlist_external_dirs:
+    - /config
+
+default_config:
+
+# +----------------------------------------------------------------------------+
+# | Load templates from file                                                   |
+# +----------------------------------------------------------------------------+
+template: !include templates.yaml
+
+# +----------------------------------------------------------------------------+
+# | Load automations from file                                                 |
+# +----------------------------------------------------------------------------+
+automation: !include automations.yaml
+
+# +----------------------------------------------------------------------------+
+# | Load scenes from file                                                      |
+# +----------------------------------------------------------------------------+
+scene: !include scenes.yaml
+
+# +----------------------------------------------------------------------------+
+# | Load scripts from file                                                     |
+# +----------------------------------------------------------------------------+
+script: !include scripts.yaml
+
+# +----------------------------------------------------------------------------+
+# | Load frontend themes from the themes folder                                |
+# +----------------------------------------------------------------------------+
+frontend:
+  themes: !include_dir_merge_named themes
+
+pyscript:
+  allow_all_imports: true
+  hass_is_global: true
+
+lovelace:
+  mode: "storage"
+  resources:
+    - url: "/hacsfiles/button-card/button-card.js"
+      type: "module"
+    - url: "/hacsfiles/my-cards/my-cards.js"
+      type: "module"
+    - url: "/hacsfiles/kiosk-mode/kiosk-mode.js"
+      type: module
+    - url: "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900"
+      type: css
+
+  dashboards:
+    lovelace-hacasa:
+      mode: yaml
+      filename: ui-hacasa.yaml
+      title: HA Casa
+      icon: mdi:cellphone-dock
+      show_in_sidebar: true
+    lovelace-tablet:
+      mode: yaml
+      filename: ui-tablet.yaml
+      title: TabletOS
+      icon: mdi:tablet-cellphone
+      show_in_sidebar: true
+
+tts:
+  - platform: google_translate
+
+recorder:
+  db_url: !secret recorder_db_url
+  exclude:
+    entity_globs:
+      - sensor.browser_*
+
+powercalc:
+  discovery:
+    enabled: true
+    exclude_device_types:
+      - light
+      - cover
+    exclude_self_usage: true
+
+calendar:
+  - platform: caldav
+    username: !secret icloud_username
+    password: !secret icloud_app_specific_password
+    url: !secret icloud_url
+    calendars:
+      - Familie
+      - Privat
+      - Geburtstage
+      - AWIDO
+
+binary_sensor:
+  - platform: meteoalarm
+    country: !secret meteoalarm_country_value
+    province: !secret meteoalarm_province_value
+    language: !secret meteoalarm_language_value
+
+  - platform: tod
+    name: "7-9AM"
+    after: "07:00:00"
+    before: "09:00:00"
+
+http:
+  cors_allowed_origins:
+    - !secret origin_1
+    - !secret origin_2
+    - !secret origin_3
+    - !secret origin_4
+    - !secret origin_5
+  ip_ban_enabled: false
+  login_attempts_threshold: 5
+  use_x_forwarded_for: true
+
+  trusted_proxies:
+    - !secret local_network
+    - !secret nas_networ
+    - !secret localhost

@@ -1,0 +1,17 @@
+group:
+  ## DASHBOARD Bubble #####################################################
+  #########################################################################
+  chores:
+    name: Hausarbeiten
+    entities:
+      - input_boolean.vacuum
+      - input_boolean.litter_box
+
+input_boolean:
+  vacuum:
+    name: Staubsaugen
+    icon: mdi:vacuum
+
+  litter_box:
+    name: Katzenklo
+    icon: mdi:cat

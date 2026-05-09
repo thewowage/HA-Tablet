@@ -1,0 +1,307 @@
+home_card_flora_modern_wge:
+
+  show_icon: false
+  show_name: false
+
+  variables:
+    moisture_graph: sensor.mangobaum_feuchtigkeit
+    show_graph: true
+    image: /local/images/dashboard/monstera_deliciosa_plant_bg.png
+    ok_color: "88,214,141"
+    dry_color: "255,95,87"
+
+  tap_action:
+    action: call-service
+    service: script.dashboard_state_switch_card_durchwechseln
+
+  styles:
+    card:
+      - height: 260px
+      - padding: 18px
+      - border-radius: 26px
+      - position: relative
+      - overflow: hidden
+      - border: none
+      - background: >
+          [[[
+            return `url('${variables.image}')`;
+          ]]]
+      - background-size: 85% 
+      - background-position: center right 
+      - background-repeat: no-repeat
+    grid:
+      - grid-template-areas: |
+          "."
+          "label_mango"
+          "mango"
+          "label_strelitzie"
+          "strelitzie"
+          "label_stillstand"
+          "stillstand"
+      - grid-template-columns: 1fr
+      - row-gap: 7px
+      - justify-items: start
+      - align-items: start
+      - text-align: left
+
+    custom_fields:
+      status:
+        - position: absolute
+        - top: 16px
+        - right: 16px
+
+      #title:
+      #  - font-size: 22px
+      #  - font-weight: 800
+      #  - color: white
+      #  - z-index: 3
+
+      label_mango:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
+        - z-index: 3
+
+      mango:
+        - z-index: 3
+
+      label_strelitzie:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
+        - z-index: 3
+
+      strelitzie:
+        - z-index: 3
+
+      label_stillstand:
+        - font-size: 11px
+        - font-weight: 800
+        - letter-spacing: 0.08em
+        - color: rgba(255,255,255,0.62)
+        - z-index: 3
+
+      stillstand:
+        - font-size: 20px
+        - font-weight: 800
+        - color: white
+        - z-index: 3
+
+  custom_fields:
+    #title: "Flora"
+
+    label_mango: |
+      [[[
+        const p = states["sensor.mangobaum"];
+        const dry = (p?.attributes?.problem_code || "").includes("moisture");
+        return dry
+          ? `MANGO <ha-icon class="dry-leaf" icon="mdi:leaf-off"></ha-icon>`
+          : "MANGO";
+      ]]]
+
+    mango: |
+      [[[
+        const p = states["sensor.mangobaum"];
+        if (!p) return "-";
+
+        const moisture = Number(p.attributes.feuchtigkeit || 0);
+        const conductivity = p.attributes.leitfaehigkeit ?? "-";
+        const problem = p.attributes.problem_code || "";
+        const dry = problem.includes("moisture");
+        const cond = problem.includes("conductivity");
+
+        return `
+          <div class="homekit-pill ${dry ? "dry" : ""}">
+            <ha-icon icon="mdi:water-percent"></ha-icon>
+            <span>${moisture}%</span>
+            <div class="progress"><div class="bar" style="width:${moisture}%;"></div></div>
+          </div>
+
+          <div class="homekit-pill ${cond ? "dry" : ""}">
+            <ha-icon icon="mdi:flash"></ha-icon>
+            <span>${conductivity}<small> µS</small></span>
+          </div>
+        `;
+      ]]]
+
+    label_strelitzie: "STRELITZIE"
+
+    strelitzie: |
+      [[[
+        const p = states["sensor.strelitzie"] || states["sensor.mangobaum"];
+        if (!p) return "-";
+
+        const moisture = Number(p.attributes.feuchtigkeit || 0);
+        const conductivity = p.attributes.leitfaehigkeit ?? "-";
+
+        return `
+          <div class="homekit-pill">
+            <ha-icon icon="mdi:water-percent"></ha-icon>
+            <span>${moisture}%</span>
+            <div class="progress"><div class="bar" style="width:${moisture}%;"></div></div>
+          </div>
+
+          <div class="homekit-pill">
+            <ha-icon icon="mdi:flash"></ha-icon>
+            <span>${conductivity}<small> µS</small></span>
+          </div>
+        `;
+      ]]]
+
+    label_stillstand: |
+      [[[
+        const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
+        return days >= 14
+          ? `GEGOSSEN VOR <ha-icon class="dry-leaf" icon="mdi:alert-circle"></ha-icon>`
+          : "GEGOSSEN VOR";
+      ]]]
+
+    stillstand: |
+      [[[
+        const value = states["sensor.mangobaum_tage_seit_giessen"]?.state;
+        if (!value || value === "unknown" || value === "unavailable") return "-";
+        const d = Number(value);
+        return `${d} ${d === 1 ? "Tag" : "Tagen"}`;
+      ]]]
+
+    status: >
+        [[[
+          const p = states["sensor.mangobaum"];
+          const problem = p?.attributes?.problem_code || "";
+          const days = Number(states["sensor.mangobaum_tage_seit_giessen"]?.state || 0);
+
+          const dry = problem.includes("moisture") || days >= 14;
+          const warning = days >= 10 && days < 14;
+
+          let color = "rgba(80,220,120,1)";
+
+          if (warning)
+            color = "rgba(255,190,70,1)";
+
+          if (dry)
+            color = "rgba(255,90,90,1)";
+
+          return `
+            <div class="plant-status-wrap">
+              <div class="plant-dot" style="background:${color}"></div>
+            </div>
+          `;
+        ]]]
+
+  extra_styles: |
+    ha-card {
+      border-radius: 26px !important;
+      overflow: hidden;
+      text-align: left !important;
+      transition: transform 0.18s ease, box-shadow 0.25s ease;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .homekit-pill {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 66px;
+      padding: 6px 11px;
+      margin-right: 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      overflow: hidden;
+    }
+
+    .homekit-pill ha-icon {
+      width: 16px;
+      height: 16px;
+      color: rgba(88,214,141,1);
+      z-index: 2;
+    }
+
+    .homekit-pill span {
+      z-index: 2;
+    }
+
+    .homekit-pill small {
+      font-size: 10px;
+      opacity: 0.75;
+    }
+
+    .homekit-pill.dry {
+      background: rgba(255,95,87,0.92);
+      animation: dryPulse 1.8s ease-in-out infinite;
+    }
+
+    .homekit-pill.dry ha-icon {
+      color: white;
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,0.14);
+    }
+
+    .bar {
+      height: 100%;
+      background: rgba(88,214,141,0.95);
+    }
+
+    .dry .bar {
+      background: white;
+    }
+
+    .dry-leaf {
+      width: 14px;
+      height: 14px;
+      color: rgb(255,95,87);
+      animation: leafShake 1.2s ease-in-out infinite;
+    }
+
+    @keyframes dryPulse {
+      0%, 100% { box-shadow: 0 0 0 rgba(255,95,87,0); }
+      50% { box-shadow: 0 0 14px rgba(255,95,87,0.7); }
+    }
+
+    @keyframes leafShake {
+      0%, 100% { transform: translateY(-2px) rotate(0deg); }
+      25% { transform: translateY(-2px) rotate(-8deg); }
+      75% { transform: translateY(-2px) rotate(8deg); }
+    }
+
+    .plant-status-wrap {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    }
+
+    .plant-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      box-shadow:
+        0 0 10px currentColor,
+        0 0 18px currentColor;
+      animation: plantPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes plantPulse {
+      0%,100% {
+        transform: scale(1);
+        opacity: .85;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+    }
