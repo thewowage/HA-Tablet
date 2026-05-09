@@ -113,9 +113,9 @@ calendar:
 
 binary_sensor:
   - platform: meteoalarm
-    country: "Germany"
-    province: "Kreis Fulda"
-    language: de-DE
+    country: !secret meteoalarm_country_value
+    province: !secret 
+    language: !secret 
 
   - platform: tod
     name: "7-9AM"
