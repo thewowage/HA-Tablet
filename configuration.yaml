@@ -114,8 +114,8 @@ calendar:
 binary_sensor:
   - platform: meteoalarm
     country: !secret meteoalarm_country_value
-    province: !secret 
-    language: !secret 
+    province: !secret meteoalarm_province_value
+    language: !secret meteoalarm_language_value
 
   - platform: tod
     name: "7-9AM"
