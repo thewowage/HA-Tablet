@@ -10,6 +10,9 @@ switch_card_modern_group_wge:
     show_graph_line: true
     show_graph_fill: false
     card_color: "120,180,255"
+    switch_1:
+    switch_2:
+    switch_3:
 
   show_state: true
 
