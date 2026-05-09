@@ -507,7 +507,7 @@ cards:
           - type: "custom:button-card"
             entity: group.nursery_socket_desk
             template: switch_card_modern_group_wge
-            name: Tisch 1
+            name: Tisch
             icon: fapro:plug
             view_layout:
               grid-area: kz_switch_group
