@@ -111,7 +111,7 @@ sensor_graph_card_modern_wge:
             type: "custom:mini-graph-card",
             entities: [
               {
-                entity: "variables.graph_entity"
+                entity: "[[[ return variables.graph_entity ]]]"
               }
             ],
             line_width: 2,
