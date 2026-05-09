@@ -376,7 +376,6 @@ cards:
             entity: switch.gosund_sp112_bedroom
             template: switch_card_modern_wge
             name: Bett
-            icon: fapro:plug
             view_layout:
               grid-area: sz_switch_1
 
@@ -384,7 +383,6 @@ cards:
             template: switch_card_modern_wge
             entity: switch.gosund_sp112_bedroom_usb
             name: Bett USB
-            icon: fapro:plug
             view_layout:
               grid-area: sz_switch_2
 
