@@ -129,11 +129,19 @@ http:
     - https://homeassistant.****.***
     - https://10.75.30.101
     - http://10.75.30.101
+    - !secret
+    - !secret
+    - !secret
+    - !secret
+    - !secret
   ip_ban_enabled: false
   login_attempts_threshold: 5
   use_x_forwarded_for: true
 
   trusted_proxies:
+    - !secret
+    - !secret
+    - !secret
     - 10.75.1.0/24
     - 10.75.1.82
     - 127.0.0.1
