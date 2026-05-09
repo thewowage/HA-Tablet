@@ -124,16 +124,11 @@ binary_sensor:
 
 http:
   cors_allowed_origins:
-    - https://google.com
-    - https://home-assistant.io
-    - https://homeassistant.****.***
-    - https://10.75.30.101
-    - http://10.75.30.101
-    - !secret
-    - !secret
-    - !secret
-    - !secret
-    - !secret
+    - !secret origin_1
+    - !secret origin_2
+    - !secret origin_3
+    - !secret origin_4
+    - !secret origin_5
   ip_ban_enabled: false
   login_attempts_threshold: 5
   use_x_forwarded_for: true
