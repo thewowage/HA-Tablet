@@ -840,7 +840,7 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
+            entity: sensor.attic_temperature
             variables:
               label_icon: percent
             view_layout:
@@ -849,7 +849,7 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            entity: sensor.hue_bewegungssensor_flur_temperatur
+            entity: sensor.attic_humidity
             variables:
               label_icon: celsius
             view_layout:
