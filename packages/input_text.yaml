@@ -1,0 +1,4 @@
+input_text:
+  gpt_greeting:
+    name: "Dashboard-Gruß"
+    max: 255

@@ -1,0 +1,150 @@
+homeassistant:
+  customize:
+    switch.socket_washing_machine:
+      icon: mdi:washing-machine
+      friendly_name: Waschmashine
+
+input_text:
+  gpt_response_washing_mashine:
+    name: "Waschmaschine Text"
+    max: 255
+
+input_select:
+  washing_machine_state:
+    name: Washing Machine Status
+    icon: mdi:washing-machine
+    options:
+      - aus
+      - arbeitet
+      - fertig
+    initial: aus
+
+  washing_machine_notification:
+    name: Washing Machine Notification
+    options:
+      - Wowa
+      - Rita
+    icon: mdi:washing-machine-alert
+
+automation:
+  - id: "1122334455018"
+    alias: Waschmaschine arbeitet
+    description:
+      Wenn Steckdose über 10 Watt verbraucht, wird Zustand des Sensors Waschmaschine
+      auf "arbeitet" gesetzt.
+    triggers:
+      - trigger: numeric_state
+        above: 10
+        entity_id: sensor.socket_washing_machine_derzeitiger_verbrauch
+        for: 00:00:30
+    condition: []
+    actions:
+      - action: input_select.select_option
+        alias: ""
+        data:
+          option: arbeitet
+        entity_id: input_select.washing_machine_state
+
+  - id: "112233445505192"
+    alias: Waschmaschine ist fertig - chatGPT-Response
+    description: ""
+    triggers:
+      - trigger: numeric_state
+        entity_id: sensor.socket_washing_machine_derzeitiger_verbrauch
+        above: 0.5
+        below: 7
+        for: 00:01:30
+        id: finished
+    condition: []
+    actions:
+      - if:
+          - condition: trigger
+            id:
+              - finished
+          - condition: state
+            entity_id: input_select.washing_machine_state
+            state: "arbeitet"
+        then:
+          - action: pyscript.generate_response
+            data:
+              prompt: >-
+                Teile uns auf eine Humorvolle Art mit, dass die Waschmaschine fertig
+                ist und man die Wäsche rausholen kann. Halte dich kurz. Nicht über
+                20 Token
+          - action: pyscript.generate_response
+            data:
+              prompt: >-
+                Teile uns auf eine Aggressive und Freche und beleidigende Art mit,
+                dass die Waschmaschine fertig ist und man die Wäsche rausholen kann.
+                Halte dich kurz. Nicht über 20 Token
+            enabled: false
+          - wait_template: "{{ states('input_text.gpt_response') | length > 0 }}"
+            timeout: "00:00:20"
+            continue_on_timeout: false
+          - action: notify.all_parent_devices
+            metadata: {}
+            data:
+              message: "{{ states('input_text.gpt_response') }}"
+    mode: single
+
+  - id: "1122334455020"
+    alias: Waschmaschine ist aus
+    description: ""
+    triggers:
+      - trigger: numeric_state
+        below: 0.5
+        entity_id: sensor.socket_washing_machine_derzeitiger_verbrauch
+        for: 00:00:30
+    condition: []
+    actions:
+      - data:
+          option: aus
+        action: input_select.select_option
+        target:
+          entity_id: input_select.washing_machine_state
+
+template:
+  ##### Waschmaschine Timer #####
+  - sensor:
+      - name: "Waschmaschine Timer"
+        unique_id: waschmaschine_timer
+        state: >
+          {% if is_state('input_select.washing_machine_state', 'arbeitet') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+        attributes:
+          triggered: >
+            {{ this.last_changed | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S', true) }}
+          remaining: >
+            {% if is_state(this.entity_id, 'off') %}
+              00:00:00
+            {% else %}
+              {% set total_time = 89 * 60 %}
+              {% set time_passed = as_timestamp(now()) - as_timestamp(this.last_changed) %}
+              {% set remaining_seconds = (total_time - time_passed) | int %}
+              {% if remaining_seconds > 0 %}
+                {{ remaining_seconds | timestamp_custom('%H:%M:%S', false) }}
+              {% else %}
+                00:00:00
+              {% endif %}
+            {% endif %}
+          remaining_perc: >
+            {% if is_state(this.entity_id, 'off') %}
+              0
+            {% else %}
+              {% set total_time = 89 * 60 %}
+              {% set time_passed = as_timestamp(now()) - as_timestamp(this.last_changed) %}
+              {% set remaining_seconds = (total_time - time_passed) | float %}
+              {% set remaining_perc = (remaining_seconds / total_time) * 100 %}
+              {% if remaining_perc > 0 %}
+                {{ remaining_perc | round(2) }}
+              {% else %}
+                0
+              {% endif %}
+            {% endif %}
+          end_time: >
+            {% set total_time = 89 * 60 %}
+            {{ (as_timestamp(this.last_changed) + total_time)
+              | timestamp_custom('%Y-%m-%d %H:%M:%S', true) }}

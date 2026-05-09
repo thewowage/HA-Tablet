@@ -1,0 +1,14 @@
+input_number:
+  kitchen_timer:
+    name: "Küche – Timer"
+    min: 1
+    max: 180
+    step: 1
+    unit_of_measurement: min
+
+  auto_light_corridor:
+    name: Auto Licht Flur
+    min: 1
+    max: 20
+    step: 1
+    unit_of_measurement: min

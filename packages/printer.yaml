@@ -1,0 +1,129 @@
+template:
+  - binary_sensor:
+      - default_entity_id: binary_sensor.ink_level_black_threshold
+        name: Ink Level Black threshold
+        state:
+          "{{(states('sensor.smart_tank_7300_series_10_75_99_29_black_inktank_level')
+          | float(0) ) <\n  (states('input_number.ink_level') | float(0))}}"
+
+  - binary_sensor:
+      - default_entity_id: binary_sensor.ink_level_yellow_threshold
+        name: Ink Level Cyan threshold
+        state:
+          "{{(states('sensor.smart_tank_7300_series_10_75_99_29_yellow_inktank_level')
+          | float(0)) <\n  (states('input_number.ink_level') | float(0))}}"
+
+  - binary_sensor:
+      - default_entity_id: binary_sensor.ink_level_magenta_threshold
+        name: Ink Level Magenta threshold
+        state:
+          "{{(states('sensor.smart_tank_7300_series_10_75_99_29_inktank_level_2')
+          | float(0)) <\n  (states('input_number.ink_level') | float(0))}}"
+
+  - binary_sensor:
+      - default_entity_id: binary_sensor.ink_level_cyan_threshold
+        name: Ink Level Cyan threshold
+        state:
+          "{{(states('sensor.smart_tank_7300_series_10_75_99_29_inktank_level_3')
+          | float(0)) <\n  (states('input_number.ink_level') | float(0))}}"
+
+  - binary_sensor:
+      - default_entity_id: binary_sensor.ink_level_cyanmagentayellow_threshold
+        name: Ink Level Cyan threshold
+        state:
+          "{{(states('sensor.smart_tank_7300_series_10_75_99_29_cyanmagentayellow_inkcartridge_level')
+          | float(0)) <\n  (states('input_number.ink_level') | float(0))}}"
+
+  - sensor:
+      - name: "printer_printed_pages"
+        icon: mdi:book-open-page-variant
+        state: >
+          {{ states("sensor.sensor.smart_tank_7300_series_10_75_99_29_printer_gesamtseiten") }} Seiten
+
+      - name: "printer_scanned_pages"
+        icon: mdi:scanner
+        state: >
+          {{ states("sensor.sensor.smart_tank_7300_series_10_75_99_29_scanner_gesamtseiten") }} Seiten
+
+  # +----------------------------------------------------------------------------+
+  # | PRINTER Sensors                                                            |
+  # +----------------------------------------------------------------------------+
+  - sensor:
+      - default_entity_id: sensor.hp_7300_inktank_black
+        name: HP 7300 Inktank Black
+        state:
+          "{{ states('sensor.smart_tank_7300_series_10_75_99_29_black_inktank_level')
+          | round(0) }} %"
+
+  - sensor:
+      - default_entity_id: sensor.hp_7300_inktank_yellow
+        name: HP 7300 Inktank Yellow
+        state:
+          "{{ states('sensor.smart_tank_7300_series_10_75_99_29_inktank_level')
+          | round(0) }} %"
+
+  - sensor:
+      - default_entity_id: sensor.hp_7300_inktank_meganta
+        name: HP 7300 Inktank Magenta
+        state:
+          "{{ states('sensor.smart_tank_7300_series_10_75_99_29_inktank_level_2')
+          | round(0) }} %"
+
+  - sensor:
+      - default_entity_id: sensor.hp_7300_inktank_cyan
+        name: HP 7300 Inktank Cyan
+        state:
+          "{{ states('sensor.smart_tank_7300_series_10_75_99_29_inktank_level_3')
+          | round(0) }} %"
+
+  - sensor:
+      - default_entity_id: sensor.hp_7300_state
+        state:
+          "{%- set state = states('sensor.smart_tank_7300_series_10_75_99_29_status') -%}
+          {% if state == 'inpowersave' %} Leerlauf
+          {% elif state == 'canceljob' %} Aufgabe abbrechen
+          {% elif state == 'processing' %} Drucken
+          {% elif state == 'copying' %} Kopieren
+          {% elif state == 'scanprocessing' %} Scannen
+          {% elif state == 'ready' %} An
+          {% elif state == 'off' %} Aus
+          {% else %} NICHT ERREICHBAR
+          {% endif %}"
+        name: hp_7300_state
+
+  # +----------------------------------------------------------------------------+
+  # | PRINTER GROUPS                                                             |
+  # +----------------------------------------------------------------------------+
+group:
+  printer_ink_level_group:
+    name: Tintenfüllstand Gruppe
+    entities:
+      - binary_sensor.ink_level_black_threshold
+      - binary_sensor.ink_level_cyan_threshold
+      - binary_sensor.ink_level_magenta_threshold
+      - binary_sensor.ink_level_yellow_threshold
+      - binary_sensor.ink_level_cyanmagentayellow_threshold
+
+script:
+  update_hp_cartridge_sensors:
+    alias: Update Cartridge Sensors
+    sequence:
+      - action: homeassistant.update_entity
+        entity_id: sensor.smart_tank_7300_series_10_75_99_29_black_inktank_level
+      - action: homeassistant.update_entity
+        entity_id: sensor.smart_tank_7300_series_10_75_99_29_inktank_level
+      - action: homeassistant.update_entity
+        entity_id: sensor.smart_tank_7300_series_10_75_99_29_inktank_level_2
+      - action: homeassistant.update_entity
+        entity_id: sensor.smart_tank_7300_series_10_75_99_29_inktank_level_3
+      - action: homeassistant.update_entity
+        entity_id: sensor.smart_tank_7300_series_10_75_99_29_cyanmagentayellow_inkcartridge_level
+
+input_number:
+  # PRINTER INK LEVEL
+  ink_level:
+    name: Ink level
+    icon: mdi:printer-settings
+    min: 0
+    max: 100
+    step: 5
