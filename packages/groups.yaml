@@ -159,6 +159,7 @@ group:
 
   nursery_socket_desk:
     name: Steckdosen Tisch
+    entities:
       - switch.steckdosenleiste_kinderzimmer_stecker1
       - switch.steckdosenleiste_kinderzimmer_stecker2
       - switch.steckdosenleiste_kinderzimmer_stecker3
