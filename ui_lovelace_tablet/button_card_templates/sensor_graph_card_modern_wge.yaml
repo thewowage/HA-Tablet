@@ -27,32 +27,23 @@ sensor_graph_card_modern_wge:
     ]]]
 
   styles:
-    grid: |
-    [[[
-      if (variables.label_icon === "lux") return value + '<sup style="font-size: 16px;"> lx</sup>';
-      grid-template-columns: 15% 28% 28% 29%
-      grid-template-rows: auto
-      grid-template-areas: |
-        "analog weather main1 cameras"
-        "clock weather main1 cameras"
-        "menu weather main1 cameras"
-        
-      return value;
-    ]]]
-      - grid-template-areas: |
-          "l i"
-          "n n"
-          "graph graph"
+    grid:
+      - grid-template-areas: >
+          [[[
+            return variables.label_icon === "on_off"
+              ? `"l i"
+                "n n"`
+              : `"l i"
+                "n n"
+                "graph graph"`;
+          ]]]
       - grid-template-columns: 1fr min-content
-      - grid-template-rows: 1fr min-content min-content
-
-
-      - grid-template-areas: |
-          "l i"
-          "n n"
-          "graph graph"
-      - grid-template-columns: 1fr min-content
-      - grid-template-rows: 1fr min-content min-content
+      - grid-template-rows: >
+          [[[
+            return variables.label_icon === "on_off"
+              ? "1fr min-content"
+              : "1fr min-content min-content";
+          ]]]
 
     card:
       - background: >
