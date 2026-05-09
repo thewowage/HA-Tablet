@@ -273,7 +273,6 @@ cards:
             entity: switch.shellyazplug_5432046783f0_switch_0
             template: switch_card_modern_wge
             name: Computertisch
-            icon: fapro:plug
             variables:
               power_entity: sensor.shellyazplug_5432046783f0_switch_0_power
             view_layout:
@@ -283,7 +282,6 @@ cards:
             template: switch_card_modern_wge
             entity: switch.shellyplusplugs_e465b8b49ef4_switch_0
             name: Sofa
-            icon: fapro:plug
             view_layout:
               grid-area: wz_switch_2
 
@@ -312,7 +310,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Schimmel
-            icon: fapro:humidity
             variables:
               label_icon: percent
             entity: sensor.schimmel_indikator_wohnzimmer
@@ -322,7 +319,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             variables:
               label_icon: percent
             entity: sensor.multisensor_wohnzimmer_luftfeuchtigkeit
