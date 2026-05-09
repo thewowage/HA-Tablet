@@ -649,6 +649,7 @@ cards:
             entity: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
             variables:
               label_icon: on_off
+              show_graph: false
             view_layout:
               grid-area: ku_wassersensor
 
