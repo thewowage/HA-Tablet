@@ -511,6 +511,14 @@ cards:
             name: Tisch 1
             icon: fapro:plug
             view_layout:
+              grid-area: kz_switch_group
+
+          - type: "custom:button-card"
+            entity: switch.steckdosenleiste_kinderzimmer_stecker1
+            template: switch_card_modern_wge
+            name: Tisch 1
+            icon: fapro:plug
+            view_layout:
               grid-area: kz_switch_2
 
           - type: "custom:button-card"
