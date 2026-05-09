@@ -58,7 +58,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.outside_temperature_weather
             variables:
               label_icon: celsius
@@ -70,7 +69,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.outside_humidity_weather
             variables:
               label_icon: percent
