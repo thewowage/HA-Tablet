@@ -645,7 +645,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Leckage Sensor
-            icon: fapro:humidity
             entity: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
             variables:
               label_icon: on_off
