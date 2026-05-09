@@ -107,25 +107,25 @@ sensor_graph_card_modern_wge:
         if (variables.label_icon === "on_off") return "";
 
         return {
-          card: {
-            type: "custom:mini-graph-card",
-            entities: [
-              {
-                entity: variables.graph_entity
-              }
-            ],
-            line_width: 2,
-            line_color: `rgba(${variables.graph_color || variables.card_color || "120,180,255"},0.95)`,
-            height: 45,
-            show: {
-              icon: false,
-              name: false,
-              state: false,
-              legend: false,
+          card:
+            type: custom:mini-graph-card
+            entities:
+              - entity: "[[[ return variables.graph_entity ]]]"
+            line_width: 2
+            line_color: >
+              [[[
+                const color = variables.graph_color || variables.card_color || "120,180,255";
+                return `rgba(${color},0.95)`;
+              ]]]
+            height: 45
+            show:
+              icon: false
+              name: false
+              state: false
+              legend: false
               labels: false
-            },
-            card_mod: {
-              style: `
+            card_mod:
+              style: |
                 ha-card {
                   background: none !important;
                   box-shadow: none !important;
@@ -137,3 +137,32 @@ sensor_graph_card_modern_wge:
           }
         };
       ]]]
+
+
+  custom_fields:
+    graph:
+      card:
+        type: custom:mini-graph-card
+        entities:
+          - entity: "[[[ return variables.graph_entity ]]]"
+        line_width: 2
+        line_color: >
+          [[[
+            const color = variables.graph_color || variables.card_color || "120,180,255";
+            return `rgba(${color},0.95)`;
+          ]]]
+        height: 45
+        show:
+          icon: false
+          name: false
+          state: false
+          legend: false
+          labels: false
+        card_mod:
+          style: |
+            ha-card {
+              background: none !important;
+              box-shadow: none !important;
+              --ha-card-border-width: 0;
+              border-radius: 0 !important;
+            }
