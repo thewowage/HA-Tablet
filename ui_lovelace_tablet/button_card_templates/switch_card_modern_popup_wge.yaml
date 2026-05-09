@@ -153,19 +153,19 @@ switch_card_modern_group_wge:
         title: Beleuchtung
         content:
 
-          - type: "custom:button-card"
+            type: "custom:button-card"
             entity: switch.steckdosenleiste_kinderzimmer_stecker1
             template: switch_card_modern_wge
             name: Tisch 1
             icon: fapro:plug
 
-          - type: "custom:button-card"
+            type: "custom:button-card"
             entity: switch.steckdosenleiste_kinderzimmer_stecker2
             template: switch_card_modern_wge
             name: Tisch 2
             icon: fapro:plug
 
-          - type: "custom:button-card"
+            type: "custom:button-card"
             entity: switch.steckdosenleiste_kinderzimmer_stecker3
             template: switch_card_modern_wge
             name: Tisch 3
