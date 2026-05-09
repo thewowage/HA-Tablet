@@ -443,8 +443,7 @@ cards:
             ". h_select h_select h_select h_select ."
             ". kinderzimmer_h kinderzimmer_h        kinderzimmer_h    kinderzimmer_h  ."
             ". kz_licht_1     kz_licht_2            kz_licht_3        kz_switch_1     ."
-            ". kz_media       kz_media              kz_switch_group   .               ."
-            ". kz_switch_2    kz_switch_3           kz_switch_4       kz_switch_usb   ."
+            ". kz_media       kz_media              kz_switch_group   kz_switch_usb   ."
             ". kz_climate     kz_climate            kz_schimmel       kz_feuchtigkeit ."
             ". bottom   bottom   bottom      bottom ."
 
