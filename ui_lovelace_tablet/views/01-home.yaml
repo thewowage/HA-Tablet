@@ -683,7 +683,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Lichtstärke
-            icon: fapro:sun
             entity: sensor.hue_bewegungssensor_flur_beleuchtungsstarke
             variables:
               label_icon: lux
@@ -693,7 +692,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.hue_bewegungssensor_flur_temperatur
             variables:
               label_icon: celsius
@@ -745,7 +743,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Schimmel
-            icon: fapro:humidity
             entity: sensor.schimmel_indikator_badezimmer
             variables:
               label_icon: percent
@@ -756,7 +753,6 @@ cards:
             entity: switch.gosund_sp112_nursery
             template: switch_card_modern_wge
             name: Steckdose
-            icon: fapro:plug
             view_layout:
               grid-area: bz_switch_1
 
@@ -764,14 +760,12 @@ cards:
             entity: switch.gosund_sp112_nursery_usb
             template: switch_card_modern_wge
             name: USB
-            icon: fapro:plug
             view_layout:
               grid-area: bz_switch_2
 
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.multisensor_badezimmer_temperatur
             variables:
               label_icon: celsius
@@ -781,7 +775,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
             variables:
               label_icon: percent
