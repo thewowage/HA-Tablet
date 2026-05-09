@@ -563,12 +563,12 @@ cards:
           grid-template-rows: auto
           grid-gap: 16px
           grid-template-areas: |
-            ". home_h chips chips chips ."
-            ". h_select h_select h_select h_select ."
-            ". kueche_h         kueche_h            kueche_h          kueche_h        ."
-            ". ku_licht_1       ku_licht_2          ku_switch_1       ku_switch_1     ."
-            ". ku_temperatur    ku_feuchtigkeit     ku_schimmel       ku_schimmel     ."
-            ". bottom   bottom   bottom      bottom ."
+            ". home_h           chips               chips             chips         ."
+            ". h_select         h_select            h_select          h_select      ."
+            ". kueche_h         kueche_h            kueche_h          kueche_h      ."
+            ". ku_licht_1       ku_licht_2          ku_switch_1       ku_switch_1   ."
+            ". ku_temperatur    ku_feuchtigkeit     ku_schimmel       ku_schimmel   ."
+            ". bottom           bottom              bottom            bottom        ."
 
         cards:
           - type: custom:button-card
