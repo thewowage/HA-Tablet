@@ -840,7 +840,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.multisensor_badezimmer_luftfeuchtigkeit
             variables:
               label_icon: percent
@@ -850,7 +849,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.hue_bewegungssensor_flur_temperatur
             variables:
               label_icon: celsius
@@ -876,7 +874,6 @@ cards:
             entity: switch.shellyplug_s_b49a1d
             template: switch_card_modern_wge
             name: 3D-Drucker
-            icon: fapro:plug
             variables:
               power_entity: sensor.shellyplug_s_b49a1d_power
             view_layout:
