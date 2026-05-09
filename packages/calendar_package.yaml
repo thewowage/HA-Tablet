@@ -1,0 +1,137 @@
+template:
+  - sensor:
+      - name: calendar_date_de
+        default_entity_id: sensor.calendar_date_de
+        state: >
+          {% set days = [
+            'Montag', 'Dienstag', 'Mittwoch',
+            'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'
+          ] %}
+          {% set months = [
+            'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+          ] %}
+          {% set wd = now().weekday() %}     {# Montag = 0 #}
+          {% set d  = now().day %}
+          {% set m  = now().month %}
+          {% set y  = now().year %}
+          {{ days[wd] }}, {{ d }}. {{ months[m-1] }} {{ y }}
+
+      - default_entity_id: sensor.calendar_weekday_de
+        state: "{{ ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag',
+          'Samstag', 'Sonntag'][now().weekday()] }}"
+        name: calendar_weekday_de
+
+      - default_entity_id: sensor.calendar_month
+        state:
+          '{% set months = ["Januar", "Februar", "März", "April", "Mai", "Juni",
+          "Juli", "August", "September", "Oktober", "November", "Dezember"] %} {{ months[now().month-1]
+          }}'
+        name: calendar_month
+
+      - default_entity_id: sensor.calendar_weekday
+        state:
+          '{{["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag",
+          "Sonntag"][now().weekday()]}}'
+        name: calendar_weekday
+
+      - default_entity_id: sensor.calendar_day
+        state: "{{ strptime(states('sensor.date'), '%Y-%m-%d').day }}"
+        name: calendar_day
+
+      - default_entity_id: sensor.calendar_year
+        state: '{{now().strftime("%Y")}}'
+        name: calendar_year
+
+  # -----------------------------------------------------------------------
+  # GEBURTSTAGS
+  - sensor:
+      - name: "Geburtstage heute"
+        unique_id: sensor_geburtstage_heute
+        icon: mdi:cake-variant
+        state: >
+          {% set cal = 'calendar.geburtstage_ha' %}
+          {% set start = as_datetime(state_attr(cal, 'start_time')) if state_attr(cal, 'start_time') else None %}
+          {% if start and start.date() == now().date() %}
+            {{ state_attr(cal, 'message') }}
+          {% else %}
+            Keine Geburtstage heute
+          {% endif %}
+        attributes:
+          start_time: >
+            {% if start %}{{ start }}{% else %}unbekannt{% endif %}
+          all_day: >
+            {{ state_attr('calendar.geburtstage_ha', 'all_day') if state_attr('calendar.geburtstage_ha', 'all_day') is not none else false }}
+
+  - sensor:
+      - name: "Geburtstage heute Anzahl"
+        unique_id: sensor_geburtstage_heute_anzahl
+        icon: mdi:cake-variant
+        state: >
+          {% set start = as_datetime(state_attr('calendar.geburtstage_ha', 'start_time')) %}
+          {% if start and start.date() == now().date() %}
+            1
+          {% else %}
+            0
+          {% endif %}
+
+automation:
+  # -----------------------------------------------------------------------
+  # CALENDER SYNC
+  - id: "130806980043564"
+    alias: Geburtstags Termine sync – 60 Tage, ohne Duplikate, ganztägig
+    description: Kopiert Geburtstags-Termine von geburtstage nach geburtstage_ha, ohne Duplikate
+    trigger:
+      - trigger: time
+        at: "01:00:00"
+    actions:
+      # 1) Termine aus dem QUELL-Kalender (geburtstage) holen
+      - action: calendar.get_events
+        target:
+          entity_id: calendar.geburtstage
+        data:
+          duration:
+            days: 60 # <<< HIER TAGE EINTRAGEN
+        response_variable: quelle
+      # 2) Termine aus dem ZIEL-Kalender (geburtstage_ha) holen
+      - action: calendar.get_events
+        target:
+          entity_id: calendar.geburtstage_ha
+        data:
+          duration:
+            days: 60 # <<< HIER TAGE EINTRAGEN
+        response_variable: ziel
+      # 3) Variablen setzen
+      - variables:
+          source_events: "{{ quelle['calendar.geburtstage']['events'] }}"
+          target_events: "{{ ziel['calendar.geburtstage_ha']['events'] }}"
+      # 4) Jeden Quell-Termin prüfen und ggf. als ganztägigen Termin anlegen
+      - repeat:
+          for_each: "{{ source_events }}"
+          sequence:
+            - variables:
+                exists: >
+                  {% set src_date = as_datetime(repeat.item.start).date() %}
+                  {% set src_summary = repeat.item.summary %}
+                  {% set ns = namespace(found=false) %}
+                  {% for ev in target_events %}
+                    {% set tgt_date = as_datetime(ev.start).date() %}
+                    {% if ev.summary == src_summary and tgt_date == src_date %}
+                      {% set ns.found = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {{ ns.found }}
+            - if:
+                - condition: template
+                  value_template: "{{ not exists }}"
+              then:
+                - action: calendar.create_event
+                  target:
+                    entity_id: calendar.geburtstage_ha
+                  data:
+                    summary: "{{ repeat.item.summary }}"
+                    description: "{{ repeat.item.description | default('', true) }}"
+                    location: "{{ repeat.item.location | default('', true) }}"
+                    start_date: "{{ as_datetime(repeat.item.start).date() }}"
+                    end_date: "{{ (as_datetime(repeat.item.start) + timedelta(days=1)).date() }}"
+    mode: single

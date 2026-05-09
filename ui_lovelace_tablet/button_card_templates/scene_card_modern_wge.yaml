@@ -1,0 +1,148 @@
+scene_card_modern_wge:
+  show_icon: true
+  show_state: true
+  show_name: true
+  show_label: false
+  size: 32px
+
+  variables:
+    desc:
+    card_color: "255,209,102"
+
+  custom_fields:
+    desc: |
+      [[[
+        return variables.desc || "";
+      ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "i s"
+          "n n"
+          "desc desc"
+      - grid-template-columns: 1fr min-content
+      - grid-template-rows: min-content min-content 1fr
+      - row-gap: 6px
+
+    card:
+      - height: 150px
+      - padding: 18px
+      - border-radius: 22px
+      - position: relative
+      - overflow: hidden
+      - border: none
+      - background: >
+          [[[
+            const active = entity?.state === "on";
+            const color = variables.card_color || "255,209,102";
+
+            return active
+              ? `
+                linear-gradient(
+                  145deg,
+                  rgba(${color},0.32),
+                  rgba(${color},0.10)
+                ),
+                var(--ha-card-background)
+              `
+              : "var(--ha-card-background)";
+          ]]]
+
+    icon:
+      - justify-self: start
+      - align-self: start
+      - width: 32px
+      - color: >
+          [[[
+            const color = variables.card_color || "255,209,102";
+            return entity?.state === "on"
+              ? `rgba(${color},1)`
+              : "var(--secondary-text-color)";
+          ]]]
+      - z-index: 2
+
+    img_cell:
+      - justify-self: start
+      - align-self: start
+      - width: 36px
+      - height: 36px
+      - border-radius: 14px
+      - background: >
+          [[[
+            return entity?.state === "on"
+              ? "rgba(255,255,255,0.14)"
+              : "rgba(0,0,0,0.08)";
+          ]]]
+      - z-index: 2
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - font-size: var(--card-font-size-primary)
+      - font-weight: var(--card-font-weight-primary)
+      - color: var(--primary-text-color)
+      - z-index: 2
+
+    state:
+      - justify-self: end
+      - align-self: start
+      - text-transform: uppercase
+      - font-size: 10px
+      - font-weight: 800
+      - letter-spacing: 0.6px
+      - color: var(--secondary-text-color)
+      - z-index: 2
+
+    custom_fields:
+      desc:
+        - justify-self: start
+        - align-self: start
+        - text-align: left
+        - width: 100%
+        - font-size: 13px
+        - line-height: 17px
+        - font-weight: 600
+        - color: var(--secondary-text-color)
+        - white-space: normal
+        - overflow: hidden
+        - z-index: 2
+
+  state:
+    - value: "on"
+      state_display: "Aktiv"
+
+    - value: "off"
+      state_display: "Aus"
+
+    - value: "unavailable"
+      state_display: "Unknown"
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+        icon:
+          - color: var(--secondary-text-color)
+
+  tap_action:
+    action: toggle
+
+  hold_action:
+    action: more-info
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.25s ease,
+        background 0.35s ease;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }

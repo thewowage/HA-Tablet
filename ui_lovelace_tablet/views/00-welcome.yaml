@@ -1,0 +1,382 @@
+theme: Backend-selected
+title: Welcome
+path: welcome
+background: 0px / cover no-repeat fixed var(--welcome-screen-img-bg)
+subview: false
+type: custom:grid-layout
+layout:
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr 24px
+  grid-template-rows: auto
+  grid-gap: 16px
+  grid-template-areas: |
+    "side_menu chips chips chips chips ."
+    "side_menu we_st we_st we_st we_gu ."
+    "side_menu wk_p1 wk_p1 wk_p2 wk_p2 ."
+    "side_menu wk_p3 wk_p3 wk_p4 wk_p4 ."
+    "side_menu wk_p5 wk_p5 wk_p6 wk_p6 ."
+    "side_menu wk_p7 wk_p7 wk_p8 wk_p8 ."
+badges:
+cards:
+  - !include /config/ui_lovelace_tablet/cards/chips_card.yaml
+  # MENÜ
+  - !include /config/ui_lovelace_tablet/cards/side_menu.yaml
+
+    #alignment: end
+    #card_mod:
+    #  style: |
+    #    ha-card {
+    #      margin-top: 40px;
+    #    }
+    #view_layout:
+    #  grid-area: we_cp
+
+  - type: custom:mod-card
+    card_mod:
+      style: |
+        ha-card {
+          height: calc(100vh - 235px);
+          margin-top: 15px;
+          display: flex;
+          align-items: center;
+          background: transparent;
+          border: 0px;
+        }
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          template: welcome_greeting
+
+        - type: custom:button-card
+          template: welcome_time
+
+        - type: custom:button-card
+          template: welcome_date
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: media_player.apple_tv_wohnzimmer
+              state_not: playing
+            - condition: state
+              entity: media_player.kinderzimmer
+              state_not: playing
+            - condition: state
+              entity: input_boolean.cinema_mode_aktiviert
+              state: "off"
+            - condition: state
+              entity: input_boolean.guten_morgen_mode_aktiviert
+              state: "off"
+          card:
+            type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: welcome_view_button_apple
+                entity: input_boolean.cinema_mode_aktiviert
+                icon: fapro:play
+                name: Cinema Mode
+                tap_action:
+                  action: call-service
+                  service: input_boolean.toggle
+                  service_data:
+                    entity_id: input_boolean.cinema_mode_aktiviert
+                
+              - type: custom:button-card
+                template: welcome_view_button_apple
+                entity: script.tts_morning_briefing
+                icon: fapro:issue-draft
+                name: Briefing
+                tap_action:
+                  action: call-service
+                  service: script.tts_morning_briefing
+
+              - type: custom:button-card
+                template: welcome_view_button_apple
+                entity: input_select.haus_modi
+                icon: fapro:shield
+                name: Gute Nacht
+                tap_action:
+                  action: call-service
+                  service: input_select.select_option
+                  service_data:
+                    entity_id: input_select.haus_modi
+                    option: Nacht
+
+              - type: custom:button-card
+                template: welcome_view_button_apple
+                icon: fapro:sun
+                name: Guten Morgen
+                tap_action:
+                  action: call-service
+                  service: input_boolean.toggle
+                  service_data:
+                    entity_id: input_boolean.guten_morgen_mode_aktiviert
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: media_player.apple_tv_wohnzimmer
+              state: playing
+            - condition: state
+              entity: media_player.kinderzimmer
+              state_not: playing
+            - condition: state
+              entity: input_boolean.cinema_mode_aktiviert
+              state: "off"
+          card:
+            type: custom:mini-media-player
+            entity: media_player.apple_tv_wohnzimmer
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none !important;
+                  background: transparent;
+                  border: 0px;
+                  transition: none;
+                  border-radius: 4px;
+                  max-width: 400px;
+                }
+                .mmp__bg {
+                  background: var(--welcome-card-background) !important;
+                }
+            hide:
+              volume: true
+              source: true
+              power: true
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: media_player.kinderzimmer
+              state: playing
+            - condition: state
+              entity: media_player.apple_tv_wohnzimmer
+              state_not: playing
+          card:
+            type: custom:mini-media-player
+            entity: media_player.kinderzimmer
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none !important;
+                  background: transparent;
+                  border: 0px;
+                  transition: none;
+                  border-radius: 4px;
+                  max-width: {% if is_state('input_boolean.guten_morgen_mode_aktiviert','on') %}400px{% else %}350px{% endif %} !important;
+                }
+                .mmp__bg {
+                  background: var(--welcome-card-background) !important;
+                }
+            hide:
+              volume: true
+              source: true
+              power: true
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: media_player.apple_tv_wohnzimmer
+              state: playing
+            - condition: state
+              entity: media_player.kinderzimmer
+              state: playing
+          card:
+            type: custom:button-card
+            template: welcome_view_media_double
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: media_player.apple_tv_wohnzimmer
+              state: playing
+            - condition: state
+              entity: input_boolean.cinema_mode_aktiviert
+              state: "on"
+          card:
+            type: custom:button-card
+            template: welcome_view_media_cinema_mode
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: input_boolean.stressless_mode_aktiviert
+              state: "on"
+          card:
+            type: custom:mushroom-entity-card
+            entity: input_boolean.stressless_mode_aktiviert
+            tap_action:
+              action: toggle
+            icon: fapro:saxophone
+            icon_color: teal
+            name: Stressless Mode
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none !important;
+                  background: var(--welcome-card-background) !important;
+                  border: 0px;
+                  transition: none;
+                  max-width: 350px !important;
+                }
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: input_boolean.guten_morgen_mode_aktiviert
+              state: "on"
+          card:
+            type: custom:button-card
+            template: guten_morgen_card_apple
+
+        - type: conditional
+          conditions:
+            - condition: state
+              entity: input_boolean.cinema_mode_aktiviert
+              state: "on"
+              entity: media_player.apple_tv_wohnzimmer
+              state_not: playing
+          card:
+            type: custom:mod-card
+            card_mod:
+              style: |
+                ha-card {
+                max-width: 350px !important
+                }
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:mushroom-entity-card
+                  entity: input_boolean.cinema_mode_aktiviert
+                  tap_action:
+                    action: toggle
+                  icon: phu:jiocinema
+                  icon_color: teal
+                  name: Cinema Mode
+                  card_mod:
+                    style: |
+                      ha-card {
+                        box-shadow: none !important;
+                        background: var(--welcome-card-background) !important;
+                        border: 0;
+                        transition: none;
+                        max-width: 350px !important;
+                      }
+                #- type: horizontal-stack
+                #  cards:
+                #    - type: custom:button-card
+                #      template: script_card
+                #      tap_action:
+                #        action: call-service
+                #        service: script.turn_on
+                #        data:
+                #          entity_id: script.wohnzimmer_vorhang_hund
+                #      icon: fapro:curtain
+                #      layout: icon_name
+                #      name: Hund
+                #      card_mod:
+                #        style: |
+                #          ha-card {
+                #            box-shadow: none !important;
+                #            background: var(--welcome-card-background) !important;
+                #            border: 0;
+                #            transition: none;
+                #          }
+                #    - type: custom:button-card
+                #      template: script_card
+                #      tap_action:
+                #        action: call-service
+                #        service: script.turn_on
+                #        data:
+                #          entity_id: script.wohnzimmer_vorhang_cinema_mode
+                #      icon: fapro:curtain
+                #      layout: icon_name
+                #      name: Cinema
+                #      card_mod:
+                #        style: |
+                #          ha-card {
+                #            box-shadow: none !important;
+                #            background: var(--welcome-card-background) !important;
+                #            border: 0;
+                #            transition: none;
+                #            padding-right: 0px !important:
+                #          }
+
+    view_layout:
+      grid-area: we_st
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: header_card_small_center
+        view_layout:
+          grid-area: home_h
+        name: Gäste WIFI
+      - type: conditional
+        conditions:
+          - entity: input_boolean.gaestemodus
+            state: "on"
+        card:
+          type: custom:mod-card
+          card:
+            type: custom:vertical-stack-in-card
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: picture
+                    image: /local/unifi_guest_wifi.png
+                    card_mod:
+                      style: |
+                        ha-card { 
+                          box-shadow: none;
+                          border-width: var(--ha-card-border-width, 0px);
+                          background: transparent;
+                          width: 75%;
+                          height: 75%;
+                          border-radius: none;
+                          margin-left: 25px;
+                        }
+                        ha-card > img {
+                          margin-top: 15px;
+                          border-radius: 10px;
+                        }
+            card_mod:
+              style: |
+                ha-card { 
+                  box-shadow: none;
+                  border-width: var(--ha-card-border-width, 0px);
+                  background: transparent;
+                  margin: 0px 10px 0px 10px;
+                }
+          card_mod:
+            style: |
+              ha-card { 
+                box-shadow: none;
+                border-width: var(--ha-card-border-width, 0px);
+                background: transparent;
+                margin: 0px 10px 0px 10px;
+              }
+    visibility:
+      - entity: input_boolean.gaestemodus
+        state: "on"
+    view_layout:
+      grid-area: we_gu
+
+  - type: custom:popup-card
+    entity: sensor.geburtstage_heute
+    dismissable: true
+    card:
+      type: custom:calendar-card-pro
+      language: de
+      time_24h: true
+      entities:
+        - entity: calendar.geburtstage_ha
+          accent_color: "#D9BE8B"
+      days_to_show: 365
+      compact_events_to_show: 10
+      show_location: false
+      show_month: true
+    title: Kalender
+    size: fullscreen
+    view_layout:
+      grid-area: wk_p7

@@ -1,0 +1,236 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# HOMEKIT INTEGRATION
+homekit:
+  # Filters for entities to be included / excluded from HomeKit.
+  - ip_address: !secret host
+    filter:
+      include_entities:
+        # ----------------------------------------------------------------------
+        # ALARM CONTROL PANEL
+        - alarm_control_panel.home_alarm
+
+        # ----------------------------------------------------------------------
+        # RING INTERCOM
+        #- button.haustur_tur_offnen
+
+        # ----------------------------------------------------------------------
+        # NUKI
+        - button.wohnungstur_unlatch
+
+        # ----------------------------------------------------------------------
+        # TEMPERATURE SENSORS
+        - sensor.attic_temperature
+        #- sensor.bedroom_temperature
+        #- sensor.cellar_temperature
+        - sensor.multisensor_badezimmer_temperatur
+        - sensor.multisensor_kinderzimmer_temperatur
+        - sensor.multisensor_kuche_temperatur
+        - sensor.multisensor_wohnzimmer_temperatur
+
+        # ----------------------------------------------------------------------
+        # HUMIDITY SENSORS
+        - sensor.attic_humidity
+        #- sensor.bedroom_humidity
+        #- sensor.cellar_humidity
+        - sensor.multisensor_badezimmer_luftfeuchtigkeit
+        - sensor.multisensor_kinderzimmer_luftfeuchtigkeit
+        - sensor.multisensor_kuche_luftfeuchtigkeit
+        - sensor.multisensor_wohnzimmer_luftfeuchtigkeit
+
+        # ----------------------------------------------------------------------
+        # DOOR - WINDOW SENSORS
+        - binary_sensor.eingangstur_offnung
+        - binary_sensor.fenster_schlafzimmer_offnung
+        - binary_sensor.fenster_kinderzimmer_offnung
+        - binary_sensor.fenster_kuche_offnung
+        - binary_sensor.esp32_storerroom_kitchen_abstellkammer_links
+        - binary_sensor.esp32_storerroom_kitchen_abstellkammer_rechts
+        - binary_sensor.contact_sensor_b4d0
+
+        # ----------------------------------------------------------------------
+        # WATER LEAK SENSORS
+        - binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
+
+        # ----------------------------------------------------------------------
+        # LIGHT
+        - switch.light_attic
+        - switch.shellyplus1pm_345f451fdd88_switch_0
+        - switch.light_storageroom
+
+        # ----------------------------------------------------------------------
+        # CHRISTMAS
+        - light.little_xmas_tree
+        - light.twinkly_f68a51
+        #- light.smart_curtain_lights
+        #- switch.gosund_sp112_socket
+
+        # ----------------------------------------------------------------------
+        # AIR CKEANER
+        - fan.wohnzimmer
+        - fan.luftreiniger_wohnzimmer
+
+        # ----------------------------------------------------------------------
+        # SWITCHES
+        - switch.gosund_sp111_steckdose_verteiler
+        - switch.shellyplusplugs_e465b8b49ef4_switch_0
+        - switch.gosund_sp112_bedroom
+        - switch.gosund_sp112_bedroom_usb
+        - switch.gosund_sp111_desk
+        - switch.gosund_sp112_nursery
+        - switch.gosund_sp112_nursery_usb
+        - switch.shellyazplug_5432046783f8_switch_0
+        #- switch.steckdose_nebenraum
+        - switch.shellyplugsg3_8cbfeaa147dc
+        - switch.shellyplug_s_b49a1d
+        - switch.steckdosenleiste_kinderzimmer_stecker1
+        - switch.steckdosenleiste_kinderzimmer_stecker2
+        - switch.steckdosenleiste_kinderzimmer_stecker3
+        - switch.steckdosenleiste_kinderzimmer_usb
+
+    entity_config:
+      # ----------------------------------------------------------------------
+      # ALARM CONTROL PANEL
+      alarm_control_panel.home_alarm:
+        name: Home Alarm
+        code: !secret code_alarm_panel
+
+      # ----------------------------------------------------------------------
+      # RING INTERCOM
+      #button.haustur_tur_offnen:
+      #  name: Haustür
+
+      # ----------------------------------------------------------------------
+      # NUKI
+      button.wohnungstur_unlatch:
+        name: Wohnungstür
+
+      # ------------------------------------------------------------------------
+      # TEMPERATURE SENSORS
+      sensor.attic_temperature:
+        name: Temperatur Dachboden
+      #sensor.cellar_temperature:
+      #  name: Temperatur Keller
+      sensor.multisensorbadezimmer_temperatur:
+        name: Temperatur Badezimmer
+      sensor.multisensor_kinderzimmer_temperatur:
+        name: Temperatur Kinderzimmer
+      sensor.multisensor_kuche_temperatur:
+        name: Temperatur Küche
+      sensor.multisensor_wohnzimmer_temperatur:
+        name: Temperatur Wohnzimmer
+
+      # ------------------------------------------------------------------------
+      # HUMIDITY SENSORS
+      sensor.attic_humidity:
+        name: Luftfeuchtigkeit Dachboden
+      #sensor.cellar_humidity:
+      #  name: Luftfeuchtigkeit Keller
+      sensor.multisensor_badezimmer_luftfeuchtigkeit:
+        name: Luftfeuchtigkeit Badezimmer
+      sensor.multisensor_kinderzimmer_luftfeuchtigkeit:
+        name: Luftfeuchtigkeit Kinderzimmer
+      sensor.multisensor_kuche_luftfeuchtigkeit:
+        name: Luftfeuchtigkeit Küche
+      sensor.multisensor_wohnzimmer_luftfeuchtigkeit:
+        name: Luftfeuchtigkeit Wohnzimmer
+
+      # ------------------------------------------------------------------------
+      # DOOR - WINDOW SENSORS
+      binary_sensor.eingangstur_offnung:
+        name: Wohnungstür
+      binary_sensor.fenster_schlafzimmer_offnung:
+        name: Fenster Schlafzimmer
+      binary_sensor.fenster_kinderzimmer_offnung:
+        name: Fenster Kinderzimmer
+      binary_sensor.fenster_kuche_offnung:
+        name: Fenster Küche
+      binary_sensor.esp32_storerroom_kitchen_abstellkammer_links:
+        name: Tür links Abstellkammer
+      binary_sensor.esp32_storerroom_kitchen_abstellkammer_rechts:
+        name: Tür rechts Abstellkammer
+      binary_sensor.contact_sensor_b4d0:
+        name: Fenster Abstellkammer
+
+      # ------------------------------------------------------------------------
+      # WATER LEAK SENSORS
+      binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit:
+        name: Wassersensor
+
+      # ------------------------------------------------------------------------
+      # LIGHT
+      switch.light_attic:
+        name: Licht
+      switch.shellyplus1pm_345f451fdd88_switch_0:
+        name: Licht
+      switch.light_storageroom:
+        name: Nebenraum
+
+      # ------------------------------------------------------------------------
+      # CHRISTMAS
+      light.little_xmas_tree:
+        name: Mini X-Mas Baum
+      light.twinkly_f68a51:
+        name: Tannenbaum
+      #light.smart_curtain_lights:
+      #  name: LED Vorhang Wohnzimmer
+      #switch.gosund_sp112_socket:
+      #  name: Weihnachtsb. Treppenhaus
+
+      # ----------------------------------------------------------------------
+      # AIR CKEANER
+      fan.wohnzimmer:
+        name: Luftreiniger Wohnzimmer
+        type: air_purifier
+        linked_filter_life_level_sensor: sensor.wohnzimmer_nanoprotect_filter
+      fan.luftreiniger_wohnzimmer:
+        name: Luftreiniger Schlafzimmer
+        type: air_purifier
+        linked_filter_life_level_sensor: sensor.luftreiniger_wohnzimmer_lebensdauer_des_filters
+
+      # ------------------------------------------------------------------------
+      # SWITCHES
+      switch.gosund_sp111_steckdose_verteiler:
+        name: Verteiler Steckdose
+        type: outlet
+      switch.shellyplusplugs_e465b8b49ef4_switch_0:
+        name: Couch Steckdose
+        type: outlet
+      switch.gosund_sp112_bedroom:
+        name: Nachttisch Steckdose
+        type: outlet
+      switch.gosund_sp112_bedroom_usb:
+        name: USB Nachttisch
+        type: outlet
+      switch.gosund_sp111_desk:
+        name: Verteiler Steckdose
+        type: outlet
+      switch.shellyazplug_5432046783f8_switch_0:
+        name: Steckdose
+        type: outlet
+      switch.gosund_sp112_nursery:
+        name: Bad Steckdose
+        type: outlet
+      switch.gosund_sp112_nursery_usb:
+        name: Bad USB
+        type: outlet
+      #switch.steckdose_nebenraum:
+      #  name: Steckdose Nebenraum
+      #  type: outlet
+      switch.shellyplugsg3_8cbfeaa147dc:
+        name: Staubsauger
+        type: outlet
+      switch.shellyplug_s_b49a1d:
+        name: 3D Drucker
+        type: outlet
+      switch.steckdosenleiste_kinderzimmer_stecker1:
+        name: Tisch Stecker 1
+        type: outlet
+      switch.steckdosenleiste_kinderzimmer_stecker2:
+        name: Tisch Stecker 2
+        type: outlet
+      switch.steckdosenleiste_kinderzimmer_stecker3:
+        name: Tisch Stecker 3
+        type: outlet
+      switch.steckdosenleiste_kinderzimmer_usb:
+        name: Tisch USB
+        type: outlet

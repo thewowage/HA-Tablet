@@ -1,0 +1,170 @@
+room_input_card_modern_wge:
+  show_state: false
+  show_icon: false
+
+  variables:
+    input_select: input_select.dashboard_auswahl
+    option: home
+    room_color: "255,209,102"
+
+  custom_fields:
+    indicator: |
+      [[[
+        const selected = states[variables.input_select]?.state === variables.option;
+        if (!selected) return "";
+        return `<div class="active-indicator"></div>`;
+      ]]]
+
+    light_badge: |
+      [[[
+        const entities = variables.entities || [];
+        const lightsOn = entities.some(e =>
+          e.startsWith("light.") && states[e]?.state === "on"
+        );
+        if (!lightsOn) return "";
+        return `<div class="badge-dot light"></div>`;
+      ]]]
+
+    device_badge: |
+      [[[
+        const entities = variables.entities || [];
+        const devicesOn = entities.some(e => {
+          const s = states[e]?.state;
+          return !e.startsWith("light.") &&
+            ["on", "playing", "heating", "cooling"].includes(s);
+        });
+        if (!devicesOn) return "";
+        return `<div class="badge-dot device"></div>`;
+      ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "n"
+      - grid-template-columns: 1fr
+
+    card:
+      - padding: 14px
+      - height: 60px
+      - border-radius: 22px
+      - position: relative
+      - overflow: visible
+      - border: none
+      - background: >
+          [[[
+            const entities = variables.entities || [];
+
+            const light = entities.find(e =>
+              e.startsWith("light.") &&
+              states[e]?.state === "on" &&
+              states[e]?.attributes?.rgb_color
+            );
+
+            let color = variables.room_color || "255,209,102";
+            if (light) color = states[light].attributes.rgb_color.join(",");
+
+            const selected = states[variables.input_select]?.state === variables.option;
+
+            return selected
+              ? `
+                linear-gradient(
+                  145deg,
+                  rgba(${color},0.34),
+                  rgba(${color},0.12)
+                ),
+                var(--ha-card-background)
+              `
+              : "var(--ha-card-background)";
+          ]]]
+
+
+    name:
+      - justify-self: center
+      - align-self: center
+      - text-align: center
+      - color: var(--primary-text-color)
+      - font-size: var(--card-font-size-primary)
+      - font-weight: 700
+      - z-index: 2
+
+    custom_fields:
+      indicator:
+        - position: absolute
+        - left: 50%
+        - bottom: -6px
+        - transform: translateX(-50%)
+        - z-index: 30
+
+      light_badge:
+        - position: absolute
+        - top: 8px
+        - right: >
+            [[[
+              const entities = variables.entities || [];
+              const devicesOn = entities.some(e => {
+                const s = states[e]?.state;
+                return !e.startsWith("light.") &&
+                  ["on", "playing", "heating", "cooling"].includes(s);
+              });
+
+              return devicesOn ? "20px" : "12px";
+            ]]]
+        - z-index: 20
+
+      device_badge:
+        - position: absolute
+        - top: 8px
+        - right: 12px
+        - z-index: 20
+
+  tap_action:
+    action: call-service
+    service: input_select.select_option
+    service_data:
+      entity_id: "[[[ return variables.input_select ]]]"
+      option: "[[[ return variables.option ]]]"
+
+  extra_styles: |
+    ha-card {
+      border-radius: 22px !important;
+      overflow: visible !important;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.25s ease,
+        background 0.35s ease;
+    }
+
+    .button-card-main {
+      border-radius: 22px !important;
+      overflow: hidden !important;
+    }
+
+    ha-card:active {
+      transform: scale(0.97);
+    }
+
+    .active-indicator {
+      width: 18px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--primary-text-color);
+      opacity: 0.95;
+      box-shadow: 0 0 10px rgba(255,255,255,0.45);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .badge-dot.light {
+      background: rgba(255,209,102,0.95);
+      box-shadow: 0 0 8px rgba(255,209,102,0.55);
+    }
+
+    .badge-dot.device {
+      background: rgba(120,180,255,0.95);
+      box-shadow: 0 0 8px rgba(120,180,255,0.50);
+    }
