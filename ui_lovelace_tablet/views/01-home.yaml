@@ -391,7 +391,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.multisensor_schlafzimmer_temperatur
             variables:
               label_icon: celsius
@@ -401,7 +400,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.multisensor_schlafzimmer_luftfeuchtigkeit
             variables:
               label_icon: percent
@@ -424,8 +422,9 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Schimmel
-            icon: fapro:humidity
             entity: sensor.schimmel_indikator_schlafzimmer
+            variables:
+              label_icon: percent
             view_layout:
               grid-area: sz_schimmel
 
@@ -536,7 +535,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.multisensor_kinderzimmer_luftfeuchtigkeit
             variables:
               label_icon: percent
@@ -546,7 +544,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Schimmel
-            icon: fapro:humidity
             entity: sensor.schimmel_indikator_kinderzimmer
             variables:
               label_icon: percent
