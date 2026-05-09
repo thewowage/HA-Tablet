@@ -1,4 +1,4 @@
-switch_card_modern_wge:
+switch_card_modern_group_wge:
   template:
     - responsive_card_base
 
