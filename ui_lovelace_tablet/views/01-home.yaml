@@ -506,7 +506,7 @@ cards:
               grid-area: kz_media
 
           - type: "custom:button-card"
-            entity: group.nursery_socket_desk
+            entity: group.switch_card_modern_group_wge
             template: switch_card_modern_wge
             name: Tisch 1
             icon: fapro:plug
