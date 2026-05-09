@@ -86,7 +86,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.average_home_temperature
             variables:
               show_graph: false
@@ -100,7 +99,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.average_home_humidity
             variables:
               label_icon: percent
