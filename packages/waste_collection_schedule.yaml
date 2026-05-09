@@ -4,10 +4,10 @@ waste_collection_schedule:
   sources:
     - name: awido_de
       args:
-        customer: fulda-stadt
-        city: Fulda
-        street: Künzeller Straße
-        housenumber: 66-133
+        customer: !secret customer_value
+        city: !secret city_value
+        street: !secret street_value
+        housenumber: !secret housenumber_value
       customize:
         - type: Restmüll grün 4-wöchentlich
           alias: Restmüll
