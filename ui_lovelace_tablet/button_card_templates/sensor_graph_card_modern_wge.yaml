@@ -23,7 +23,7 @@ sensor_graph_card_modern_wge:
       if (variables.label_icon === "lux") return "fapro:sun";
       if (variables.label_icon === "on_off") {
         if (value === "on") return "fapro:water-alert";
-        if (value === "off") return "AUS";
+        if (value === "off") return "fapro:water-check";
         return value;
       }
 
