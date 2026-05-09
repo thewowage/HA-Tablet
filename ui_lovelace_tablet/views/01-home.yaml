@@ -512,6 +512,9 @@ cards:
             icon: fapro:plug
             view_layout:
               grid-area: kz_switch_group
+              switch_1: switch.steckdosenleiste_kinderzimmer_stecker1
+              switch_2: switch.steckdosenleiste_kinderzimmer_stecker2
+              switch_3: switch.steckdosenleiste_kinderzimmer_stecker3
 
           - type: "custom:button-card"
             entity: switch.steckdosenleiste_kinderzimmer_stecker1
