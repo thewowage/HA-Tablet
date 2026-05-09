@@ -625,7 +625,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Luftfeuchtigkeit
-            icon: fapro:humidity
             entity: sensor.multisensor_kuche_luftfeuchtigkeit
             variables:
               label_icon: percent
@@ -635,7 +634,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Schimmel
-            icon: fapro:humidity
             entity: sensor.schimmel_indikator_kuche
             variables:
               label_icon: percent
