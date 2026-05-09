@@ -142,8 +142,8 @@ switch_card_modern_group_wge:
               border-radius: 0 !important;
             }
 
-  tap_action:
-    action: more-info
-
   hold_action:
     action: toggle
+
+  tap_action:
+    action: more-info
