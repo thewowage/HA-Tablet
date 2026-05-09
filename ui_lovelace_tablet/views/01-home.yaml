@@ -615,7 +615,6 @@ cards:
           - type: custom:button-card
             template: sensor_graph_card_modern_wge
             name: Temperatur
-            icon: fapro:thermometer
             entity: sensor.multisensor_kuche_temperatur
             variables:
               label_icon: celsius
