@@ -109,11 +109,8 @@ sensor_graph_card_modern_wge:
         return {
           card: {
             type: "custom:mini-graph-card",
-            entities: [
-              {
-                entity: "[[[ return variables.graph_entity ]]]"
-              }
-            ],
+            entities:
+              - entity: "[[[ return variables.graph_entity ]]]"
             line_width: 2,
             line_color: `rgba(${variables.graph_color || variables.card_color || "120,180,255"},0.95)`,
             height: 45,
