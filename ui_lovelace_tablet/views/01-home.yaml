@@ -646,7 +646,7 @@ cards:
             template: sensor_graph_card_modern_wge
             name: Schimmel
             icon: fapro:humidity
-            entity: sensor.schimmel_indikator_kuche
+            entity: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
             variables:
               label_icon: percent
             view_layout:
