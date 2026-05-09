@@ -22,7 +22,7 @@ sensor_graph_card_modern_wge:
       if (variables.label_icon === "celsius") return fapro:thermometer;
       if (variables.label_icon === "lux") return fapro:sun;
       if (variables.label_icon === "on_off") {
-        if (value === "on") return "AN";
+        if (value === "on") return "fapro:water-alert";
         if (value === "off") return "AUS";
         return value;
       }
@@ -39,7 +39,7 @@ sensor_graph_card_modern_wge:
       if (variables.label_icon === "celsius") return value + '<sup style="font-size: 18px;"> °</sup>';
       if (variables.label_icon === "lux") return value + '<sup style="font-size: 16px;"> lx</sup>';
       if (variables.label_icon === "on_off") {
-        if (value === "on") return "fapro:water-alert";
+        if (value === "on") return "AN";
         if (value === "off") return "AUS";
         return value;
       }
