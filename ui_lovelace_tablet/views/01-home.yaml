@@ -648,7 +648,7 @@ cards:
             icon: fapro:humidity
             entity: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
             variables:
-              label_icon: percent
+              label_icon: on_off
             view_layout:
               grid-area: ku_wassersensor
 
