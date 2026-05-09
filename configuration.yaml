@@ -139,9 +139,6 @@ http:
   use_x_forwarded_for: true
 
   trusted_proxies:
-    - !secret
-    - !secret
-    - !secret
-    - 10.75.1.0/24
-    - 10.75.1.82
-    - 127.0.0.1
+    - !secret local_network
+    - !secret nas_networ
+    - !secret localhost
