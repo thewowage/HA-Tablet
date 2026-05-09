@@ -642,6 +642,16 @@ cards:
             view_layout:
               grid-area: ku_schimmel
 
+          - type: custom:button-card
+            template: sensor_graph_card_modern_wge
+            name: Schimmel
+            icon: fapro:humidity
+            entity: sensor.schimmel_indikator_kuche
+            variables:
+              label_icon: percent
+            view_layout:
+              grid-area: ku_wassersensor
+
       ################################################################################################
       ## FLUR/BAD
       flur_bad:
