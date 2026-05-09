@@ -4,10 +4,10 @@ waste_collection_schedule:
   sources:
     - name: awido_de
       args:
-        customer: !secret customer_value
-        city: !secret city_value
-        street: !secret street_value
-        housenumber: !secret housenumber_value
+        customer: !secret waste_customer_value
+        city: !secret waste_city_value
+        street: !secret waste_street_value
+        housenumber: !secret waste_housenumber_value
       customize:
         - type: Restmüll grün 4-wöchentlich
           alias: Restmüll
