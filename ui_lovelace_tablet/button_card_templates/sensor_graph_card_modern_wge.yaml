@@ -21,7 +21,7 @@ sensor_graph_card_modern_wge:
       if (variables.label_icon === "percent") return value + '<sup style="font-size: 18px;"> %</sup>';
       if (variables.label_icon === "celsius") return value + '<sup style="font-size: 18px;"> °</sup>';
       if (variables.label_icon === "lux") return value + '<sup style="font-size: 16px;"> lx</sup>';
-      if (variables.label_icon === "on_off") return value + '<sup style="font-size: 16px;"> lx</sup>';
+      if (variables.label_icon === "on_off") return value;
 
       return value;
     ]]]
