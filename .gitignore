@@ -52,6 +52,7 @@ custom_components/
 .cloud
 .google.token
 .vscode
+packages
 ui_lovelace_hacasa
 pyscript
 image
