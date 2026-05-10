@@ -207,3 +207,30 @@
     data:
       message: ALARM - Bewegung zu Hause registriert!
   mode: single
+- id: '1778409705716'
+  alias: Alarm - Auslöser - Armed Home
+  description: Auslösen, wenn Bewegung erkannt wird.
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.eingangstur_offnung
+    to: 'on'
+  - trigger: state
+    entity_id: binary_sensor.bewegungsmelder_treppenhaus_belegung
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_home
+  actions:
+  - delay: 00:00:05
+  - action: notify.mobile_app_wowa_iphone
+    data:
+      message: ALARM! Bewegung im Treppenhaus registriert!
+  - action: tts.google_translate_say
+    data:
+      entity_id: media_player.wohnzimmer
+      message: ALARM! Bewegung im Treppenhaus registriert!
+      language: de
+      cache: true
+    enabled: true
+  mode: single
