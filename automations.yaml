@@ -378,3 +378,19 @@
     data:
       message: ALARM! Wasserleck in der Küche registriert!
   mode: single
+- id: '1778410220926'
+  alias: Nachtlicht Kinderzimmer an
+  description: Ambiente um 22:00 Uhr als Nachtlicht einschalten.
+  triggers:
+  - trigger: time
+    at: '21:50:00'
+  conditions:
+  - condition: state
+    entity_id: input_boolean.night_light_nursery
+    state: 'on'
+  actions:
+  - action: light.turn_on
+    data:
+      entity_id: light.ambiente_rgb
+      brightness_pct: 8
+  mode: single
