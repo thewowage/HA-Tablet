@@ -234,3 +234,52 @@
       cache: true
     enabled: true
   mode: single
+- id: '1778409786662'
+  alias: AWIDO Termine sync – 100 Tage, ohne Duplikate, ganztägig
+  description: Kopiert AWIDO-Termine von awido_online nach awido, ohne Duplikate
+  triggers:
+  - trigger: time
+    at: 01:00:00
+  conditions: []
+  actions:
+  - action: calendar.get_events
+    target:
+      entity_id: calendar.awido_online
+    data:
+      duration:
+        days: 100
+    response_variable: quelle
+  - action: calendar.get_events
+    target:
+      entity_id: calendar.awido
+    data:
+      duration:
+        days: 100
+    response_variable: ziel
+  - variables:
+      source_events: '{{ quelle[''calendar.awido_online''][''events''] }}'
+      target_events: '{{ ziel[''calendar.awido''][''events''] }}'
+  - repeat:
+      for_each: '{{ source_events }}'
+      sequence:
+      - variables:
+          exists: "{% set src_date = as_datetime(repeat.item.start).date() %} {% set
+            src_summary = repeat.item.summary %} {% set ns = namespace(found=false)
+            %} {% for ev in target_events %}\n  {% set tgt_date = as_datetime(ev.start).date()
+            %}\n  {% if ev.summary == src_summary and tgt_date == src_date %}\n    {%
+            set ns.found = true %}\n  {% endif %}\n{% endfor %} {{ ns.found }}\n"
+      - if:
+        - condition: template
+          value_template: '{{ not exists }}'
+        then:
+        - action: calendar.create_event
+          target:
+            entity_id: calendar.awido
+          data:
+            summary: '{{ repeat.item.summary }}'
+            description: '{{ repeat.item.description | default('''', true) }}'
+            location: '{{ repeat.item.location | default('''', true) }}'
+            start_date: '{{ as_datetime(repeat.item.start).date() }}'
+            end_date: '{{ (as_datetime(repeat.item.start) + timedelta(days=1)).date()
+              }}'
+  mode: single
