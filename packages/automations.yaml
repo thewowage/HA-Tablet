@@ -1,59 +1,5 @@
 automation:
 
-  ## DACH / NEBENRAUM / KELLER ############################################
-  #########################################################################
-
-  # -----------------------------------------------------------------------
-  # LICHT DACHBODEN NACH EINER STDUNDE AUSSCHALTEN
-  - id: "161308069100989"
-    alias: Licht Dachboden ausschalten
-    description: Licht Dachboden nach 30 Minuten ausschalten
-    triggers:
-      - trigger: state
-        entity_id: switch.light_attic
-        from: "off"
-        to: "on"
-        for: "00:30:00"
-    condition: []
-    actions:
-      - action: switch.turn_off
-        entity_id: switch.light_attic
-    mode: single
-
-  # -----------------------------------------------------------------------
-  # LICHT NEBENRAUM NACH EINER STDUNDE AUSSCHALTEN
-  - id: "16130806910089"
-    alias: Licht Nebenraum ausschalten
-    description: Licht Nebenraum nach 30 Minuten ausschalten
-    triggers:
-      - trigger: state
-        entity_id: switch.light_storageroom
-        from: "off"
-        to: "on"
-        for: "00:30:00"
-    condition: []
-    actions:
-      - action: switch.turn_off
-        entity_id: switch.light_storageroom
-    mode: single
-
-  # -----------------------------------------------------------------------
-  # LICHT KELLER NACH EINER HALBEN STDUNDE AUSSCHALTEN
-  - id: "16130806910090"
-    alias: Licht Keller ausschalten
-    description: Licht Keller nach 30 Minuten ausschalten
-    triggers:
-      - trigger: state
-        entity_id: switch.shellyplus1pm_345f451fdd88_switch_0
-        from: "off"
-        to: "on"
-        for: "00:30:00"
-    condition: []
-    actions:
-      - action: switch.turn_off
-        entity_id: switch.shellyplus1pm_345f451fdd88_switch_0
-    mode: single
-
   ## NOTIFICATION #########################################################
   #########################################################################
 
