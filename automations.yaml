@@ -551,3 +551,17 @@
   - action: switch.turn_off
     entity_id: switch.light_storageroom
   mode: single
+- id: '1778410507056'
+  alias: Licht Keller ausschalten
+  description: Licht Keller nach 30 Minuten ausschalten
+  triggers:
+  - trigger: state
+    entity_id: switch.shellyplus1pm_345f451fdd88_switch_0
+    from: 'off'
+    to: 'on'
+    for: 00:30:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    entity_id: switch.shellyplus1pm_345f451fdd88_switch_0
+  mode: single
