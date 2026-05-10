@@ -455,3 +455,71 @@
     data:
       entity_id: input_boolean.flurlicht_manual_helper
   mode: single
+- id: '1778410442888'
+  alias: Philips Hue Flur Motion
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+    from: 'off'
+    to: 'on'
+  - trigger: state
+    entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+    from: 'on'
+    to: 'off'
+    for: 20
+  - trigger: state
+    entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+    from: 'on'
+    to: 'off'
+    for: 40
+  conditions:
+  - condition: or
+    conditions:
+    - condition: sun
+      after: sunset
+      after_offset: +00:10:00
+    - condition: sun
+      before: sunrise
+      before_offset: -00:10:00
+  - condition: state
+    entity_id: input_boolean.flurlicht_manual_helper
+    state: 'off'
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.state == ''on'' }}'
+      - condition: template
+        value_template: '{{ is_state(''light.deckenlicht_flur'', ''off'') }}'
+      sequence:
+      - action: light.turn_on
+        target:
+          entity_id: light.deckenlicht_flur
+        data:
+          brightness_pct: 15
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.state == ''off'' }}'
+      - condition: template
+        value_template: '{{ trigger.for.seconds == 20 }}'
+      - condition: template
+        value_template: '{{ is_state(''light.deckenlicht_flur'', ''on'') }}'
+      sequence:
+      - action: light.turn_on
+        target:
+          entity_id: light.deckenlicht_flur
+        data:
+          brightness_pct: 5
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.to_state.state == ''off'' }}'
+      - condition: template
+        value_template: '{{ trigger.for.seconds == 40 }}'
+      - condition: template
+        value_template: '{{ is_state(''light.deckenlicht_flur'', ''on'') }}'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.deckenlicht_flur
+  mode: restart
