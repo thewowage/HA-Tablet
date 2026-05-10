@@ -283,3 +283,25 @@
             end_date: '{{ (as_datetime(repeat.item.start) + timedelta(days=1)).date()
               }}'
   mode: single
+- id: '1778409834261'
+  alias: Abfall Benachrichtigung
+  description: ''
+  triggers:
+  - trigger: time
+    at: '20:00:00'
+  conditions:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: sensor.waste_collection_notify
+      state: '1'
+    - condition: state
+      entity_id: input_boolean.toggle_button_notify_garbage
+      state: 'on'
+  actions:
+  - action: notify.mobile_app_wowa_iphone
+    data:
+      title: Abfall Benachrichtigung
+      message: '{{ states(''sensor.waste_collection_notify_type'') | replace(''['',
+        '''')| replace('']'', '''') | replace(''\'''', '''') }} rausstellen'
+  mode: single
