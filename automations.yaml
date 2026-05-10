@@ -617,3 +617,36 @@
         data:
           hvac_mode: 'off'
   mode: single
+- id: '1778410560609'
+  alias: 'Heizung: Alle an, wenn Heizsaison'
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: input_select.heizsaison
+    from: aus
+    to: an
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: state
+    entity_id: input_select.heizsaison
+    state: an
+  actions:
+  - action: notify.mobile_app_wowa_iphone
+    data:
+      title: Heizsaison
+      message: Heizsaison wurde aktiviert
+  - variables:
+      climates: "{{ state_attr('group.all_climate','entity_id')\n  if state_attr('group.all_climate','entity_id')
+        is not none\n  else states.climate | map(attribute='entity_id') | list }}"
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ climates | count > 0 }}'
+      sequence:
+      - action: climate.set_hvac_mode
+        target:
+          entity_id: '{{ climates }}'
+        data:
+          hvac_mode: auto
+  mode: single
