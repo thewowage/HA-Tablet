@@ -537,3 +537,17 @@
   - action: switch.turn_off
     entity_id: switch.light_attic
   mode: single
+- id: '1778410492040'
+  alias: Licht Nebenraum ausschalten
+  description: Licht Nebenraum nach 30 Minuten ausschalten
+  triggers:
+  - trigger: state
+    entity_id: switch.light_storageroom
+    from: 'off'
+    to: 'on'
+    for: 00:30:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    entity_id: switch.light_storageroom
+  mode: single
