@@ -337,3 +337,16 @@
   - action: switch.turn_off
     entity_id: switch.light_storeroom_kitchen
   mode: single
+- id: '1778410164438'
+  alias: Dunstabzugshaube
+  description: Dunstabzugshaube an wenn das Fenster geöffnet ist und aus, wenn das
+    Fenster zu ist.
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.fenster_kuche
+    for: 00:00:05
+  conditions: []
+  actions:
+  - action: switch.turn_{{'on' if trigger.to_state.state == 'on' else 'off'}}
+    entity_id: switch.extractor_hood_kitchen
+  mode: single
