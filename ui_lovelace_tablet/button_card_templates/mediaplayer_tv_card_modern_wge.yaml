@@ -1,0 +1,311 @@
+mediaplayer_tv_card_modern_wge:
+  template:
+    - responsive_card_base
+
+  show_label: true
+  show_state: true
+  icon: mdi:play
+
+  variables:
+    card_color: "120,180,255"
+
+  tap_action:
+    action: call-service
+    service: media_player.media_play_pause
+    target:
+      entity_id: "[[[ return entity.entity_id ]]]"
+
+  hold_action:
+    action: more-info
+
+  label: |
+    [[[
+      const appId = entity.attributes.app_id;
+      const appName = entity.attributes.app_name;
+
+      const apps = {
+        "de.telekom.magentatv": "Magenta TV",
+        "com.google.ios.youtube": "YouTube",
+        "com.netflix.Netflix": "Netflix",
+        "com.apple.TVMusic": "Musik",
+        "com.apple.TVWatchList": "Apple TV",
+        "com.disney.disneyplus": "Disney+",
+        "com.amazon.aiv.AIVApp": "Prime Video"
+      };
+
+      if (entity.state === "off") return "Aus";
+      if (entity.state === "unavailable") return "Unknown";
+      if (appName === "RTL+") return "RTL+";
+      return apps[appId] || appName || "Unbekannt";
+    ]]]
+
+  name: |
+    [[[
+      let title = entity.attributes.media_title || "";
+      if (!title || entity.state === "off") return "Nichts aktiv";
+      if (title.length > 42) title = title.slice(0, 42) + "…";
+      return `<marquee behavior="alternate" scrollamount="2">${title}</marquee>`;
+    ]]]
+
+  state_display: |
+    [[[
+      if (entity.state === "off") return "Es wird nichts abgespielt...";
+      if (entity.state === "unavailable") return "Nicht verfügbar";
+
+      let artist =
+        entity.attributes.media_artist ||
+        entity.attributes.media_album_name ||
+        entity.attributes.media_series_title ||
+        "";
+
+      if (!artist) return entity.state === "playing" ? "Wiedergabe läuft" : "Bereit";
+      if (artist.length > 40) artist = artist.slice(0, 40) + "…";
+
+      return `<marquee behavior="alternate" scrollamount="2">${artist}</marquee>`;
+    ]]]
+
+  state:
+    - value: playing
+      icon: mdi:pause
+    - value: paused
+      icon: mdi:play
+    - value: idle
+      icon: mdi:play
+    - value: off
+      icon: mdi:television-off
+    - value: unavailable
+      icon: mdi:television-off
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+
+  custom_fields:
+    ambient_glow: |
+      [[[
+        const appId = entity?.attributes?.app_id;
+        const appName = entity?.attributes?.app_name;
+
+        const colors = {
+          "com.google.ios.youtube": "255,59,48",
+          "com.netflix.Netflix": "229,9,20",
+          "com.apple.TVMusic": "255,45,85",
+          "com.apple.TVWatchList": "120,180,255",
+          "com.disney.disneyplus": "80,130,255",
+          "com.amazon.aiv.AIVApp": "0,168,225",
+          "de.telekom.magentatv": "226,0,116"
+        };
+
+        const color =
+          colors[appId] ||
+          (appName === "RTL+" ? "255,120,180" : null) ||
+          variables.card_color ||
+          "120,180,255";
+
+        return `<div class="ambient-glow" style="--media-color:${color};"></div>`;
+      ]]]
+
+    background_cover: ""
+
+    app_icon: |
+      [[[
+        const appId = entity.attributes.app_id;
+        const appName = entity.attributes.app_name;
+
+        if (appId === "com.google.ios.youtube") return '<ha-icon icon="mdi:youtube"></ha-icon>';
+        if (appId === "com.netflix.Netflix") return '<ha-icon icon="mdi:netflix"></ha-icon>';
+        if (appId === "com.apple.TVMusic") return '<ha-icon icon="mdi:music"></ha-icon>';
+        if (appId === "com.disney.disneyplus") return '<ha-icon icon="mdi:movie-open-star"></ha-icon>';
+        if (appId === "com.amazon.aiv.AIVApp") return '<ha-icon icon="mdi:video-vintage"></ha-icon>';
+        if (appName === "RTL+") return '<ha-icon icon="mdi:television-classic"></ha-icon>';
+        return '<ha-icon icon="mdi:television-play"></ha-icon>';
+      ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "app_icon l i"
+          "s s s"
+          "n n n"
+      - grid-template-columns: min-content 1fr min-content
+      - grid-template-rows: min-content min-content min-content
+      - column-gap: 10px
+
+    card:
+      - position: relative
+      - overflow: hidden
+      - background: >
+          [[[
+            const active = !["off","unavailable"].includes(entity.state);
+            const appId = entity?.attributes?.app_id;
+            const appName = entity?.attributes?.app_name;
+
+            const colors = {
+              "com.google.ios.youtube": "255,59,48",
+              "com.netflix.Netflix": "229,9,20",
+              "com.apple.TVMusic": "255,45,85",
+              "com.apple.TVWatchList": "120,180,255",
+              "com.disney.disneyplus": "80,130,255",
+              "com.amazon.aiv.AIVApp": "0,168,225",
+              "de.telekom.magentatv": "226,0,116"
+            };
+
+            const color =
+              colors[appId] ||
+              (appName === "RTL+" ? "255,120,180" : null) ||
+              variables.card_color ||
+              "120,180,255";
+
+            return active
+              ? `
+                linear-gradient(
+                  145deg,
+                  rgba(${color},0.30),
+                  rgba(${color},0.08)
+                ),
+                var(--ha-card-background)
+              `
+              : "var(--ha-card-background)";
+          ]]]
+
+    label:
+      - justify-self: start
+      - align-self: center
+      - z-index: 3
+
+    state:
+      - justify-self: start
+      - font-weight: 800
+      - color: var(--primary-text-color)
+      - z-index: 3
+      - max-width: 72%
+
+    name:
+      - justify-self: start
+      - color: var(--secondary-text-color)
+      - z-index: 3
+      - max-width: 90%
+
+    icon:
+      - color: >
+          [[[
+            const appId = entity?.attributes?.app_id;
+            const appName = entity?.attributes?.app_name;
+
+            const colors = {
+              "com.google.ios.youtube": "255,59,48",
+              "com.netflix.Netflix": "229,9,20",
+              "com.apple.TVMusic": "255,45,85",
+              "com.apple.TVWatchList": "120,180,255",
+              "com.disney.disneyplus": "80,130,255",
+              "com.amazon.aiv.AIVApp": "0,168,225",
+              "de.telekom.magentatv": "226,0,116"
+            };
+
+            const color =
+              colors[appId] ||
+              (appName === "RTL+" ? "255,120,180" : null) ||
+              variables.card_color ||
+              "120,180,255";
+
+            return entity.state === "playing"
+              ? `rgba(${color},1)`
+              : "var(--secondary-text-color)";
+          ]]]
+      - z-index: 3
+
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - background: >
+          [[[
+            return entity.state === "playing"
+              ? "rgba(255,255,255,0.14)"
+              : "rgba(0,0,0,0.08)";
+          ]]]
+      - z-index: 3
+
+    custom_fields:
+      ambient_glow:
+        - position: absolute
+        - inset: 0
+        - z-index: 1
+        - pointer-events: none
+
+      app_icon:
+        - width: 25px
+        - height: 25px
+        - align-self: center
+        - justify-self: start
+        - color: var(--primary-text-color)
+        - z-index: 3
+
+      background_cover:
+        - position: absolute
+        - right: -8px
+        - top: -8px
+        - width: 54%
+        - height: 120%
+        - opacity: 0.34
+        - border-bottom-left-radius: 80px
+        - background: |
+            [[[
+              const appId = entity.attributes.app_id;
+              const appName = entity.attributes.app_name;
+              const pic = entity.attributes.entity_picture;
+
+              const appImages = {
+                "com.google.ios.youtube": "/local/images/music/youtube_media.gif",
+                "com.netflix.Netflix": "/local/images/music/netflix_media.jpg",
+                "com.apple.TVMusic": "/local/images/music/apple_music_media.jpg",
+                "com.apple.TVWatchList": "/local/images/music/apple_tv_media.jpg",
+                "com.disney.disneyplus": "/local/images/music/disney_media.jpg",
+                "com.amazon.aiv.AIVApp": "/local/images/music/prime_video_media.jpg",
+                "de.telekom.magentatv": "/local/images/music/magenta_tv_media.jpg"
+              };
+
+              if (states["binary_sensor.christmas_time"]?.state === "on" && appId === "com.google.ios.youtube") {
+                return 'center / cover no-repeat url("/local/images/music/youtube_christmas_media.gif")';
+              }
+
+              const fallback =
+                appImages[appId] ||
+                (appName === "RTL+" ? "/local/images/music/rtl_media.jpg" : null) ||
+                "/local/images/music/idle-media.gif";
+
+              const image = pic || fallback;
+
+              return `center / cover no-repeat url("${image}")`;
+            ]]]
+        - z-index: 2
+        - pointer-events: none
+
+  extra_styles: |
+    marquee {
+      max-width: 100%;
+    }
+
+    .ambient-glow {
+      position: absolute;
+      inset: -40%;
+      border-radius: 999px;
+      background:
+        radial-gradient(
+          circle at 78% 18%,
+          rgba(var(--media-color),0.38) 0%,
+          rgba(var(--media-color),0.18) 32%,
+          transparent 68%
+        );
+      filter: blur(18px);
+      opacity: 0.85;
+      animation: mediaGlowMove 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes mediaGlowMove {
+      0% {
+        transform: translate(-8%, -4%) scale(1);
+      }
+      100% {
+        transform: translate(8%, 6%) scale(1.12);
+      }
+    }

@@ -1,0 +1,274 @@
+air_cleaner_card_modern_wge:
+  template:
+    - responsive_card_base
+
+  variables:
+    enable_osc_btn: false
+    air_quality_sensor: sensor.luftreiniger_wohnzimmer_luftqualitat
+    #card_color: "120,180,255"
+    card_color: >
+      [[[
+        const q = states[variables.air_quality_sensor]?.state?.toLowerCase();
+
+        if (["gut", "good", "excellent"].includes(q)) return "120,255,180";
+        if (["mittel", "moderate", "ok"].includes(q)) return "255,170,80";
+        if (["schlecht", "bad", "poor", "unhealthy"].includes(q)) return "236,99,55";
+
+        return "120,180,255";
+      ]]]
+
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+  icon: mdi:fan
+
+  label: |
+    [[[
+      if (entity.state === "off") return "Aus";
+      if (entity.state === "unavailable") return "Unavailable";
+
+      if (entity.attributes.preset_mode === "auto") return "Automatisch";
+      if (entity.attributes.preset_mode === "sleep") return "Schlafen";
+      if (entity.attributes.mode === "manual") return entity.attributes.percentage + "%";
+
+      return "Unbekannt";
+    ]]]
+
+  styles:
+    grid:
+      - grid-template-areas: |
+          "n auto_icon sleep_icon i"
+          "l auto_icon sleep_icon i"
+          "slider slider slider slider"
+      - grid-template-columns: 1fr min-content min-content min-content
+      - grid-template-rows: min-content min-content 1fr
+      - column-gap: 6px
+
+    card:
+      - background: >
+          [[[
+            const color = variables.card_color || "120,180,255";
+
+            return entity.state === "on"
+              ? `
+                linear-gradient(
+                  145deg,
+                  rgba(${color},0.32),
+                  rgba(${color},0.10)
+                ),
+                var(--ha-card-background)
+              `
+              : "var(--ha-card-background)";
+          ]]]
+
+    name:
+      - justify-self: start
+      - align-self: end
+      - text-align: left
+      - z-index: 2
+
+    label:
+      - justify-self: start
+      - align-self: start
+      - text-align: left
+      - z-index: 2
+
+    icon:
+      - color: >
+          [[[
+            const color = variables.card_color || "120,180,255";
+            return entity.state === "on"
+              ? `rgba(${color},1)`
+              : "var(--secondary-text-color)";
+          ]]]
+      - animation: >
+          [[[
+            return entity.state === "on" ? "spin 5s linear infinite" : "none";
+          ]]]
+
+    img_cell:
+      - justify-self: end
+      - align-self: start
+      - background: >
+          [[[
+            return entity.state === "on"
+              ? "rgba(255,255,255,0.14)"
+              : "rgba(0,0,0,0.08)";
+          ]]]
+      - z-index: 2
+
+    custom_fields:
+      slider:
+        - z-index: 2
+        - align-self: end
+
+      auto_icon:
+        - z-index: 3
+
+      sleep_icon:
+        - z-index: 3
+
+  custom_fields:
+    slider:
+      card:
+        type: custom:my-slider-v2
+        entity: "[[[ return entity.entity_id ]]]"
+        styles:
+          card:
+            - height: 10px
+            - padding: 0
+            - background: rgba(255,255,255,0.08)
+            - border-radius: 999px
+            - touch-action: pan-y
+            - transition: height 0.18s ease, box-shadow 0.25s ease
+
+          progress:
+            - height: 100%
+            - border-radius: 999px
+            - touch-action: pan-y
+            - transition: width 0.28s cubic-bezier(.2,.8,.2,1), background 0.45s ease
+            - background: >
+                [[[
+                  const color = variables.card_color || "120,180,255";
+                  return entity.state === "on"
+                    ? `linear-gradient(
+                        90deg,
+                        rgba(${color},0.75),
+                        rgba(${color},1)
+                      )`
+                    : "transparent";
+                ]]]
+
+          track:
+            - border-radius: 999px
+            - background: rgba(255,255,255,0.06)
+            - transition: background 0.25s ease
+
+          thumb:
+            - height: 14px
+            - width: 14px
+            - border-radius: 50%
+            - top: -2px
+            - right: 0
+            - transition: transform 0.18s ease, background 0.45s ease, box-shadow 0.25s ease
+            - background: >
+                [[[
+                  const color = variables.card_color || "120,180,255";
+                  return entity.state === "on"
+                    ? `rgba(${color},1)`
+                    : "transparent";
+                ]]]
+
+    auto_icon:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        icon: mdi:fan-auto
+        show_name: false
+        show_state: false
+        tap_action:
+          action: call-service
+          service: fan.set_preset_mode
+          service_data:
+            preset_mode: auto
+            entity_id: "[[[ return entity.entity_id ]]]"
+        styles:
+          card:
+            - width: 28px
+            - height: 28px
+            - padding: 0
+            - border-radius: 10px
+            - box-shadow: none
+            - border: none
+            - background: >
+                [[[
+                  return entity.attributes.preset_mode === "auto"
+                    ? "rgba(255,255,255,0.16)"
+                    : "rgba(0,0,0,0.08)";
+                ]]]
+          icon:
+            - width: 16px
+            - color: >
+                [[[
+                  const color = variables.card_color || "120,180,255";
+                  return entity.attributes.preset_mode === "auto"
+                    ? `rgba(${color},1)`
+                    : "var(--secondary-text-color)";
+                ]]]
+
+    sleep_icon:
+      card:
+        type: custom:button-card
+        entity: "[[[ return entity.entity_id ]]]"
+        icon: mdi:weather-night
+        show_name: false
+        show_state: false
+        tap_action:
+          action: call-service
+          service: fan.set_preset_mode
+          service_data:
+            preset_mode: sleep
+            entity_id: "[[[ return entity.entity_id ]]]"
+        styles:
+          card:
+            - width: 28px
+            - height: 28px
+            - padding: 0
+            - border-radius: 10px
+            - box-shadow: none
+            - border: none
+            - background: >
+                [[[
+                  return entity.attributes.preset_mode === "sleep"
+                    ? "rgba(255,255,255,0.16)"
+                    : "rgba(0,0,0,0.08)";
+                ]]]
+          icon:
+            - width: 16px
+            - color: >
+                [[[
+                  const color = variables.card_color || "120,180,255";
+                  return entity.attributes.preset_mode === "sleep"
+                    ? `rgba(${color},1)`
+                    : "var(--secondary-text-color)";
+                ]]]
+
+  state:
+    - value: "on"
+      icon: mdi:fan
+
+    - value: "off"
+      icon: mdi:fan-off
+
+    - value: unavailable
+      icon: mdi:fan-alert
+      label: Unavailable
+      styles:
+        card:
+          - opacity: 0.55
+          - pointer-events: none
+        name:
+          - text-decoration: line-through
+        icon:
+          - color: var(--secondary-text-color)
+
+  tap_action:
+    action: toggle
+
+  hold_action:
+    action: more-info
+
+  extra_styles: |
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+      
+    my-slider-v2:active {
+      transform: scaleY(1.18);
+    }
+
+    my-slider-v2:active * {
+      transition: all 0.16s cubic-bezier(.2,.8,.2,1) !important;
+    }
