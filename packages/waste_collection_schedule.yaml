@@ -91,10 +91,3 @@ template:
       - name: "Waste Collection Condition"
         state: >
           {% set state = states('sensor.waste_collection_notify')|float(0) %}{% if state <= 1 %}on{% else %}off{% endif %}
-
-input_boolean:
-  # -----------------------------------------------------------------------
-  # BUTTON ABFALL BNACHRICHTIGUNG
-  toggle_button_notify_garbage:
-    name: Notify Garbage
-    icon: mdi:delete
