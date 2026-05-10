@@ -441,3 +441,17 @@
     data:
       entity_id: input_boolean.flurlicht_manual_helper
   mode: single
+- id: '1778410413450'
+  alias: Philips Hue Flur Motion Manual ON
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: event.lichtschalter_flur_hinten_schaltflache_4
+  - trigger: state
+    entity_id: event.lichtschalter_flur_vorne_schaltflache_2
+  conditions: []
+  actions:
+  - action: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.flurlicht_manual_helper
+  mode: single
