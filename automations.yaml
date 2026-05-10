@@ -565,3 +565,22 @@
   - action: switch.turn_off
     entity_id: switch.shellyplus1pm_345f451fdd88_switch_0
   mode: single
+- id: '1778410527931'
+  alias: Wetterwarnung
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.meteoalarm
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: input_boolean.notification_wowas_iphone
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_wowa_iphone
+    data:
+      title: '{{state_attr(''binary_sensor.meteoalarm'', ''headline'')}}'
+      message: '{{state_attr(''binary_sensor.meteoalarm'', ''description'')}} is effective
+        on {{state_attr(''binary_sensor.meteoalarm'', ''effective'')}}'
+  mode: single
