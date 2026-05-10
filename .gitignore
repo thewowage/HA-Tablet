@@ -49,6 +49,7 @@ custom_components/
 
 # Folders
 .storage
+.cache
 .cloud
 .google.token
 .vscode
