@@ -523,3 +523,17 @@
         target:
           entity_id: light.deckenlicht_flur
   mode: restart
+- id: '1778410479673'
+  alias: Licht Dachboden ausschalten
+  description: Licht Dachboden nach 30 Minuten ausschalten
+  triggers:
+  - trigger: state
+    entity_id: switch.light_attic
+    from: 'off'
+    to: 'on'
+    for: 00:30:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    entity_id: switch.light_attic
+  mode: single
