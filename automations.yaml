@@ -305,3 +305,21 @@
       message: '{{ states(''sensor.waste_collection_notify_type'') | replace(''['',
         '''')| replace('']'', '''') | replace(''\'''', '''') }} rausstellen'
   mode: single
+- id: '1778410109475'
+  alias: Licht Abstellkammer
+  description: Licht Abstellkammer an wenn die Türen geöffnet sind und aus wenn die
+    Türen geschlossen sind.
+  triggers:
+  - trigger: state
+    entity_id: group.kitchen_doors
+  conditions:
+  - condition: or
+    conditions:
+    - before: sunrise
+      condition: sun
+    - after: sunset
+      condition: sun
+  actions:
+  - action: switch.turn_{{'on' if trigger.to_state.state == 'on' else 'off'}}
+    entity_id: switch.light_storeroom_kitchen
+  mode: single
