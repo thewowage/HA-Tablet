@@ -323,3 +323,17 @@
   - action: switch.turn_{{'on' if trigger.to_state.state == 'on' else 'off'}}
     entity_id: switch.light_storeroom_kitchen
   mode: single
+- id: '1778410120744'
+  alias: Licht Abstellkammer ausschalten
+  description: Licht Abstellkammer nach 30 Min. ausschalten
+  triggers:
+  - trigger: state
+    entity_id: switch.light_storeroom_kitchen
+    from: 'off'
+    to: 'on'
+    for: 00:30:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    entity_id: switch.light_storeroom_kitchen
+  mode: single
