@@ -427,3 +427,17 @@
     - light.ambiente_rgb
     - light.ambiente_rgb_2
   mode: single
+- id: '1778410404595'
+  alias: Philips Hue Flur Motion Manual OFF
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: event.lichtschalter_flur_hinten_schaltflache_3
+  - trigger: state
+    entity_id: event.lichtschalter_flur_vorne_schaltflache_1
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.flurlicht_manual_helper
+  mode: single
