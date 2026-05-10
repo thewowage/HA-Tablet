@@ -3,43 +3,6 @@ automation:
   #########################################################################
 
   # -----------------------------------------------------------------------
-  # LICHT ABSTELLKAMMER
-  - id: "1613080691004"
-    alias: Licht Abstellkammer
-    description: Licht Abstellkammer an wenn die Türen geöffnet sind und aus wenn die Türen geschlossen sind.
-    triggers:
-      - trigger: state
-        entity_id: group.kitchen_doors
-    condition:
-      - condition: or
-        conditions:
-          - before: sunrise
-            condition: sun
-          - after: sunset
-            condition: sun
-    actions:
-      - action: switch.turn_{{'on' if trigger.to_state.state == 'on' else 'off'}}
-        entity_id: switch.light_storeroom_kitchen
-    mode: single
-
-  # -----------------------------------------------------------------------
-  # LICHT ABSTELLKAMMER NACH 30 MINUTEN AUSSCHALTEN
-  - id: "16130806910088"
-    alias: Licht Abstellkammer ausschalten
-    description: Licht Abstellkammer nach 30 Min. ausschalten
-    triggers:
-      - trigger: state
-        entity_id: switch.light_storeroom_kitchen
-        from: "off"
-        to: "on"
-        for: "00:30:00"
-    condition: []
-    actions:
-      - action: switch.turn_off
-        entity_id: switch.light_storeroom_kitchen
-    mode: single
-
-  # -----------------------------------------------------------------------
   # DUNSTABZUGSHAUBE
   - id: "9381519720054"
     alias: Dunstabzugshaube
