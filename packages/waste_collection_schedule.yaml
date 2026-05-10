@@ -98,30 +98,3 @@ input_boolean:
   toggle_button_notify_garbage:
     name: Notify Garbage
     icon: mdi:delete
-
-automation:
-  # -----------------------------------------------------------------------
-  # ABFALL BNACHRICHTIGUNG
-  - id: "16130806910090784"
-    alias: "Abfall Benachrichtigung"
-    description: ""
-    trigger:
-      - trigger: time
-        at: "20:00:00"
-    condition:
-      condition: and
-      conditions:
-        - condition: state
-          entity_id: sensor.waste_collection_notify
-          state: "1"
-        - condition: state
-          entity_id: input_boolean.toggle_button_notify_garbage
-          state: "on"
-    actions:
-      - action: notify.mobile_app_wowa_iphone
-        data:
-          title: Abfall Benachrichtigung
-          message: >-
-            {{ states('sensor.waste_collection_notify_type') | replace('[', '')| replace(']', '')
-            | replace('\'', '') }} rausstellen
-    mode: single
