@@ -25,25 +25,25 @@ template:
         name: alarm_state
 
 automation:
-  - id: efbb8954de8045aaaa0aa814bde515ae
-    alias: Alarm - Auslöser - Armed Away
-    description: Auslösen, wenn Bewegung erkannt wird und keiner zu Hause ist.
-    triggers:
-      - trigger: state
-        entity_id: binary_sensor.eingangstur_offnung
-        to: "on"
-      - trigger: state
-        entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
-        to: "on"
-    condition:
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: armed_away
-    actions:
-      - delay: 00:00:05
-      - action: notify.mobile_app_wowa_iphone
-        data:
-          message: ALARM - Bewegung zu Hause registriert!
+  #- id: efbb8954de8045aaaa0aa814bde515ae
+  #  alias: Alarm - Auslöser - Armed Away
+  #  description: Auslösen, wenn Bewegung erkannt wird und keiner zu Hause ist.
+  #  triggers:
+  #    - trigger: state
+  #      entity_id: binary_sensor.eingangstur_offnung
+  #      to: "on"
+  #    - trigger: state
+  #      entity_id: binary_sensor.hue_bewegungssensor_flur_bewegung
+  #      to: "on"
+  #  condition:
+  #    - condition: state
+  #      entity_id: alarm_control_panel.home_alarm
+  #      state: armed_away
+  #  actions:
+  #    - delay: 00:00:05
+  #    - action: notify.mobile_app_wowa_iphone
+  #      data:
+  #        message: ALARM - Bewegung zu Hause registriert!
 
   - id: cf28e7c217e0485596cffc8260be2745
     alias: Alarm - Auslöser - Armed Home
