@@ -350,3 +350,31 @@
   - action: switch.turn_{{'on' if trigger.to_state.state == 'on' else 'off'}}
     entity_id: switch.extractor_hood_kitchen
   mode: single
+- id: '1778410182579'
+  alias: Wasser Leckage Spülmashine
+  description: Benachrichtigung bei Wasserleckage unter der Spülmashine
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.wasserleckage_sensor_kuche_feuchtigkeit
+    from: 'off'
+    to: 'on'
+    for: 00:00:05
+  conditions: []
+  actions:
+  - action: light.turn_on
+    target:
+      entity_id: light.deckenlicht_kuche
+    data:
+      flash: short
+      brightness_pct: 100
+  - action: tts.google_translate_say
+    data:
+      entity_id: media_player.wohnzimmer
+      message: ALARM! Wasserleck in der Küche registriert!
+      language: de
+      cache: true
+    enabled: true
+  - action: notify.mobile_app_wowa_iphone
+    data:
+      message: ALARM! Wasserleck in der Küche registriert!
+  mode: single
