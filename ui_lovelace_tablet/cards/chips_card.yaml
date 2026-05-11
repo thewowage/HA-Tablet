@@ -167,15 +167,11 @@ card:
             - column-gap: 8px
 
           card:
-            - width: auto
-            - max-width: 200px
+            - width: max-content
             - min-width: max-content
+            - max-width: 200px
             - height: 42px
             - padding: 0 14px
-            - border-radius: 999px
-            - background: rgba(88,214,141,0.18)
-            - border: none
-            - overflow: hidden
 
           img_cell:
             - width: 20px
