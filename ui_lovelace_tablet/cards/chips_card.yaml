@@ -165,7 +165,7 @@ card:
 
       card:
         type: custom:button-card
-        entity: binary_sensor.lueften
+        entity: binary_sensor.luftdiff_niedrig_wz
         icon: mdi:window-open-variant
 
         show_name: false
