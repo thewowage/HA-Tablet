@@ -30,7 +30,7 @@ waste_collection_modern_wge:
       - overflow: hidden
 
     icon:
-      - width: 28px
+      - width: 20px
       - color: var(--secondary-text-color)
 
     img_cell:
