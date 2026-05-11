@@ -40,46 +40,8 @@ card:
         type: custom:button-card
         entity: sensor.waste_collection_next_type
         icon: mdi:trash-can
-
-        show_name: false
-        show_state: true
-        show_icon: true
-
-        state_display: |
-          [[[
-            const trash = entity.state;
-            return "Heute: " + trash;
-          ]]]
-
-        styles:
-          grid:
-            - grid-template-areas: '"i s"'
-            - grid-template-columns: min-content min-content
-            - column-gap: 8px
-            - align-items: center
-            - justify-content: center
-
-          card:
-            - width: 150px
-            - max-width: 200px
-            - height: 42px
-            - padding: 0 14px
-            - border-radius: 999px
-            - background: rgba(255,95,87,0.18)
-            - border: none
-            - overflow: hidden
-
-          icon:
-            - width: 28px
-            - color: rgba(255,95,87,1)
-
-          state:
-            - font-size: 13px
-            - font-weight: 700
-            - color: var(--primary-text-color)
-            - white-space: nowrap
-            - text-overflow: ellipsis
-            - overflow: hidden
+        template:
+          - waste_collection_modern_wge
 
 
     ### ABFALL MORGEN ###
