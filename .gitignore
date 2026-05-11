@@ -4,6 +4,7 @@
 .storage/
 .cloud/
 .cache/
+.ssh/
 tts/
 
 # Databases
