@@ -814,7 +814,7 @@ cards:
             template: header_card_small
             view_layout:
               grid-area: dach_nebenr_h
-            name: Dachboden / Nebenraum
+            name: Dachboden | Nebenraum
 
           - type: custom:button-card
             template: light_card_modern_wge
