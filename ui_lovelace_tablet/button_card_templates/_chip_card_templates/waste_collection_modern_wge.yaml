@@ -41,7 +41,7 @@ waste_collection_modern_wge:
       - color: rgba(255,95,87,1)
 
     state:
-      - font-size: 13px
+      - font-size: var(--card-font-size-secondary)
       - font-weight: 700
       - color: var(--primary-text-color)
       - white-space: nowrap
