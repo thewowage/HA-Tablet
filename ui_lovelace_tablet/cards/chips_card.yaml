@@ -79,7 +79,7 @@ card:
     - type: conditional
       conditions:
         - entity: sensor.geburtstage_heute_anzahl
-          state_not: "0"
+          state_not: "1"
 
       card:
         type: custom:button-card
