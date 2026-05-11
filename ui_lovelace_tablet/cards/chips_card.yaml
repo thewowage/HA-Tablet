@@ -105,13 +105,13 @@ card:
       conditions:
         - entity: binary_sensor.luftdiff_hoch_wz
           state: "off"
-      variables:
-        - state_value:
 
       card:
         type: custom:button-card
         entity: binary_sensor.lueften
         icon: mdi:window-open-variant
+        variables:
+          - state_value:
 
         show_name: false
         show_state: true
