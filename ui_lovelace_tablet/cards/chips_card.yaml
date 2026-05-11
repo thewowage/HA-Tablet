@@ -150,7 +150,7 @@ card:
         icon: mdi:home-account
 
         show_name: false
-        show_state: true
+        show_state: false
         show_icon: true
 
         state_display: |
