@@ -128,8 +128,8 @@ card:
 
     - type: conditional
       conditions:
-        - entity: person.wowa
-          state: "home"
+        - entity: input_select.haus_anwesenheit
+          state: "Anwesend"
 
       card:
         type: custom:button-card
