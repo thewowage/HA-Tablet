@@ -178,6 +178,7 @@ card:
 
           card:
             - height: 42px
+            - width: 100px
             - padding: 0 14px
             - border-radius: 999px
             - background: rgba(120,180,255,0.18)
