@@ -48,7 +48,6 @@ card:
         state_display: |
           [[[
             const trash = entity.state;
-
             return "Heute: " + trash;
           ]]]
 
