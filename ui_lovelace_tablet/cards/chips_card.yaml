@@ -104,7 +104,7 @@ card:
     - type: conditional
       conditions:
         - entity: binary_sensor.lueften
-          state: "on"
+          state: "off"
 
       card:
         type: custom:button-card
