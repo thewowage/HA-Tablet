@@ -26,9 +26,9 @@ waste_collection_modern_wge:
       - background: |
           [[[
             if (entity.state === "Restmüll") return "#212122";
-            if (entity.state === "Bio-Tonne") return "Aus";
-            if (entity.state === "Gelbe Tonne") return "Unknown";
-            if (entity.state === "Papier-Tonne") return "Aus";
+            if (entity.state === "Bio-Tonne") return "#A67D63";
+            if (entity.state === "Gelbe Tonne") return "#FFDA05";
+            if (entity.state === "Papier-Tonne") return "#749EF5";
             return "";
           ]]]
       - border: none
