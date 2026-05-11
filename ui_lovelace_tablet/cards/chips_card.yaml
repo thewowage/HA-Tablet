@@ -80,8 +80,9 @@ card:
             - justify-content: center
 
           card:
-            - width: 160px
+            - width: auto
             - max-width: 200px
+            - min-width: max-content
             - height: 42px
             - padding: 0 14px
             - border-radius: var(--ha-card-border-radius) 
