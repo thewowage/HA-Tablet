@@ -44,7 +44,19 @@ card:
         show_name: false
         show_state: false
 
-        state_display: Abfall
+        state_display: >
+          [[[
+            const hvac = entity.state;
+            const current = Number(entity.attributes.current_temperature);
+            const target = entity.attributes.temperature;
+
+            if (entity.state === "unavailable") return "Unknown";
+            if (entity.state === "off") return "Aus";
+            if (current <= 16) return "❄️ Frostschutz";
+            if (hvac === "heat") return "🔥 Heizt auf " + target + "°";
+            if (hvac === "auto") return "Automatisch · Ziel " + target + "°";
+            return "Ziel " + target + "°";
+          ]]]
 
         styles: &chip_style
           grid:
