@@ -114,6 +114,7 @@ card:
             - font-weight: 700
             - color: var(--primary-text-color)
             - overflow: hidden
+            - white-space: nowrap
 
     #################################################################
     # LÜFTEN
