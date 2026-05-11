@@ -92,32 +92,8 @@ card:
         type: custom:button-card
         entity: sensor.waste_collection_next_type
         icon: mdi:trash-can
-
-        show_name: false
-        show_state: true
-        show_icon: true
-
-        state_display: |
-          [[[
-            const trash = entity.state;
-            return "Morgen: " + trash;
-          ]]]
-
-        styles:
-          <<: *chip_style
-
-          card:
-            - width: 150px
-            - max-width: 200px
-            - height: 42px
-            - border-radius: 999px
-            - background: rgba(255,95,87,0.18)
-            - border: none
-            - overflow: hidden
-
-          icon:
-            - width: 18px
-            - color: rgba(255,95,87,1)
+        template:
+          - waste_collection_modern_wge
 
     #################################################################
     # GEBURTSTAG
