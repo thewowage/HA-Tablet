@@ -90,7 +90,7 @@ card:
 
       card:
         type: custom:button-card
-        entity: sensor.abfall_morgen_aktiv
+        entity: sensor.waste_collection_next_type
         icon: mdi:trash-can
 
         show_name: false
