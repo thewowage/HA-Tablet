@@ -1,6 +1,6 @@
   # HEUTE AKTIV
-  - type: conditional
-    conditions:
+type: conditional
+conditions:
       - entity: sensor.abfall_morgen_aktiv
         state: "off"
     card:
