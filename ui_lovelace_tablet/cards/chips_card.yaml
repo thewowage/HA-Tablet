@@ -8,27 +8,17 @@ card_mod:
       background: none !important;
       box-shadow: none !important;
       border: none !important;
-      width: 100% !important;
-      overflow: visible !important;
-      margin-top: 40px;
-      padding-bottom: 0px;
-      margin-bottom: -14px;
     }
 
-    #root,
-    hui-horizontal-stack-card {
-      display: flex !important;
-      justify-content: flex-end !important;
-      align-items: center !important;
+    hui-grid-card {
+      width: 100% !important;
+    }
+
+    hui-grid-card #root {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(max-content, 200px)) !important;
+      justify-content: end !important;
       gap: 10px !important;
-      flex-wrap: wrap !important;
-      width: 100% !important;
-    }
-
-    hui-conditional-card {
-      flex: 0 0 auto !important;
-      width: auto !important;
-      max-width: 200px !important;
     }
 
 card:
