@@ -133,7 +133,7 @@ card:
 
       card:
         type: custom:button-card
-        entity: person.rota
+        entity: person.rita
         icon: mdi:home-account
 
         show_name: false
