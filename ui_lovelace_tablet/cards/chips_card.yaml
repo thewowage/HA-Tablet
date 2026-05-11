@@ -8,9 +8,9 @@ card_mod:
       background: none !important;
       box-shadow: none !important;
       border: none !important;
-      margin-top: 44px;
+      margin-top: 40px;
       padding-bottom: 0px;
-      margin-bottom: -18px;
+      margin-bottom: -14px;
       transition: none;
 
       display: flex !important;
