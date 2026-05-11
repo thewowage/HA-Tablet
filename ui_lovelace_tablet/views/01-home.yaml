@@ -29,7 +29,7 @@ cards:
           grid-template-rows: auto
           grid-gap: 16px
           grid-template-areas: |
-            ". home_h . chips chips ."
+            ". home_h chips chips chips ."
             ". h_select h_select h_select h_select ."
             ". h_temp_hum_out_label h_temp_hum_out_label h_slider_label h_slider_label ."
             ". h_temp_out h_hum_out h_slider h_slider ."
