@@ -1,137 +1,181 @@
-type: horizontal-stack
-view_layout:
-  grid-area: chips
-cards:
-
-  # HEUTE
-  - type: conditional
-    conditions:
-      - entity: sensor.abfall_heute_aktiv
-        state: "off"
-
-    card:
-      type: custom:button-card
-      entity: sensor.abfall_heute_aktiv
-      icon: mdi:trash-can
-
-      show_name: false
-      show_state: true
-
-      styles:
-        grid:
-          - grid-template-areas: '"i s"'
-          - grid-template-columns: min-content min-content
-          - column-gap: 8px
-
-        card:
-          - height: 42px
-          - width: 200px
-          - padding: 0 14px
-          - border-radius: 999px
-          - background: rgba(255,95,87,0.18)
-          - border: none
-
-        icon:
-          - width: 18px
-          - color: rgba(255,95,87,1)
-
-        state:
-          - font-size: 13px
-          - font-weight: 700
-          - color: var(--primary-text-color)
-
-      tap_action:
-        action: more-info
-
-
-  # MORGEN
-  - type: conditional
-    conditions:
-      - entity: sensor.abfall_morgen_aktiv
-        state: "on"
-
-    card:
-      type: custom:button-card
-      entity: sensor.abfall_heute_aktiv
-      icon: mdi:recycle
-
-      show_name: false
-      show_state: true
-
-      styles:
-        grid:
-          - grid-template-areas: '"i s"'
-          - grid-template-columns: min-content min-content
-          - column-gap: 8px
-
-        card:
-          - height: 42px
-          - width: 200px
-          - padding: 0 14px
-          - border-radius: 999px
-          - background: rgba(255,190,70,0.18)
-          - border: none
-
-        icon:
-          - width: 18px
-          - color: rgba(255,190,70,1)
-
-        state:
-          - font-size: 13px
-          - font-weight: 700
-          - color: var(--primary-text-color)
-
-      tap_action:
-        action: more-info
-
-
-  # KEINE ABHOLUNG
-  - type: conditional
-    conditions:
-      - entity: sensor.abfall_heute_aktiv
-        state: "off"
-      - entity: sensor.abfall_morgen_aktiv
-        state: "off"
-
-    card:
-      type: custom:button-card
-      icon: mdi:trash-can-outline
-      name: Keine Abholung
-
-      show_icon: true
-      show_name: true
-
-      styles:
-        grid:
-          - grid-template-areas: '"i n"'
-          - grid-template-columns: min-content min-content
-          - column-gap: 8px
-
-        card:
-          - height: 42px
-          - width: 200px
-          - padding: 0 14px
-          - border-radius: 999px
-          - background: var(--ha-card-background)
-          - border: none
-
-        icon:
-          - width: 18px
-          - color: var(--secondary-text-color)
-
-        name:
-          - font-size: 13px
-          - font-weight: 700
-          - color: var(--secondary-text-color)
-
-      tap_action:
-        action: more-info
-
+type: custom:mod-card
 card_mod:
   style: |
     ha-card {
-      margin-top: 48px;
-      padding-bottom: 0px;
-      margin-bottom: -20px;
-      transition: none;
+      background: none !important;
+      box-shadow: none !important;
+      border: none !important;
     }
+
+card:
+  type: horizontal-stack
+  cards:
+
+    #################################################################
+    # LEERER FLEX SPACER
+    #################################################################
+
+    - type: custom:button-card
+      color_type: blank-card
+      styles:
+        card:
+          - width: 100%
+
+    #################################################################
+    # ABFALL HEUTE
+    #################################################################
+
+    - type: conditional
+      conditions:
+        - entity: sensor.abfall_heute_aktiv
+          state: "on"
+
+      card:
+        type: custom:button-card
+        entity: sensor.abfall_heute
+        icon: mdi:trash-can
+
+        show_name: false
+        show_state: true
+
+        styles: &chip_style
+          grid:
+            - grid-template-areas: '"i s"'
+            - grid-template-columns: min-content min-content
+            - column-gap: 8px
+
+          card:
+            - height: 42px
+            - padding: 0 14px
+            - border-radius: 999px
+            - background: rgba(255,95,87,0.18)
+            - border: none
+
+          icon:
+            - width: 18px
+            - color: rgba(255,95,87,1)
+
+          state:
+            - font-size: 13px
+            - font-weight: 700
+            - color: var(--primary-text-color)
+
+    #################################################################
+    # ABFALL MORGEN
+    #################################################################
+
+    - type: conditional
+      conditions:
+        - entity: sensor.abfall_morgen_aktiv
+          state: "on"
+
+      card:
+        type: custom:button-card
+        entity: sensor.abfall_morgen
+        icon: mdi:recycle
+
+        show_name: false
+        show_state: true
+
+        styles:
+          <<: *chip_style
+
+          card:
+            - height: 42px
+            - padding: 0 14px
+            - border-radius: 999px
+            - background: rgba(255,190,70,0.18)
+
+          icon:
+            - color: rgba(255,190,70,1)
+
+    #################################################################
+    # GEBURTSTAG
+    #################################################################
+
+    - type: conditional
+      conditions:
+        - entity: sensor.geburtstag_heute
+          state_not: "0"
+
+      card:
+        type: custom:button-card
+        entity: sensor.geburtstag_heute
+        icon: mdi:cake-variant
+
+        show_name: false
+        show_state: true
+
+        styles:
+          <<: *chip_style
+
+          card:
+            - height: 42px
+            - padding: 0 14px
+            - border-radius: 999px
+            - background: rgba(255,120,190,0.18)
+
+          icon:
+            - color: rgba(255,120,190,1)
+
+    #################################################################
+    # ANWESENHEIT
+    #################################################################
+
+    - type: conditional
+      conditions:
+        - entity: person.max
+          state: "home"
+
+      card:
+        type: custom:button-card
+        entity: person.max
+        icon: mdi:home-account
+
+        show_name: false
+        show_state: true
+
+        state_display: Zuhause
+
+        styles:
+          <<: *chip_style
+
+          card:
+            - height: 42px
+            - padding: 0 14px
+            - border-radius: 999px
+            - background: rgba(88,214,141,0.18)
+
+          icon:
+            - color: rgba(88,214,141,1)
+
+    #################################################################
+    # LÜFTEN
+    #################################################################
+
+    - type: conditional
+      conditions:
+        - entity: binary_sensor.lueften
+          state: "on"
+
+      card:
+        type: custom:button-card
+        entity: binary_sensor.lueften
+        icon: mdi:window-open-variant
+
+        show_name: false
+        show_state: true
+
+        state_display: Lüften
+
+        styles:
+          <<: *chip_style
+
+          card:
+            - height: 42px
+            - padding: 0 14px
+            - border-radius: 999px
+            - background: rgba(120,180,255,0.18)
+
+          icon:
+            - color: rgba(120,180,255,1)
