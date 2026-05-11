@@ -111,7 +111,7 @@ card:
         entity: binary_sensor.lueften
         icon: mdi:window-open-variant
         variables:
-          - state_value:
+          - state_value: Dringend lüften
 
         show_name: false
         show_state: true
