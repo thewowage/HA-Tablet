@@ -3,6 +3,8 @@ waste_collection_modern_wge:
   show_state: true
   show_icon: true
 
+  icon: mdi:trash-can
+
   state_display: |
     [[[
       const trash = entity.state;
