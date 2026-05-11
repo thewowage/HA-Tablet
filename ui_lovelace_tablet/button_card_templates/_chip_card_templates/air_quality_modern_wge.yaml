@@ -1,42 +1,42 @@
 air_quality_modern_wge:
-        show_name: false
-        show_state: true
-        variables:
-          state_value:
+  show_name: false
+  show_state: true
+  variables:
+    state_value:
 
-        state_display:  "[[[ return variables.state_value ]]]"
+  state_display: "[[[ return variables.state_value ]]]"
 
-        styles:
-          grid:
-            - grid-template-areas: '"i s"'
-            - grid-template-columns: min-content min-content
-            - column-gap: 8px
-            - align-items: center
-            - justify-content: center
+  styles:
+    grid:
+      - grid-template-areas: '"i s"'
+      - grid-template-columns: min-content min-content
+      - column-gap: 8px
+      - align-items: center
+      - justify-content: center
 
-          card:
-            - width: 160px
-            - max-width: 200px
-            - height: 42px
-            - padding: 0 14px
-            - border-radius: var(--ha-card-border-radius) 
-            - background: var(--ha-card-background)
-            - border: none
-            - overflow: hidden
+    card:
+      - width: 160px
+      - max-width: 200px
+      - height: 42px
+      - padding: 0 14px
+      - border-radius: var(--ha-card-border-radius)
+      - background: var(--ha-card-background)
+      - border: none
+      - overflow: hidden
 
-          icon:
-            - width: 28px
-            - color: rgba(120,180,255,1)
+    icon:
+      - width: 28px
+      - color: rgba(120,180,255,1)
 
-          img_cell:
-            - width: 20px
-            - height: 20px
-            - display: flex
-            - align-items: center
-            - justify-content: center
+    img_cell:
+      - width: 20px
+      - height: 20px
+      - display: flex
+      - align-items: center
+      - justify-content: center
 
-          state:
-            - font-size: var(--card-font-size-secondary)
-            - font-weight: 700
-            - color: var(--primary-text-color)
-            - overflow: hidden
+    state:
+      - font-size: var(--card-font-size-secondary)
+      - font-weight: 700
+      - color: var(--primary-text-color)
+      - overflow: hidden
