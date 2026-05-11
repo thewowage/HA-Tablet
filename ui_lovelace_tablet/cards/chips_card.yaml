@@ -38,14 +38,12 @@ chips:
     conditions:
       - entity: sensor.abfall_heute_aktiv
         state: "off"
-
     card:
       type: custom:button-card
       entity: sensor.abfall_heute
       icon: mdi:trash-can
       name: Heute
       show_state: true
-
       styles:
         card:
           - height: 120px
@@ -63,7 +61,6 @@ chips:
                 `;
               ]]]
           - box-shadow: 0 6px 18px rgba(0,0,0,0.16)
-
         grid:
           - grid-template-areas: |
               "i"
@@ -71,19 +68,15 @@ chips:
               "s"
           - grid-template-columns: 1fr
           - grid-template-rows: 1fr min-content min-content
-
         icon:
           - width: 42px
           - color: rgba(255,95,87,1)
-
         name:
           - font-size: 16px
           - font-weight: 700
-
         state:
           - font-size: 13px
           - color: var(--secondary-text-color)
-
       tap_action:
         action: more-info
 
