@@ -31,14 +31,7 @@ waste_collection_modern_wge:
 
     icon:
       - width: 28px
-      - color: |
-          [[[
-            if (entity.state === "Restmüll") return "#212122";
-            if (entity.state === "Bio-Tonne") return "#A67D63";
-            if (entity.state === "Gelbe Tonne") return "#FFDA05";
-            if (entity.state === "Papier-Tonne") return "#749EF5";
-            return "";
-          ]]]
+      - color: var(--secondary-text-color)
 
     img_cell:
       - width: 28px
