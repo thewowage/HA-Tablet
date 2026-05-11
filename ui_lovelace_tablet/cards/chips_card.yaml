@@ -142,7 +142,7 @@ card:
     - type: conditional
       conditions:
         - entity: input_select.anwesenheit
-          state: anwesenheit
+          state: anwesend
 
       card:
         type: custom:button-card
