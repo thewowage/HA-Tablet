@@ -20,7 +20,7 @@ card_mod:
 
     hui-horizontal-stack-card {
       width: auto !important;
-      margin-left: auto !important;
+      margin-left: 2px !important;
     }
 
 card:
