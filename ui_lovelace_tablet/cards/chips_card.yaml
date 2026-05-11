@@ -161,7 +161,7 @@ card:
       conditions:
         - condition: state
           entity: binary_sensor.luftdiff_niedrig_wz
-          state: "on"
+          state: "off"
 
       card:
         type: custom:button-card
