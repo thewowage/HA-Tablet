@@ -107,9 +107,9 @@ card:
           state: "off"
       card:
         type: custom:button-card
-        template:
-          - air_quality_modern_wge
         entity: binary_sensor.luftdiff_hoch_wz
         icon: mdi:window-open-variant
         variables:
           state_value: Dringend lüften
+        template:
+          - air_quality_modern_wge
