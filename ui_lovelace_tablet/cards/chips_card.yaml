@@ -78,12 +78,12 @@ card:
 
     - type: conditional
       conditions:
-        - entity: sensor.geburtstag_heute
+        - entity: sensor.geburtstage_heute_anzahl
           state_not: "0"
 
       card:
         type: custom:button-card
-        entity: sensor.geburtstag_heute
+        entity: sensor.geburtstage_heute
         icon: mdi:cake-variant
 
         show_name: false
