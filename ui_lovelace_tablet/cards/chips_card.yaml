@@ -35,11 +35,9 @@ card:
       conditions:
         - entity: sensor.abfall_heute_aktiv
           state: "off"
-
       card:
         type: custom:button-card
         entity: sensor.waste_collection_next_type
-        icon: mdi:trash-can
         template:
           - waste_collection_modern_wge
 
@@ -49,11 +47,9 @@ card:
       conditions:
         - entity: sensor.abfall_morgen_aktiv
           state: "on"
-
       card:
         type: custom:button-card
         entity: sensor.waste_collection_next_type
-        icon: mdi:trash-can
         template:
           - waste_collection_modern_wge
 
