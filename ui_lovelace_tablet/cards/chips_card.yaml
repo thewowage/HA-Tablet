@@ -1,159 +1,25 @@
 type: custom:mod-card
 view_layout:
   grid-area: chips
+
 card_mod:
   style: |
     ha-card {
       background: none !important;
-      border: none !important;
       box-shadow: none !important;
-      overflow: hidden;
-      margin-top: 48px;
-      padding-bottom: 0px;
-      margin-bottom: -20px;
+      border: none !important;
+
+      display: flex !important;
+      justify-content: flex-end !important;
+      width: 100% !important;
     }
 
-    /* STACK RECHTS AUSRICHTEN */
     hui-horizontal-stack-card {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      width: 100%;
-    }
-
-    /* NUR SICHTBARE CONDITIONAL CARDS */
-    hui-conditional-card:empty {
-      display: none !important;
-      width: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    /* WEICHE EINBLENDUNG */
-    hui-conditional-card {
-      animation: chipSlideIn .35s ease;
-      max-width: 200px;
-      flex: 0 0 auto;
-    }
-
-    @keyframes chipSlideIn {
-      from {
-        opacity: 0;
-        transform: translateX(16px) scale(.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
+      width: auto !important;
+      margin-left: auto !important;
     }
 
 card:
   type: horizontal-stack
   cards:
-
-    #################################################################
-    # ABFALL HEUTE
-    #################################################################
-
-    - type: conditional
-      conditions:
-        - entity: sensor.abfall_heute_aktiv
-          state: "on"
-
-      card:
-        type: custom:button-card
-        entity: sensor.abfall_heute
-        icon: mdi:trash-can
-
-        show_name: false
-        show_state: true
-
-        styles: &chip_style
-          grid:
-            - grid-template-areas: '"i s"'
-            - grid-template-columns: min-content min-content
-            - column-gap: 8px
-
-          card:
-            - width: 200px
-            - max-width: 200px
-            - height: 42px
-            - padding: 0 14px
-            - border-radius: 999px
-            - background: rgba(255,95,87,0.18)
-            - border: none
-            - overflow: hidden
-
-          icon:
-            - width: 18px
-            - color: rgba(255,95,87,1)
-
-          state:
-            - font-size: 13px
-            - font-weight: 700
-            - color: var(--primary-text-color)
-            - white-space: nowrap
-            - text-overflow: ellipsis
-            - overflow: hidden
-
-    #################################################################
-    # GEBURTSTAG
-    #################################################################
-
-    - type: conditional
-      conditions:
-        - entity: sensor.geburtstag_heute
-          state_not: "0"
-
-      card:
-        type: custom:button-card
-        entity: sensor.geburtstag_heute
-        icon: mdi:cake-variant
-
-        show_name: false
-        show_state: true
-
-        styles:
-          <<: *chip_style
-
-          card:
-            - width: 200px
-            - max-width: 200px
-            - height: 42px
-            - border-radius: 999px
-            - background: rgba(255,120,190,0.18)
-
-          icon:
-            - color: rgba(255,120,190,1)
-
-    #################################################################
-    # LÜFTEN
-    #################################################################
-
-    - type: conditional
-      conditions:
-        - entity: binary_sensor.lueften
-          state: "on"
-
-      card:
-        type: custom:button-card
-        entity: binary_sensor.lueften
-        icon: mdi:window-open-variant
-
-        show_name: false
-        show_state: true
-
-        state_display: Lüften empfohlen
-
-        styles:
-          <<: *chip_style
-
-          card:
-            - width: 200px
-            - max-width: 200px
-            - height: 42px
-            - border-radius: 999px
-            - background: rgba(120,180,255,0.18)
-
-          icon:
-            - color: rgba(120,180,255,1)
+    # deine conditional cards hier
