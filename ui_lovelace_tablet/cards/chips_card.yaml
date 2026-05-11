@@ -81,7 +81,7 @@ card:
 
           card:
             - width: 150px
-            - max-width: 200px
+            - max-width: 300px
             - height: 42px
             - padding: 0 14px
             - border-radius: 999px
