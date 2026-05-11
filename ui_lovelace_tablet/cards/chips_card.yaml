@@ -105,6 +105,8 @@ card:
       conditions:
         - entity: binary_sensor.luftdiff_hoch_wz
           state: "off"
+      variables:
+        - state_value:
 
       card:
         type: custom:button-card
