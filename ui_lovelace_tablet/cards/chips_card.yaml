@@ -163,9 +163,8 @@ card:
         styles:
           grid:
             - grid-template-areas: '"i s"'
-            - grid-template-columns: min-content min-content
+            - grid-template-columns: min-content max-content
             - column-gap: 8px
-            - align-items: center
 
           card:
             - width: auto
