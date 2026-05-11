@@ -10,7 +10,7 @@ card_mod:
       border: none !important;
       margin-top: 48px;
       padding-bottom: 0px;
-      margin-bottom: -20px;
+      margin-bottom: -18px;
       transition: none;
 
       display: flex !important;
