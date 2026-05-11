@@ -22,7 +22,9 @@ card_mod:
     }
 
 card:
-  type: horizontal-stack
+  type: grid
+  square: false
+  columns: 10
   cards:
 
     #################################################################
