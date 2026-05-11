@@ -42,7 +42,7 @@ card:
         icon: mdi:trash-can
 
         show_name: false
-        show_state: false
+        show_state: true
 
         state_display: |
           [[[
