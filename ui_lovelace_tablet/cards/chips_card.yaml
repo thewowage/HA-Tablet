@@ -95,6 +95,7 @@ card:
             - font-size: var(--card-font-size-secondary)
             - font-weight: 700
             - color: var(--primary-text-color)
+            - overflow: hidden
 
     #################################################################
     # LÜFTEN
@@ -136,9 +137,7 @@ card:
             - color: rgba(120,180,255,1)
 
           state:
-            - font-size: 13px
+            - font-size: var(--card-font-size-secondary)
             - font-weight: 700
             - color: var(--primary-text-color)
-            - white-space: nowrap
-            - text-overflow: ellipsis
             - overflow: hidden
