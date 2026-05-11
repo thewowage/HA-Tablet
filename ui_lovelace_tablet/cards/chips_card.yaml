@@ -71,7 +71,7 @@ card:
     - type: conditional
       conditions:
         - entity: sensor.abfall_morgen_aktiv
-          state: "on"
+          state: "off"
 
       card:
         type: custom:button-card
