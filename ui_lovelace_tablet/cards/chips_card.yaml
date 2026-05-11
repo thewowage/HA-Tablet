@@ -112,6 +112,8 @@ card:
         icon: mdi:window-open-variant
         variables:
           - state_value: Dringend lüften
+        template:
+          - air_quality_modern_wge
 
         show_name: false
         show_state: true
