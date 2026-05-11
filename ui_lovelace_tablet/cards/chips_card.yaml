@@ -239,13 +239,7 @@ chips:
       entity: input_select.haus_anwesenheit
       tap_action:
         action: more-info
-
-  - type: weather
-    entity: weather.forecast_home
-    show_temperature: true
-    show_conditions: true
-    tap_action:
-      action: more-info
+        
 view_layout:
   grid-area: chips
 alignment: end
