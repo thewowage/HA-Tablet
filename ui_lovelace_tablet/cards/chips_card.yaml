@@ -110,6 +110,7 @@ card:
     # LÜFTEN
     #################################################################
 
+    ### LÜFTEN ###
     - type: conditional
       conditions:
         - entity: binary_sensor.luftdiff_mittel_wz
