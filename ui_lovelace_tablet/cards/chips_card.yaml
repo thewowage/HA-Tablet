@@ -10,9 +10,6 @@ card_mod:
       border: none !important;
       width: 100% !important;
       overflow: visible !important;
-      margin-top: 40px;
-      padding-bottom: 0px;
-      margin-bottom: -14px;
     }
 
     #root,
