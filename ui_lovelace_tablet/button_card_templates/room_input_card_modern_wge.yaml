@@ -77,7 +77,6 @@ input_card_modern_wge:
               : "var(--ha-card-background)";
           ]]]
 
-
     name:
       - justify-self: center
       - align-self: center
