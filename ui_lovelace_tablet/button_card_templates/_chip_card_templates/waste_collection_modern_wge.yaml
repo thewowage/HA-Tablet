@@ -41,10 +41,12 @@ waste_collection_modern_wge:
           ]]]
 
     img_cell:
-      - justify-self: end
-      - align-self: start
+      - width: 20px
+      - height: 20px
+      - display: flex
       - background: rgba(0,0,0,0.08)
-      - z-index: 2
+      - align-items: center
+      - justify-content: center
 
     state:
       - font-size: var(--card-font-size-secondary)
