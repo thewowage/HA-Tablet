@@ -70,7 +70,7 @@ card:
             - overflow: hidden
 
           icon:
-            - width: 18px
+            - width: 28px
             - color: rgba(255,95,87,1)
 
           state:
