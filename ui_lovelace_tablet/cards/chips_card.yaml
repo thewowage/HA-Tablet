@@ -48,7 +48,7 @@ card:
           [[[
             const trash = entity.state;
 
-            return "Ziel " + trash;
+            return "Heute: " + trash;
           ]]]
 
         styles: &chip_style
