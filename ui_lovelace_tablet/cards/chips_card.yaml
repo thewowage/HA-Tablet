@@ -128,12 +128,12 @@ card:
 
     - type: conditional
       conditions:
-        - entity: person.max
+        - entity: person.wowa
           state: "home"
 
       card:
         type: custom:button-card
-        entity: person.max
+        entity: person.rota
         icon: mdi:home-account
 
         show_name: false
