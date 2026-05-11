@@ -3,7 +3,7 @@ type: conditional
 conditions:
       - entity: sensor.abfall_morgen_aktiv
         state: "off"
-    card:
+card:
       type: custom:button-card
       entity: sensor.abfall_heute_aktiv
       icon: mdi:trash-can
