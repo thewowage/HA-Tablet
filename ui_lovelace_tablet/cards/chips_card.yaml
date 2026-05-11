@@ -1,4 +1,6 @@
   # HEUTE AKTIV
+view_layout:
+  grid-area: chips
 type: conditional
 conditions:
       - entity: sensor.abfall_morgen_aktiv
