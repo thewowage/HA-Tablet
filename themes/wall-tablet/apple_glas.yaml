@@ -105,12 +105,14 @@ Apple Glass:
   card-padding-small: 12px 14px
   card-padding-medium: 14px 16px
   card-padding-large: 18px
+  card-text-transform: uppercase
 
   card-radius: 22px
 
   card-font-size-primary: 16px
   card-font-size-secondary: 13px
   card-font-size-sensor: 24px
+
 
   card-icon-size: 22px
   card-icon-cell-size: 34px
