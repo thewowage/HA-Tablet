@@ -78,7 +78,7 @@ cards:
 
   - type: custom:button-card
     template: room_input_card_modern_wge
-    name: Fur / Bad
+    name: Fur | Bad
     variables:
       option: flur_bad
       room_color: "120,180,255"
