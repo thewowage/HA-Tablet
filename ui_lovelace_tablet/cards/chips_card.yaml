@@ -1,6 +1,12 @@
-type: custom:mod-card
+type: custom:stack-in-card
 view_layout:
   grid-area: chips
+
+mode: horizontal
+keep:
+  background: false
+  box_shadow: false
+  border_radius: false
 
 card_mod:
   style: |
@@ -10,22 +16,24 @@ card_mod:
       border: none !important;
     }
 
-    hui-grid-card {
-      width: 100% !important;
-    }
-
-    hui-grid-card #root {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(max-content, 200px)) !important;
-      justify-content: end !important;
+    #root {
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
       gap: 10px !important;
+      flex-wrap: nowrap !important;
+      overflow: visible !important;
     }
 
-card:
-  type: grid
-  square: false
-  columns: 10
-  cards:
+    #root > * {
+      flex: 0 0 auto !important;
+      width: max-content !important;
+      min-width: max-content !important;
+      max-width: 200px !important;
+    }
+
+cards:
+  # deine conditional chips hier
 
     #################################################################
     # ABFALL
