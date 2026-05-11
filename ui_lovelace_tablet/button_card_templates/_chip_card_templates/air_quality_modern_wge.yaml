@@ -41,3 +41,4 @@ air_quality_modern_wge:
       - font-weight: 700
       - color: var(--primary-text-color)
       - overflow: hidden
+      - white-space: nowrap
