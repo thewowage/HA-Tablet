@@ -122,3 +122,17 @@ card:
           state_value: Dringend lüften
         template:
           - air_quality_modern_wge
+
+    ### DRINGEND LÜFTEN ###
+    - type: conditional
+      conditions:
+        - entity: binary_sensor.luftdiff_hoch_wz
+          state: "off"
+      card:
+        type: custom:button-card
+        entity: binary_sensor.luftdiff_hoch_wz
+        icon: mdi:window-open-variant
+        variables:
+          state_value: Dringend lüften
+        template:
+          - air_quality_modern_wge
