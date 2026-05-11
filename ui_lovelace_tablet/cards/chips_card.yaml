@@ -107,7 +107,7 @@ card:
           <<: *chip_style
 
           card:
-            - width: 200px
+            - width: 150px
             - max-width: 200px
             - height: 42px
             - border-radius: 999px
