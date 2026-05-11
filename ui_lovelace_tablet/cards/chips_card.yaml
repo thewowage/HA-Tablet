@@ -72,8 +72,8 @@ card:
             - text-overflow: ellipsis
             - overflow: hidden
 
-            
 
+    ### ABFALL MORGEN ###
     - type: conditional
       conditions:
         - entity: sensor.abfall_morgen_aktiv
