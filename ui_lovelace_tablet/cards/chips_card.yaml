@@ -64,6 +64,7 @@ card:
             - padding: 0 14px
             - border-radius: 999px
             - background: rgba(255,95,87,0.18)
+            - align-self: center
             - border: none
             - overflow: hidden
 
