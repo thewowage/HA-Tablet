@@ -56,6 +56,8 @@ card:
             - grid-template-areas: '"i s"'
             - grid-template-columns: min-content min-content
             - column-gap: 8px
+            - align-items: center
+            - justify-content: center
 
           card:
             - width: 150px
@@ -64,8 +66,6 @@ card:
             - padding: 0 14px
             - border-radius: 999px
             - background: rgba(255,95,87,0.18)
-            - align-items: center
-            - justify-content: center
             - border: none
             - overflow: hidden
 
