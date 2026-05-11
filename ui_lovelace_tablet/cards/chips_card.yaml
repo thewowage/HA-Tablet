@@ -49,21 +49,10 @@ chips:
           data:
             browser_id: THIS
       card_mod:
-        style: |
-          ha-card {
-            --chip-text-color: var(--primary-text-color);
-            --chip-icon-color: var(--secondary-text-color);
-            --chip-background: var(--ha-card-background);
-            --chip-border-color: transparent;
-
-            border-radius: 999px !important;
-            box-shadow: var(--card-shadow, 0 3px 10px rgba(0,0,0,0.16));
-            border: none !important;
-          }
-
-          ha-card:active {
-            transform: scale(0.94);
-          }
+        style: >
+          ha-card { background: var(--accent-color)!important;
+          color:#FFF!important; border: var(--accent-color)!important; }
+          ha-card ::slotted(span) { color:#FFF!important; }
 
   - type: conditional
     conditions:
