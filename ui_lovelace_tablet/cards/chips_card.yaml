@@ -31,6 +31,7 @@ card:
     # ABFALL
     #################################################################
 
+    ### ABFALL HEUTE ###
     - type: conditional
       conditions:
         - entity: sensor.abfall_heute_aktiv
