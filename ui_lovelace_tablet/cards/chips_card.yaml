@@ -35,6 +35,66 @@ chips:
 
   - type: conditional
     conditions:
+      - entity: sensor.abfall_heute_aktiv
+        state: "off"
+      - entity: sensor.abfall_morgen_aktiv
+        state: "off"
+    card:
+      type: horizontal-stack
+      cards:
+          - type: custom:button-card
+            entity: sensor.abfall_heute
+            icon: mdi:trash-can
+            name: Heute
+
+            show_state: true
+
+            styles:
+              card:
+                - height: 120px
+                - border-radius: 26px
+                - padding: 18px
+                - background: >
+                    [[[
+                      const active = states["sensor.abfall_heute_aktiv"]?.state === "on";
+
+                      return active
+                        ? "linear-gradient(145deg, rgba(255,120,120,0.32), rgba(255,120,120,0.08))"
+                        : "var(--ha-card-background)";
+                    ]]]
+                - border: none
+                - box-shadow: var(--card-shadow)
+
+              grid:
+                - grid-template-areas: |
+                    "i"
+                    "n"
+                    "s"
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr min-content min-content
+
+              icon:
+                - width: 42px
+                - color: >
+                    [[[
+                      return states["sensor.abfall_heute_aktiv"]?.state === "on"
+                        ? "rgba(255,120,120,1)"
+                        : "var(--secondary-text-color)";
+                    ]]]
+
+              name:
+                - font-size: 16px
+                - font-weight: 700
+
+              state:
+                - font-size: 13px
+                - color: var(--secondary-text-color)
+
+            tap_action:
+              action: more-info
+
+  - type: conditional
+    conditions:
       - entity: sensor.abfall_morgen_aktiv
         state: "on"
     chip:
