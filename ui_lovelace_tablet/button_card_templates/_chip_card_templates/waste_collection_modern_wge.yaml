@@ -44,6 +44,10 @@ waste_collection_modern_wge:
       - width: var(--card-icon-cell-size)
       - height: var(--card-icon-cell-size)
       - border-radius: var(--card-icon-radius)
+      - justify-self: end
+      - align-self: start
+      - background: rgba(0,0,0,0.08)
+      - z-index: 2
 
     state:
       - font-size: var(--card-font-size-secondary)
