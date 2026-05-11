@@ -111,6 +111,6 @@ card:
         entity: binary_sensor.luftdiff_hoch_wz
         icon: mdi:window-open-variant
         variables:
-          - state_value: Dringend lüften
+          state_value: Dringend lüften
         template:
           - air_quality_modern_wge
