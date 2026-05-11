@@ -131,7 +131,7 @@ card:
       card:
         type: custom:button-card
         entity: binary_sensor.luftdiff_hoch_wz
-        icon: mdi:window-open-variant
+        icon: mdi:weather-windy
         variables:
           state_value: Dringend lüften
         template:
