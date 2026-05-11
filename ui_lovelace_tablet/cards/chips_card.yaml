@@ -36,7 +36,7 @@ chips:
   # HEUTE AKTIV
   - type: conditional
     conditions:
-      - entity: sensor.abfall_heute_aktiv
+      - entity: sensor.abfall_morgen_aktiv
         state: "off"
     card:
       type: custom:button-card
