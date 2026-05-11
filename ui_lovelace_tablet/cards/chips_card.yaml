@@ -8,6 +8,10 @@ card_mod:
       background: none !important;
       box-shadow: none !important;
       border: none !important;
+      margin-top: 48px;
+      padding-bottom: 0px;
+      margin-bottom: -20px;
+      transition: none;
 
       display: flex !important;
       justify-content: flex-end !important;
