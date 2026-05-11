@@ -255,7 +255,7 @@ chips:
         action: more-info
 
   - type: weather
-    entity: weather.fulda
+    entity: weather.forecast_home
     show_temperature: true
     show_conditions: true
     tap_action:
