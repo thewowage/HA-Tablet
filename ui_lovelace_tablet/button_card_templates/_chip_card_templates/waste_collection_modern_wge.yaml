@@ -9,7 +9,7 @@ waste_collection_modern_wge:
             return "Heute: " + trash;
           ]]]
 
-        styles: &chip_style
+        styles:
           grid:
             - grid-template-areas: '"i s"'
             - grid-template-columns: min-content min-content
