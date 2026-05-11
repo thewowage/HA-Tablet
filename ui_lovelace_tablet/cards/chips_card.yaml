@@ -80,12 +80,14 @@ card:
             - justify-content: center
 
           card:
-            - width: 150px
-            - max-width: 300px
+            - width: 160px
+            - max-width: 200px
             - height: 42px
             - padding: 0 14px
-            - border-radius: 999px
-            - background: rgba(255,120,190,0.18)
+            - border-radius: var(--ha-card-border-radius) 
+            - background: var(--ha-card-background)
+            - border: none
+            - overflow: hidden
 
           icon:
             - width: 28px
