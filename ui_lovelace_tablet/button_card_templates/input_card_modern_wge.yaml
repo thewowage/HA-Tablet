@@ -82,7 +82,7 @@ input_card_modern_wge:
       - align-self: center
       - text-align: center
       - color: var(--primary-text-color)
-      - font-size: var(--card-font-size-primary)
+      - font-size: var(--card-font-size-input-card)
       - text-transform: var(--card-text-transform)
       - font-weight: 700
       - z-index: 2
