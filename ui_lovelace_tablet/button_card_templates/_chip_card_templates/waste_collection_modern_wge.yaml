@@ -29,7 +29,7 @@ waste_collection_modern_wge:
             if (entity.state === "Bio-Tonne") return "Aus";
             if (entity.state === "Gelbe Tonne") return "Unknown";
             if (entity.state === "Papier-Tonne") return "Aus";
-            return "Ziel " + target + "°";
+            return "";
           ]]]
       - border: none
       - overflow: hidden
