@@ -38,7 +38,7 @@ card:
 
       card:
         type: custom:button-card
-        entity: sensor.abfall_heute_aktiv
+        entity: sensor.waste_collection_next_type
         icon: mdi:trash-can
 
         show_name: false
