@@ -109,6 +109,7 @@ cards:
 
         card:
           - height: 42px
+          - width: 42px
           - padding: 0 14px
           - border-radius: 999px
           - background: var(--ha-card-background)
