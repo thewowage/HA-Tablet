@@ -112,14 +112,14 @@ card:
 
     - type: conditional
       conditions:
-        - entity: binary_sensor.luftdiff_hoch_wz
+        - entity: binary_sensor.luftdiff_mittel_wz
           state: "off"
       card:
         type: custom:button-card
-        entity: binary_sensor.luftdiff_hoch_wz
+        entity: binary_sensor.luftdiff_mittel_wz
         icon: mdi:window-open-variant
         variables:
-          state_value: Dringend lüften
+          state_value: Lüften
         template:
           - air_quality_modern_wge
 
