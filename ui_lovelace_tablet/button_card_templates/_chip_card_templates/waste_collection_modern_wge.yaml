@@ -25,11 +25,10 @@ waste_collection_modern_wge:
       - border-radius: 999px
       - background: |
           [[[
-            if (entity.state === "unavailable") return "Unknown";
-            if (entity.state === "off") return "Aus";
-            if (current <= 16) return "❄️ Frostschutz";
-            if (hvac === "heat") return "🔥 Heizt auf " + target + "°";
-            if (hvac === "auto") return "Automatisch · Ziel " + target + "°";
+            if (entity.state === "Restmüll") return "Unknown";
+            if (entity.state === "Bio-Tonne") return "Aus";
+            if (entity.state === "Gelbe Tonne") return "Unknown";
+            if (entity.state === "Papier-Tonne") return "Aus";
             return "Ziel " + target + "°";
           ]]]
       - border: none
