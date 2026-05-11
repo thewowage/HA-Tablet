@@ -52,7 +52,7 @@ cards:
 
     card:
       type: custom:button-card
-      entity: sensor.abfall_morgen
+      entity: sensor.abfall_heute_aktiv
       icon: mdi:recycle
 
       show_name: false
