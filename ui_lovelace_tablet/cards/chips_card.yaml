@@ -95,9 +95,9 @@ card:
             - font-size: var(--card-font-size-secondary)
             - font-weight: 700
             - color: var(--primary-text-color)
-            - white-space: nowrap
-            - text-overflow: ellipsis
-            - overflow: hidden
+            #- white-space: nowrap
+            #- text-overflow: ellipsis
+            #- overflow: hidden
 
     #################################################################
     # LÜFTEN
