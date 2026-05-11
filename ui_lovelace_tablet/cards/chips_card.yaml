@@ -44,7 +44,7 @@ card:
         show_name: false
         show_state: false
 
-        state_display: >
+        state_display: |
           [[[
             const trash = entity.state;
 
