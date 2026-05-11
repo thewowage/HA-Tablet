@@ -40,7 +40,7 @@ chips:
         state: "off"
     card:
       type: custom:button-card
-      entity: sensor.abfall_heute
+      entity: sensor.abfall_heute_aktiv
       icon: mdi:trash-can
       name: Heute
       show_state: true
