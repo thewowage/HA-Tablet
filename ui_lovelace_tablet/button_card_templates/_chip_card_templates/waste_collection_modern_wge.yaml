@@ -46,6 +46,14 @@ waste_collection_modern_wge:
       - display: flex
       - align-items: center
       - justify-content: center
+      - background: |
+          [[[
+            if (entity.state === "Restmüll") return "#212122";
+            if (entity.state === "Bio-Tonne") return "#A67D63";
+            if (entity.state === "Gelbe Tonne") return "#FFDA05";
+            if (entity.state === "Papier-Tonne") return "#749EF5";
+            return "";
+          ]]]
 
     state:
       - font-size: var(--card-font-size-secondary)
