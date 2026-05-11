@@ -1,6 +1,14 @@
 type: horizontal-stack
 view_layout:
   grid-area: chips
+card_mod:
+  style: |
+    ha-card {
+      margin-top: 48px;
+      padding-bottom: 0px;
+      margin-bottom: -20px;
+      transition: none;
+    }
 cards:
 
   # HEUTE
