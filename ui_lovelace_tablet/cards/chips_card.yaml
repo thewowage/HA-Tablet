@@ -166,7 +166,7 @@ card:
             - align-items: center
 
           card:
-            - width: 150px
+            - width: 42px
             - max-width: 200px
             - height: 42px
             - padding: 0 14px
