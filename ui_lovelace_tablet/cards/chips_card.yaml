@@ -80,8 +80,8 @@ card:
             - justify-content: center
 
           card:
-            - width: 150px
-            - max-width: 400px
+            - width: 180px
+            - max-width: 300px
             - height: 42px
             - padding: 0 14px
             - border-radius: 999px
