@@ -141,8 +141,8 @@ card:
 
     - type: conditional
       conditions:
-        - entity: person.max
-          state: home
+        - entity: input_select.anwesenheit
+          state: anwesenheit
 
       card:
         type: custom:button-card
