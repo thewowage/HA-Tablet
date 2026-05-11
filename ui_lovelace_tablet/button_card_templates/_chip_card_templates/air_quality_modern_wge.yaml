@@ -15,11 +15,9 @@ air_quality_modern_wge:
       - justify-content: center
 
     card:
-      - width: auto
-      - max-width: 200px
-      - min-width: max-content
-      - height: 42px
-      - padding: 0 14px
+      - grid-template-areas: '"i s"'
+      - grid-template-columns: min-content max-content
+      - column-gap: 8px
       - border-radius: var(--ha-card-border-radius)
       - background: var(--ha-card-background)
       - border: none
