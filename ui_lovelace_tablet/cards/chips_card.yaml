@@ -260,22 +260,49 @@ chips:
     show_conditions: true
     tap_action:
       action: more-info
+
     card_mod:
-        style: |
-          ha-card {
-            --chip-text-color: var(--primary-text-color);
-            --chip-icon-color: var(--secondary-text-color);
-            --chip-background: var(--ha-card-background);
-            --chip-border-color: transparent;
+      style: |
+        ha-card {
+          background: var(--ha-card-background) !important;
+          border: none !important;
+          border-radius: 24px !important;
 
-            border-radius: 999px !important;
-            box-shadow: var(--card-shadow, 0 3px 10px rgba(0,0,0,0.16));
-            border: none !important;
-          }
+          padding: 12px 16px !important;
 
-          ha-card:active {
-            transform: scale(0.94);
-          }
+          box-shadow:
+            0 4px 14px rgba(0,0,0,0.16);
+
+          overflow: hidden;
+
+          transition:
+            transform 0.16s ease,
+            box-shadow 0.25s ease;
+        }
+
+        ha-card:active {
+          transform: scale(0.97);
+        }
+
+        /* Temperatur */
+        .temp {
+          font-size: 42px !important;
+          font-weight: 800 !important;
+          color: var(--primary-text-color) !important;
+        }
+
+        /* Wetterstatus */
+        .condition {
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          color: var(--secondary-text-color) !important;
+        }
+
+        /* Wetter Icon */
+        ha-state-icon {
+          --mdc-icon-size: 42px;
+          color: var(--primary-color);
+        }
 
 view_layout:
   grid-area: chips
