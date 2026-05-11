@@ -159,7 +159,8 @@ card:
 
     - type: conditional
       conditions:
-        - entity: binary_sensor.lueften
+        - condition: state
+          entity: binary_sensor.luftdiff_niedrig_wz
           state: "on"
 
       card:
