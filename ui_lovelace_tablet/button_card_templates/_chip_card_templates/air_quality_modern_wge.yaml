@@ -9,15 +9,15 @@ air_quality_modern_wge:
   styles:
     grid:
       - grid-template-areas: '"i s"'
-      - grid-template-columns: min-content min-content
-      - column-gap: 8px
-      - align-items: center
-      - justify-content: center
-
-    card:
-      - grid-template-areas: '"i s"'
       - grid-template-columns: min-content max-content
       - column-gap: 8px
+
+    card:
+      - width: auto
+      - max-width: 200px
+      - min-width: max-content
+      - height: 42px
+      - padding: 0 14px
       - border-radius: var(--ha-card-border-radius)
       - background: var(--ha-card-background)
       - border: none
