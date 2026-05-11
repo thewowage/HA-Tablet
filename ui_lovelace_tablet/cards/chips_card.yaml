@@ -8,19 +8,28 @@ card_mod:
       background: none !important;
       box-shadow: none !important;
       border: none !important;
+      width: 100% !important;
+      overflow: visible !important;
       margin-top: 40px;
       padding-bottom: 0px;
       margin-bottom: -14px;
       transition: none;
+    }
 
+    #root,
+    hui-horizontal-stack-card {
       display: flex !important;
       justify-content: flex-end !important;
+      align-items: center !important;
+      gap: 10px !important;
+      flex-wrap: wrap !important;
       width: 100% !important;
     }
 
-    hui-horizontal-stack-card {
+    hui-conditional-card {
+      flex: 0 0 auto !important;
       width: auto !important;
-      margin-left: auto !important;
+      max-width: 200px !important;
     }
 
 card:
