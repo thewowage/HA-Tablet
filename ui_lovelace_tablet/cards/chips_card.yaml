@@ -113,17 +113,32 @@ card:
         show_state: true
 
         styles:
-          <<: *chip_style
+          grid:
+            - grid-template-areas: '"i s"'
+            - grid-template-columns: min-content min-content
+            - column-gap: 8px
+            - align-items: center
+            - justify-content: center
 
           card:
-            - width: 200px
+            - width: 150px
             - max-width: 200px
             - height: 42px
+            - padding: 0 14px
             - border-radius: 999px
             - background: rgba(255,120,190,0.18)
 
           icon:
+            - width: 28px
             - color: rgba(255,120,190,1)
+
+          state:
+            - font-size: 13px
+            - font-weight: 700
+            - color: var(--primary-text-color)
+            - white-space: nowrap
+            - text-overflow: ellipsis
+            - overflow: hidden
 
     #################################################################
     # LÜFTEN
