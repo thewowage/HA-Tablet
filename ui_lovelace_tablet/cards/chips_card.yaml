@@ -8,7 +8,7 @@ card_mod:
       background: none !important;
       box-shadow: none !important;
       border: none !important;
-      margin-top: 48px;
+      margin-top: 20px;
       padding-bottom: 0px;
       margin-bottom: -18px;
       transition: none;
